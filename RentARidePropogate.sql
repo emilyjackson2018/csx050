@@ -4,9 +4,9 @@ INSERT INTO Administrator
 VALUES ('2');
 
 INSERT INTO Comments
-VALUES ('This system sucks!', '2017-09-30');
+VALUES ('This system rocks!', '2017-09-30', '1');
 INSERT INTO Comments
-VALUES ('This system rocks!', '2017-10-03');
+VALUES ('This system sucks!', '2017-10-03', '2');
 
 INSERT INTO Customer
 VALUES ('1', '2020-05-20', 'GA', 'PZZ1203', '20305', '2018-11-08', 'ACTIVE');
@@ -24,9 +24,9 @@ INSERT INTO RentARideParams
 VALUES ('50', '200');
 
 INSERT INTO Rental
-VALUES ('1', '2016-10-07 14:00:00', '2016-10-11 14:00:00', '0', '0', '1', '1', '1');
+VALUES ('1', '2016-10-07 14:00:00', '2016-10-11 14:00:00', '0', '0', '1', '1', '1', 'OK', 'Car');
 INSERT INTO Rental
-VALUES ('2', '2017-05-04 14:00:00', '2016-05-15 14:01:00', '1', '200', '2', '2', '2');
+VALUES ('2', '2017-05-04 14:00:00', '2016-05-15 14:01:00', '1', '200', '2', '2', '2', 'Needs maintenance', 'Car');
 
 INSERT INTO RentalLocation
 VALUES ('1', 'Atlanta', '502 Sandy Springs Circle Atlanta, GA 30328', '100');
@@ -34,9 +34,9 @@ INSERT INTO RentalLocation
 VALUES ('2', 'Jacksonville', '1042 Kernan Blvd Jacksonville, FL 32258', '250');
 
 INSERT INTO Reservation
-VALUES ('1', '2016-10-07 14:00:00', '120', '0', '1', '1', '1');
+VALUES ('1', '2016-10-07 14:00:00', '120', 'FALSE', '1', '1', '1', '1');
 INSERT INTO Reservation
-VALUES ('2', '2017-05-04 14:00:00', '36', '0', '2', '2', '2');
+VALUES ('2', '2017-05-04 14:00:00', '36', 'FALSE', '2', '2', '2', '2');
 
 INSERT INTO UserStatus
 VALUES ('TERMINATED');
