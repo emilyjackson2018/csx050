@@ -15,7 +15,7 @@ from RentalLocation l
         inner join Rental r on r.locationID = l.id;
 
 #retrieve all vehicle types along with vehicles of listed type
-select t.name, t.price, v.id, v.make, v. model
+select t.name, t.price, v.id, v.make, v.model
 from VehicleType t
         inner join Vehicle v on v.vehicleType = t.name;
 
