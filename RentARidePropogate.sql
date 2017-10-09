@@ -9,9 +9,9 @@ INSERT INTO Comments
 VALUES ('This system rocks!', '2017-10-03');
 
 INSERT INTO Customer
-VALUES ('1', '2020-05-20', 'GA', 'PZZ1203', '20305', '2018-11-08');
+VALUES ('1', '2020-05-20', 'GA', 'PZZ1203', '20305', '2018-11-08', 'ACTIVE');
 INSERT INTO Customer
-VALUES ('2', '2022-07-31', 'FL', 'U4EEA', '76032', '2017-12-31');
+VALUES ('2', '2022-07-31', 'FL', 'U4EEA', '76032', '2017-12-31', 'TERMINATED');
 
 INSERT INTO HourlyPrice
 VALUES ('500', '4000');
@@ -49,9 +49,9 @@ INSERT INTO Users
 VALUES ('2', 'Joe', 'Smith', 'JSmith', 'yo0o0o0o0o', 'jsmith@gmail.com', '100 Kernan Blvd Jacksonville, FL 32258', '2015-08-26 12:02:00');
 
 INSERT INTO Vehicle
-VALUES ('1', '1', 'Honda', 'Civic', '2014', '47000', 'PZZ1203', '2017-07-01 14:56:00', 'Car');
+VALUES ('1', '1', 'Honda', 'Civic', '2014', '47000', 'PZZ1203', '2017-07-01 14:56:00', 'INLOCATION', 'GOOD', 'Car');
 INSERT INTO Vehicle
-VALUES ('2', '2', 'Volkswagen', 'Beetle', '1998', '80000', 'SWGWGN', '2017-10-04 10:04:00', 'Car');
+VALUES ('2', '2', 'Volkswagen', 'Beetle', '1998', '80000', 'SWGWGN', '2017-10-04 10:04:00', 'INRENTAL', 'NEEDSMAINTENANCE', 'Car');
 
 INSERT INTO VehicleCondition
 VALUES ('GOOD');
