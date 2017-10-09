@@ -24,9 +24,9 @@ INSERT INTO RentARideParams
 VALUES ('50', '200');
 
 INSERT INTO Rental
-VALUES ('1', '2016-10-07 14:00:00', '2016-10-11 14:00:00', '0', '0', '1', '1', '1', 'OK', 'Car');
+VALUES ('1', '2016-10-07 14:00:00', '2016-10-11 14:00:00', '0', '0', '1', '1', '1', 'OK', 'Car', '1');
 INSERT INTO Rental
-VALUES ('2', '2017-05-04 14:00:00', '2016-05-15 14:01:00', '1', '200', '2', '2', '2', 'Needs maintenance', 'Car');
+VALUES ('2', '2017-05-04 14:00:00', '2016-05-15 14:01:00', '1', '200', '2', '2', '2', 'Needs maintenance', 'Car', '2');
 
 INSERT INTO RentalLocation
 VALUES ('1', 'Atlanta', '502 Sandy Springs Circle Atlanta, GA 30328', '100');
@@ -64,7 +64,7 @@ INSERT INTO VehicleStatus
 VALUES ('INLOCATION');
 
 INSERT INTO VehicleType
-VALUES ('Honda Civic', '230');
+VALUES ('Car', '230');
 INSERT INTO VehicleType
-VALUES ('Volkswagen Beetle', '50');
+VALUES ('Car', '50');
 
