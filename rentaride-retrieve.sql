@@ -12,7 +12,7 @@ from RentalLocation l
 #retrieve all rental locations and reservations there
 select l.name, l.address, r.id, r.customerID, r.vehicleID
 from RentalLocation l
-        inner join Rental r on r.rentalLocationID = l.id;
+        inner join Rental r on rentalLocationID = l.id;
 
 #retrieve all vehicle types along with vehicles of listed type
 select t.name, t.price, v.id, v.make, v.model
