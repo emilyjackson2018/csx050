@@ -6,4 +6,8 @@ package edu.uga.cs.rentaride.entity;
 public interface Administrator 
     extends User
 {
+	/** Constructor for administrator without parameters 
+     * 
+     */
+	public Administrator();
 }
