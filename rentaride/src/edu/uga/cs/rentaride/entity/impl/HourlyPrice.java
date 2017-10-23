@@ -32,9 +32,14 @@ public class HourlyPrice
      */
 	public HourlyPrice(int maxHrs, int price, VehicleType vehicleType){
 		super(-1);
-		this.maxHrs = maxHrs;
-		this.price = price;
-		this.vehicleType = vehicleType;
+		if(vehicleType == null){
+			System.out.println("Hourly price must be associated with a vehicle type.");
+		}
+		else{
+			this.maxHrs = maxHrs;
+			this.price = price;
+			this.vehicleType = vehicleType;
+			}
 	}
 	
     /** Return the maximum hours for this price setting.

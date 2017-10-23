@@ -46,12 +46,23 @@ public class Reservation
      */
 	public Reservation (Date pickupTime, int length, Customer customer, VehicleType vehicleType, RentalLocation rentalLocation, Rental rental){
 		super(-1);
-		this.pickupTime = pickupTime;
-		this.length = length;
-		this.customer = customer;
-		this.vehicleType = vehicleType;
-		this.rentalLocation = rentalLocation;
-		this.rental = rental;
+		if(customer == null){
+			System.out.println("Reservation must be made by customer.");
+		}
+		else if (vehicleType == null){
+			System.out.println("Reservation must have a vehicle type.");
+		}
+		else if(rentalLocation == null){
+			System.out.println("Reservation must have a rental location");
+		}
+		else{
+			this.pickupTime = pickupTime;
+			this.length = length;
+			this.customer = customer;
+			this.vehicleType = vehicleType;
+			this.rentalLocation = rentalLocation;
+			this.rental = rental;
+			}
 	}
 	
     /** Return the intended pickup time.

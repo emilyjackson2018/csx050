@@ -14,6 +14,8 @@ public class RentalLocation
 	private String name;
 	private String address;
 	private int capacity;
+	private List<Reservation> reservationList;
+	private List<Vehicle> vehicleList;
 	
 	/** Constructor for RentalLocation without parameters 
      * 
@@ -84,9 +86,14 @@ public class RentalLocation
      * @return a List of reservations made for this rental location
      */
     public List<Reservation> getReservations(){
-    	Reservation r = new Reservation();
-    	List<Reservation> reservation = r.getRental();
-    	return reservation; 
+    	if(reservationList == null){
+    		if(isPersistent()){
+    			Reservation r = new Reservation();
+    			r.setRental(this);
+    			reservationList = getPersistenceLayer().restoreRental(r);
+    		}
+    	}
+    	return reservationList;
     }
     
     // Not needed;  reservations for this location are added one-by-one by creating 
@@ -97,7 +104,14 @@ public class RentalLocation
      * @return a List of vehicles located at this rental location
      */
     public List<Vehicle> getVehicles(){
-    	
+    	if(vehicleList == null){
+    		if(isPersistent()){
+    			Vehicle v = new Vehicle();
+    			v.setRentalLocation(this);
+    			vehicleList = getPersistenceLayer().restoreVehicle(v);
+    		}
+    	}
+    	return vehicleList;
     }
     
     // Not needed;  vehicles located at this location are added one-by-one by creating

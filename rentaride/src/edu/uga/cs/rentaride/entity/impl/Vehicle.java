@@ -65,17 +65,25 @@ public class Vehicle
 	public Vehicle (String make, String model, int year, String tag, int mileage, Date lastServiced, VehicleStatus status, VehicleCondition condition,
 	VehicleType vehicleType, RentalLocation location, List<Rental> rentalList){
 		super(-1);
-		this.make = make;
-		this.model = model;
-		this.year = year;
-		this.tag = tag;
-		this.mileage = mileage;
-		this.lastServiced = lastServiced;
-		this.status = status;
-		this.condition = condition;
-		this.vehicleType = vehicleType;
-		this.location = location;
-		this.rentalList = rentalList;
+		if(rentalLocation == null){
+			System.out.println("Vehicle must have a rental location.");
+		}
+		else if(vehicleType == null){
+			System.out.println("Vehicle must have a vehicle type.");
+		}
+		else{
+			this.make = make;
+			this.model = model;
+			this.year = year;
+			this.tag = tag;
+			this.mileage = mileage;
+			this.lastServiced = lastServiced;
+			this.status = status;
+			this.condition = condition;
+			this.vehicleType = vehicleType;
+			this.location = location;
+			this.rentalList = rentalList;
+			}
 	}
 	
     /** Return the make of this vehicle.

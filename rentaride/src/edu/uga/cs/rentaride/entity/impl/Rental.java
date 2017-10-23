@@ -50,14 +50,25 @@ public class Rental
      */
 	public Rental (Date pickupTime, Date returnTime, boolean late, int charges, Reservation reservation, Vehicle vehicle, Customer customer, Comment comment){
 		super(-1);
-		this.pickupTime = pickupTime;
-		this.returnTime = returnTime;
-		this.late = late;
-		this.charges = charges;
-		this.reservation = reservation;
-		this.vehicle = vehicle;
-		this.customer = customer;
-		this.comment = comment;
+		if (customer == null){
+			System.out.println("Rental must be reserved by a customer.");
+		}
+		else if (reservation == null){
+			System.out.println("Rental must have a reservation associated with it.");
+		}
+		else if(vehicle == null){
+			System.out.println("Rental must have a vehicle.");
+		}
+		else{
+			this.pickupTime = pickupTime;
+			this.returnTime = returnTime;
+			this.late = late;
+			this.charges = charges;
+			this.reservation = reservation;
+			this.vehicle = vehicle;
+			this.customer = customer;
+			this.comment = comment;
+		}
 	}
     /** Return the date when the vehicle in this rental was picked up.
      * @return the pickup date for this rental

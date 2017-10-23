@@ -40,10 +40,15 @@ public class VehicleType
      */
 	public VehicleType (String name, List<HourlyPrice> priceList, List<Vehicle> vehicleList, List<Reservation> reservationList){
 		super(-1);
-		this.name = name;
-		this.priceList = priceList;
-		this.vehicleList = vehicleList;
-		this.reservationList = reservationList;
+		if(priceList == null){
+			System.out.println("Vehicle Type must have a price.");
+		}
+		else{
+			this.name = name;
+			this.priceList = priceList;
+			this.vehicleList = vehicleList;
+			this.reservationList = reservationList;
+			}
 	}
     /** Return the name of this vehicle type.
      * @return name of this vehicle type

@@ -32,10 +32,15 @@ implements Comment
      */
 	public Comment (String text, Date date, Rental rental, Customer customer){
 		super(-1);
-		this.text = text;
-		this.date = date;
-		this.rental = rental;
-		this.customer = customer;
+		if(rental == null){
+			System.out.println("Cannot comment without having a rental");
+		}
+		else{
+			this.text = text;
+			this.date = date;
+			this.rental = rental;
+			this.customer = customer;
+		}
 	}
 /** Return the text of this comment.
      * @return the text of this comment.
