@@ -34,6 +34,7 @@ public class Vehicle
      * 
      */
 	public Vehicle ()	{
+		super(-1);
 		make = null;
 		model = null;
 		year = null;
@@ -63,6 +64,7 @@ public class Vehicle
 	 */
 	public Vehicle (String make, String model, int year, String tag, int mileage, Date lastServiced, VehicleStatus status, VehicleCondition condition,
 	VehicleType vehicleType, RentalLocation location, List<Rental> rentalList){
+		super(-1);
 		this.make = make;
 		this.model = model;
 		this.year = year;

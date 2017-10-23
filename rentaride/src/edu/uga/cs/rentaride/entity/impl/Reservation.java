@@ -27,6 +27,7 @@ public class Reservation
      * 
      */
 	public Reservation ()	{
+		super(-1);
 		pickupTime = null;
 		length = null;
 		customer = null;
@@ -44,6 +45,7 @@ public class Reservation
 	 * @param rental information
      */
 	public Reservation (Date pickupTime, int length, Customer customer, VehicleType vehicleType, RentalLocation rentalLocation, Rental rental){
+		super(-1);
 		this.pickupTime = pickupTime;
 		this.length = length;
 		this.customer = customer;

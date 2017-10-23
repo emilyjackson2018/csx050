@@ -26,6 +26,7 @@ public class Customer
      * 
      */
 	public Customer(){
+		super(-1);
 		this.memberUntil = null;
 		this.licState = null;
 		this.licNumber = null;
@@ -49,6 +50,7 @@ public class Customer
      */
 	public Customer(Date memberUntil, String licState, String licNumber, String ccNumber, String ccExpiration, List<Reservation> reservationList,
 	List<Comment> commentList, List<Rental> rentalList){
+		super(-1);
 		this.memberUntil = memberUntil;
 		this.licState = licState;
 		this.licNumber = licNumber;

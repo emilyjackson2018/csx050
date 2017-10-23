@@ -27,6 +27,7 @@ public class Rental
      * 
      */
 	public Rental (){
+		super(-1);
 		pickupTime = null;
 		returnTime = null;
 		late = false;
@@ -48,6 +49,7 @@ public class Rental
 	 * @param comment of customer on return
      */
 	public Rental (Date pickupTime, Date returnTime, boolean late, int charges, Reservation reservation, Vehicle vehicle, Customer customer, Comment comment){
+		super(-1);
 		this.pickupTime = pickupTime;
 		this.returnTime = returnTime;
 		this.late = late;

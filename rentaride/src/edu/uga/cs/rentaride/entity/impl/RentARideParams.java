@@ -19,6 +19,7 @@ public class RentARideParams
      * 
      */
 	public RentARideParams ()	{
+		super(-1);
 		membershipPrice = null;
 		lateFee = null;
 		
@@ -28,6 +29,7 @@ public class RentARideParams
 	 * @param lateFee of rental
      */
 	public RentARideParams (int membershipPrice, int lateFee){
+		super(-1);
 		this.membershipPrice = membershipPrice;
 		this.lateFee = lateFee;
 	}

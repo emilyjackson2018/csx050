@@ -19,6 +19,7 @@ public class HourlyPrice
      * 
      */
 	public HourlyPrice(){
+		super(-1);
 		maxHrs = null;
 		price = null;
 		vehicleType = null;
@@ -30,6 +31,7 @@ public class HourlyPrice
 	 * @param vehicleType type of vehicle
      */
 	public HourlyPrice(int maxHrs, int price, VehicleType vehicleType){
+		super(-1);
 		this.maxHrs = maxHrs;
 		this.price = price;
 		this.vehicleType = vehicleType;

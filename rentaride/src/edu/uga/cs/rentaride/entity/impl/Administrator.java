@@ -8,6 +8,7 @@ extends User
      * 
      */
 	public Administrator(){
+		super(-1);
 		
 	}
 }

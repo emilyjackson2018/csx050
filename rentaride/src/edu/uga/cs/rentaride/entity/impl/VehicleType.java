@@ -25,6 +25,7 @@ public class VehicleType
      * 
      */
 	public VehicleType ()	{
+		super(-1);
 		name = null;
 		priceList = null;
 		vehicleList = null;
@@ -38,6 +39,7 @@ public class VehicleType
 	 * @param reservationList of vehicle type
      */
 	public VehicleType (String name, List<HourlyPrice> priceList, List<Vehicle> vehicleList, List<Reservation> reservationList){
+		super(-1);
 		this.name = name;
 		this.priceList = priceList;
 		this.vehicleList = vehicleList;

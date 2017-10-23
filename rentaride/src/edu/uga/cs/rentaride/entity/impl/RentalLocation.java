@@ -19,6 +19,7 @@ public class RentalLocation
      * 
      */
 	public RentalLocation()	{
+		super(-1);
 		name = null;
 		address = null;
 		capacity = null;		
@@ -29,6 +30,7 @@ public class RentalLocation
 	 * @param capacty of location
      */
 	public RentalLocation (String name, String address, int capacity){
+		super(-1);
 		this.name = name;
 		this.address = address;
 		this.capacity = capacity;
@@ -77,4 +79,29 @@ public class RentalLocation
     public void setCapacity( int capacity ) throws RARException{
 		this.capacity = capacity;
 	}
+    
+    /** Get a list of reservations made for this rental location.
+     * @return a List of reservations made for this rental location
+     */
+    public List<Reservation> getReservations(){
+    	Reservation r = new Reservation();
+    	List<Reservation> reservation = r.getRental();
+    	return reservation; 
+    }
+    
+    // Not needed;  reservations for this location are added one-by-one by creating 
+    // Reservation objects or changing existing ones for this rental location.
+    // void setReservatios( List<Reservation> reservations );
+    
+    /** Get a list of vehicles located at this rental location.
+     * @return a List of vehicles located at this rental location
+     */
+    public List<Vehicle> getVehicles(){
+    	
+    }
+    
+    // Not needed;  vehicles located at this location are added one-by-one by creating
+    // Vehicle objects or re-assigning existing ones to this rental location.
+    // void setVehicles( List<Reservation> reservations );}
+
 }

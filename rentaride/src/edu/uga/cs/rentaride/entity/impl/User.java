@@ -28,6 +28,7 @@ public class User
      * 
      */
 	public User ()	{
+		super(-1);
 		firstName = null;
 		lastName = null;
 		userName = null;
@@ -49,6 +50,7 @@ public class User
 	 * @param userStatus status of user
      */
 	public User (String firstName, String lastName, String userName, String email, String password, Date createDate, String address, UserStatus userStatus){
+		super(-1);
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.userName = userName;

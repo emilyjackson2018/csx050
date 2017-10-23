@@ -17,6 +17,7 @@ implements Comment
      * 
      */
 	public Comment ()	{
+		super(-1);
 		text = null;
 		date = null;
 		rental = null;
@@ -30,6 +31,7 @@ implements Comment
      * @param customer information
      */
 	public Comment (String text, Date date, Rental rental, Customer customer){
+		super(-1);
 		this.text = text;
 		this.date = date;
 		this.rental = rental;
