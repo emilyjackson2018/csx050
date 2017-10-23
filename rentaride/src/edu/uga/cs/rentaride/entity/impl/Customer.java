@@ -1,4 +1,4 @@
-package edu.uga.cs.rentaride.entity.implementations;
+package edu.uga.cs.rentaride.entity.impl;
 
 import java.util.Date;
 import java.util.List;
