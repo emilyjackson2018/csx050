@@ -10,4 +10,6 @@ public interface Administrator
      * 
      */
 	public Administrator();
+	public Administrator(String firstName, String lastName, String userName, String email, String password, Date createDate, 
+	String address, UserStatus userStatus);
 }
