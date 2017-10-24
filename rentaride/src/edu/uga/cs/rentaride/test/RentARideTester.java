@@ -2,10 +2,8 @@ package edu.uga.cs.rentaride.test;
 
 import java.sql.Connection;
 import java.util.Date;
-
-import edu.uga.cs.rentaride.*
-/*
-import edu.uga.cs.rentaride.entity.*;
+import rentaride.src.edu.uga.cs.rentaride.*;
+/*import edu.uga.cs.rentaride.entity.*;
 import edu.uga.cs.rentaride.object.*;
 import edu.uga.cs.rentaride.persistence.*;
 */
@@ -88,20 +86,20 @@ public class RentARideTester
 			 price4 = objectLayer.setHourlyPrice(3,18, "coup");
 			 persistence.storeHourlyPrice(price4);
 			 //vehicles
-			 v1 = objectLayer.createVehicle("Hyundai", "Genesis", 2013, "1234567", 10000, new Date(), type2, location1, 'GOOD', 'INLOCATION');
+			 v1 = objectLayer.createVehicle("Hyundai", "Genesis", 2013, "1234567", 10000, new Date(), type2, location1, "GOOD", "INLOCATION");
 			 persistence.storeVehicle(v1);
-			 v2 = objectLayer.createVehicle("Honda", "Civic", 2015, "7654321", 5000, new Date(), type1, location2, 'GOOD', 'INLOCATION');
+			 v2 = objectLayer.createVehicle("Honda", "Civic", 2015, "7654321", 5000, new Date(), type1, location2, "GOOD", "INLOCATION");
 			 persistence.storeVehicle(v2);
-			 v3 = objectLayer.createVehicle("Ford", "Focus", 2016, "1234999", 7000, new Date(), type1, location1, 'GOOD', 'INRENTAL');
+			 v3 = objectLayer.createVehicle("Ford", "Focus", 2016, "1234999", 7000, new Date(), type1, location1, "GOOD", "INRENTAL");
 			 persistence.storeVehicle(v3);
-			 v4 = objectLayer.createVehicle("Ford", "Mustang", 2012, "8884321", 25000, new Date(), type2, location2, 'NEEDSMAINTENANCE', 'INRENTAL');
+			 v4 = objectLayer.createVehicle("Ford", "Mustang", 2012, "8884321", 25000, new Date(), type2, location2, "NEEDSMAINTENANCE", "INRENTAL");
 			 persistence.storeVehicle(v4);
 			 //customers
 			 customer1 = objectLayer.createCustomer("Ross", "Geller", "rossg", "dinosaurs", "ross@gmail.com", "454 1st Street", new Date(),
-			 new Date(), "New York", "123789", "123-123-123-123" new Date());
+			 new Date(), "New York", "123789", "123-123-123-123", new Date());
 			 persistence.storeCustomer(customer1);
 			 customer2 = objectLayer.createCustomer("Monica", "Geller", "monicag", "chef", "ross@gmail.com", "460 1st Street", new Date(),
-			 new Date(), "New York", "123987", "456-456-456-456" new Date());
+			 new Date(), "New York", "123987", "456-456-456-456", new Date());
 			 persistence.storeCustomer(customer2);
 			 //reservations
 			 r1 = objectLayer.createReservation(new Date(), 2, type1, location1, customer1);
