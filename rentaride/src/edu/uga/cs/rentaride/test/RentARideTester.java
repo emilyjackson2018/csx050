@@ -2,7 +2,7 @@ package edu.uga.cs.rentaride.test;
 
 import java.sql.Connection;
 import java.util.Date;
-import rentaride.src.edu.uga.cs.rentaride.*;
+import edu.uga.cs.rentaride.*;
 /*import edu.uga.cs.rentaride.entity.*;
 import edu.uga.cs.rentaride.object.*;
 import edu.uga.cs.rentaride.persistence.*;
