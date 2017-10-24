@@ -1,13 +1,13 @@
 package edu.uga.cs.rentaride.persistence;
 
-import java.util.List;
+import java.util.Iterator;
 
 import edu.uga.cs.rentaride.RARException;
 import edu.uga.cs.rentaride.entity.Administrator;
 import edu.uga.cs.rentaride.entity.Comment;
 import edu.uga.cs.rentaride.entity.Customer;
 import edu.uga.cs.rentaride.entity.HourlyPrice;
-import edu.uga.cs.rentaride.entity.RentARideParams;
+import edu.uga.cs.rentaride.entity.RentARideConfig;
 import edu.uga.cs.rentaride.entity.Rental;
 import edu.uga.cs.rentaride.entity.RentalLocation;
 import edu.uga.cs.rentaride.entity.Reservation;
@@ -16,45 +16,12 @@ import edu.uga.cs.rentaride.entity.VehicleType;
 
 
 
-
 /**
  * This is the interface to the Persistence Layer subsystem of the Rent-A-Ride system.
- * <p>
+ * 
  * Each entity class has three types of operations: restore, store, and delete.  The
  * store operation does an update, if the given argument has already been stored previously
  * (i.e., it is already persistent).
- * <p>
- * Note, that since the User class is an abstract class and no use cases in the Rent-A-Ride
- * system manipulate these objects, no methods for handling them have been provided.  
- * Nevertheless, such methods could be provided, if needed.  For example, we could 
- * easily restore all User objects (in fact, a set of all Administrator <b>and</b> Customers), and rely
- * on polymorphism to discover the actual type of each retrieved object.
- * 
- * Two association traversals return a Customer.  In this case,
- * all of the returned objects are going to be Customers (no actual User objects 
- * will ever exist).
- * 
- * <p>
- * For each binary association connecting two entity classes <code><i>ClassA</i></code> and <code><i>ClassB</i></code>, 
- * there are four operations: 
- * <ul>
- * <li><code>store<i>ClassAClassB</i></code>, which is used to create a link between two instances of <code><i>ClassA</i></code> 
- *     and <code><i>ClassB</i></code>,</li>
- * <li><code>restore<i>ClassAClassB</i></code>, two overloaded versions are used to traverse the link from 
- *     <code><i>ClassA</i></code> to <code><i>ClassB</i></code> and from
- *     <code><i>ClassB</i></code> to <code><i>ClassA</i></code>, and</li>
- * <li><code>delete<i>ClassAClassB</i></code>, which is used to remove the link connecting two object instances.</li>
- * </ul>
- * <p>
- * Furthermore, depending on the multiplicity of the association endpoint,
- * the return value is either <code><i>ClassA</i></code> (<code><i>ClassB</i></code>), if the multiplicity is one or optional,
- * or a <code>List&lt;<i>ClassA</i>&gt;</code> (<code>List&lt;<i>ClassB</i>&gt;</code>), if the multiplicity is many.
- * <p>Note, that for any association endpoint with a multiplicity of one or optional, the entity class on the opposite end of
- * the association has get/set methods get or set the (single) linked object instance.
- * <p>
- * Finally, note that in case there are two (or more) associations connecting the same two entity classes, the name of an
- * association-related operation may include the name of the association between the classes to distinguish them.  However,
- * we do not have such cases in the Rent-A-Ride system.
  */
 public interface PersistenceLayer
 {
@@ -62,10 +29,10 @@ public interface PersistenceLayer
     /** 
      * Restore all Administrator objects that match attributes of the model Administrator.
      * @param modelAdministrator the model Administrator; if null is provided, all Administrator objects will be returned
-     * @return an List of the located Administrator objects
+     * @return an Iterator of the located Administrator objects
      * @throws RARException in case an error occurred during the restore operation 
      */
-    public List<Administrator> restoreAdministrator( Administrator modelAdministrator ) throws RARException;
+    public Iterator<Administrator> restoreAdministrator( Administrator modelAdministrator ) throws RARException;
     
     /** 
      * Store a given Administrator object in the persistent data store.  
@@ -86,10 +53,10 @@ public interface PersistenceLayer
     /** 
      * Restore all Customer objects that match attributes of the model Customer.
      * @param modelCustomer the model Customer; if null is provided, all Customer objects will be returned
-     * @return an List of the located Customer objects
+     * @return an Iterator of the located Customer objects
      * @throws RARException in case an error occurred during the restore operation 
      */
-    public List<Customer> restoreCustomer( Customer modelCustomer ) throws RARException;
+    public Iterator<Customer> restoreCustomer( Customer modelCustomer ) throws RARException;
     
     /** 
      * Store a given Customer object in the persistent data store.
@@ -100,21 +67,14 @@ public interface PersistenceLayer
      */
     public void storeCustomer( Customer customer ) throws RARException;
     
-    // No need to have a delete Customer method, as a Customer will be removed by changing its UserStatus
-    /** 
-     * Delete a given Customer object from the persistent data store.
-     * @param customer the Customer to be deleted
-     * @throws RARException in case an error occurred during the delete operation 
-     */
-    // public void deleteCustomer( Customer customer ) throws RARException;      
     
     /** 
      * Restore all RentalLocation objects that match attributes of the model RentalLocation.
      * @param modelRentalLocation the model RentalLocation; if null is provided, all RentalLocation objects will be returned
-     * @return an List of the located RentalLocation objects
+     * @return an Iterator of the located RentalLocation objects
      * @throws RARException in case an error occurred during the restore operation 
      */
-    public List<RentalLocation> restoreRentalLocation( RentalLocation modelRentalLocation ) throws RARException;
+    public Iterator<RentalLocation> restoreRentalLocation( RentalLocation modelRentalLocation ) throws RARException;
     
     /** 
      * Store a given RentalLocation object in the persistent data store.
@@ -135,16 +95,16 @@ public interface PersistenceLayer
     /** 
      * Restore all Reservation objects that match attributes of the model Reservation.
      * @param modelReservation the model Reservation; if null is provided, all Reservation objects will be returned
-     * @return an List of the located Reservation objects
+     * @return an Iterator of the located Reservation objects
      * @throws RARException in case an error occurred during the restore operation 
      */
-    public List<Reservation> restoreReservation( Reservation modelReservation ) throws RARException;
+    public Iterator<Reservation> restoreReservation( Reservation modelReservation ) throws RARException;
     
     /** 
      * Store a given Reservation object in the persistent data store.
      * If the Reservation object to be stored is already persistent, the persistent
      * object in the data store is updated.
-     * @param reservation the administrator to be stored
+     * @param administrator the administrator to be stored
      * @throws RARException in case an error occurred during the store operation 
      */
     public void storeReservation( Reservation reservation ) throws RARException;
@@ -159,10 +119,10 @@ public interface PersistenceLayer
     /** 
      * Restore all Rental objects that match attributes of the model Rental.
      * @param modelRental the model Rental; if null is provided, all Rental objects will be returned
-     * @return an List of the located Rental objects
+     * @return an Iterator of the located Rental objects
      * @throws RARException in case an error occurred during the restore operation 
      */
-    public List<Rental> restoreRental( Rental modelRental ) throws RARException;
+    public Iterator<Rental> restoreRental( Rental modelRental ) throws RARException;
     
     /** 
      * Store a given Rental object in the persistent data store.
@@ -183,10 +143,10 @@ public interface PersistenceLayer
     /** 
      * Restore all VehicleType objects that match attributes of the model VehicleType.
      * @param modelVehicleType the model VehicleType; if null is provided, all VehicleType objects will be returned
-     * @return an List of the located VehicleType objects
+     * @return an Iterator of the located VehicleType objects
      * @throws RARException in case an error occurred during the restore operation 
      */
-    public List<VehicleType> restoreVehicleType( VehicleType modelVehicleType ) throws RARException;
+    public Iterator<VehicleType> restoreVehicleType( VehicleType modelVehicleType ) throws RARException;
 
     /** 
      * Store a given VehicleType object in the persistent data store.  
@@ -207,10 +167,10 @@ public interface PersistenceLayer
     /** 
      * Restore all Vehicle objects that match attributes of the model Vehicle.
      * @param modelVehicle the model Vehicle; if null is provided, all Vehicle objects will be returned
-     * @return an List of the located Vehicle objects
+     * @return an Iterator of the located Vehicle objects
      * @throws RARException in case an error occurred during the restore operation 
      */
-    public List<Vehicle> restoreVehicle( Vehicle modelVehicle ) throws RARException;
+    public Iterator<Vehicle> restoreVehicle( Vehicle modelVehicle ) throws RARException;
     
     /** 
      * Store a given Vehicle object in the persistent data store.
@@ -231,10 +191,10 @@ public interface PersistenceLayer
     /** 
      * Restore all Comment objects that match attributes of the model Comment.
      * @param modelComment the model Comment; if null is provided, all Comment objects will be returned
-     * @return an List of the located Comment objects
+     * @return an Iterator of the located Comment objects
      * @throws RARException in case an error occurred during the restore operation 
      */
-    public List<Comment> restoreComment( Comment modelComment ) throws RARException;
+    public Iterator<Comment> restoreComment( Comment modelComment ) throws RARException;
     
     /** 
      * Store a given Comment object in the persistent data store.
@@ -250,15 +210,15 @@ public interface PersistenceLayer
      * @param comment the Comment to be deleted
      * @throws RARException in case an error occurred during the delete operation 
      */
-    public void deleteComment( Comment comment ) throws RARException;
+    public void deleteComment( Comment coment ) throws RARException;
     
     /** 
      * Restore all HourlyPrice objects that match attributes of the model HourlyPrice.
      * @param modelHourlyPrice the model HourlyPrice; if null is provided, all HourlyPrice objects will be returned
-     * @return an List of the located HourlyPrice objects
+     * @return an Iterator of the located HourlyPrice objects
      * @throws RARException in case an error occurred during the restore operation 
      */
-    public List<HourlyPrice> restoreHourlyPrice( HourlyPrice modelHourlyPrice ) throws RARException;
+    public Iterator<HourlyPrice> restoreHourlyPrice( HourlyPrice modelHourlyPrice ) throws RARException;
     
     /** 
      * Store a given HourlyPrice object in the persistent data store.
@@ -282,7 +242,7 @@ public interface PersistenceLayer
      * @return RentARideConfig the RentARideConfig configuration singleton object
      * @throws RARException in case an error occurred during the delete operation 
      */
-    public RentARideParams restoreRentARideConfig() throws RARException;
+    public RentARideConfig restoreRentARideConfig() throws RARException;
     
     /** 
      * Store the RentARideConfig object.
@@ -291,19 +251,10 @@ public interface PersistenceLayer
      * @param rentARideConfig the RentARideConfig object to be stored
      * @throws RARException in case an error occurred during the delete operation 
      */
-    public void storeRentARideConfig( RentARideParams rentARideConfig ) throws RARException;
+    public void storeRentARideConfig( RentARideConfig rentARideConfig ) throws RARException;
 
     // Associations
     //
-    // Customer--creates-->Reservation;   multiplicity: 1 - *
-    // Reservation--hasLocation-->RentalLocation;   multiplicity: * - 1
-    // Reservation--hasType-->VehicleType   multiplicity: * - 1
-    // Vehicle--locatedAt-->RentalLocation;   multiplicity: * - 1
-    // Vehicle--hasType-->VehicleType   multiplicity: * - 1
-    // VehicleType--hasPrice-->HourlyPrice   multiplicity: 1 - 1..*
-    // Rental--describedBy-->Comment   multiplicity: 1 - 0..1
-    // Rental--basedOn-->Reservation   multiplicity: 0..1 - 1
-    // Vehicle--usedIn-->Rental   multiplicity: 1 - *
 
     // Customer--creates-->Reservation;   multiplicity: 1 - *
     //
@@ -326,10 +277,10 @@ public interface PersistenceLayer
     /** 
      * Return Reservations created by a given Customer.
      * @param customer the Customer
-     * @return an List with all Reservation created by the Customer
+     * @return an Iterator with all Reservation created by the Customer
      * @throws RARException in case an error occurred during the restore operation 
      */
-    public List<Reservation> restoreCustomerReservation( Customer customer ) throws RARException;
+    public Iterator<Reservation> restoreCustomerReservation( Customer customer ) throws RARException;
 
     /** 
      * Delete a link between a Customer and a Reservation created by the Customer.
@@ -360,10 +311,10 @@ public interface PersistenceLayer
     /** 
      * Return Reservations placed for a given RentalLocation.
      * @param rentalLocation the RentalLocation
-     * @return an List of Reservations placed for the RentalLocation
+     * @return an Iterator of Reservations placed for the RentalLocation
      * @throws RARException in case an error occurred during the restore operation 
      */
-    public List<Reservation> restoreReservationRentalLocation( RentalLocation rentalLocation ) throws RARException;
+    public Iterator<Reservation> restoreReservationRentalLocation( RentalLocation rentalLocation ) throws RARException;
 
     /** 
      * Delete a link between a Reservation and a RentalLocation involved in the Reservation.
@@ -386,7 +337,6 @@ public interface PersistenceLayer
     /** 
      * Return the VehicleType involved in a given Reservation.
      * @param reservation the Reservation
-     * @return a VehicleTypes involved in the Reservation
      * @throws RARException in case an error occurred during the restore operation 
      */
     public VehicleType restoreReservationVehicleType( Reservation reservation ) throws RARException;
@@ -394,10 +344,10 @@ public interface PersistenceLayer
     /** 
      * Return Reservations involving a given VehicleType.
      * @param vehicleType the VehicleType
-     * @return an List of VehicleTypes involved in the Reservation
+     * @return an Iterator of VehicleTypes involved in the Reservation
      * @throws RARException in case an error occurred during the restore operation 
      */
-    public List<Reservation> restoreReservationVehicleType( VehicleType vehicleType ) throws RARException;
+    public Iterator<Reservation> restoreReservationVehicleType( VehicleType vehicleType ) throws RARException;
 
     /** 
      * Delete a link between a Reservation and a VehicleType involved in the Reservation.
@@ -420,7 +370,6 @@ public interface PersistenceLayer
     /** 
      * Return the RentalLocation where a given Vehicle is located.
      * @param vehicle the Vehicle
-     * @return a RentalLocation involved for this Vehicle
      * @throws RARException in case an error occurred during the restore operation 
      */
     public RentalLocation restoreVehicleRentalLocation( Vehicle vehicle ) throws RARException;
@@ -428,14 +377,13 @@ public interface PersistenceLayer
     /** 
      * Return the Vehicles located at a given RentalLocation.
      * @param rentalLocation the RentalLocation
-     * @return a List of Vehicles located at the RentalLocation
      * @throws RARException in case an error occurred during the restore operation 
      */
-    public List<Vehicle> restoreVehicleRentalLocation( RentalLocation rentalLocation ) throws RARException;
+    public Iterator<Vehicle> restoreVehicletRentalLocation( RentalLocation rentalLocation ) throws RARException;
 
     /** 
      * Delete a link between a Vehicle and a RentalLocation.
-     * @param vehicle the Vehicle
+     * @param reservation the Vehicle
      * @param rentalLocation the RentalLocation
      * @throws RARException in case an error occurred during the delete operation 
      */
@@ -462,10 +410,10 @@ public interface PersistenceLayer
     /** 
      * Return all Vehicles classified as having a given VehicleType.
      * @param vehicleType the VehicleType
-     * @return an List of Vehicles having the VehicleType
+     * @return an Iterator of Vehicles having the VehicleType
      * @throws RARException in case an error occurred during the retrieve operation 
      */
-    public List<Vehicle> restoreVehicleVehicleType( VehicleType vehicleType ) throws RARException;
+    public Iterator<Vehicle> restoreVehicleVehicleType( VehicleType vehicleType ) throws RARException;
 
     /** 
      * Delete a link between a Vehicle and a VehicleType.
@@ -475,12 +423,12 @@ public interface PersistenceLayer
      */
     public void deleteVehicleVehicleType( Vehicle vehicle, VehicleType vehicleType ) throws RARException;
 
-    // VehicleType--has-->HourlyPrice   multiplicity: 1 - 1..*
+    // VehicleType--has-->PriceSetting   multiplicity: 1 - *
     //
     /** 
      * Store a link between a VehicleType and an HourlyPrice.
      * @param vehicleType the VehicleType
-     * @param hourlyPrice the HourlyPrice
+     * @param priceSetting the HourlyPrice
      * @throws RARException in case an error occurred during the store operation 
      */
     public void storeVehicleTypeHourlyPrice( VehicleType vehicleType, HourlyPrice hourlyPrice ) throws RARException;
@@ -496,10 +444,10 @@ public interface PersistenceLayer
     /** 
      * Return all HourlyPrice settings for a given VehicleType.
      * @param vehicleType the VehicleType
-     * @return an List of HourlyPrice objects for the VehicleType
+     * @return an Iterator of HourlyPrice objects for the VehicleType
      * @throws RARException in case an error occurred during the restore operation 
      */
-    public List<HourlyPrice> restoreVehicleTypeHourlyPrice( VehicleType vehicleType ) throws RARException;    
+    public Iterator<HourlyPrice> restoreVehicleTypeHourlyPrice( VehicleType vehicleType ) throws RARException;    
 
     /** 
      * Delete a link between a VehicleType and an HourlyPrice.
@@ -509,7 +457,7 @@ public interface PersistenceLayer
      */
     public void deleteVehicleTypeHourlyPrice( VehicleType vehicleType, HourlyPrice hourlyPrice ) throws RARException;
 
-    // Rental--describedBy-->Comment   multiplicity: 1 - 0..1
+    // Rental--describedBy-->Comment   multiplicity: 1 - *
     //
     /** 
      * Store a link between a Rental and a Comment describing the Rental.
@@ -530,10 +478,10 @@ public interface PersistenceLayer
     /** 
      * Return all Comments describing a Rental.
      * @param rental the Rental
-     * @return a List of Comment objects for the Rental
+     * @return an Iterator of Comment objects for the Rental
      * @throws RARException in case an error occurred during the restore operation 
      */
-    public List<Comment> restoreRentalComment( Rental rental ) throws RARException;    
+    public Iterator<Comment> restoreRentalComment( Rental rental ) throws RARException;    
 
     /** 
      * Delete a link between a Rental and a Comment describing the Rental.
@@ -543,73 +491,84 @@ public interface PersistenceLayer
      */
     public void deleteRentalComment( Rental rental, Comment comment ) throws RARException;
 
-    // Rental--basedOn-->Reservation   multiplicity: 0..1 - 1
+    // Customer--commentedBy-->Comment   multiplicity: 1 - *
     //
+    // This is a derived association, so the link should be created and deleted by the primary
+    // association's create and delete operations.  In this case, via the Customer creates Reservation to 
+    // the Rental association class, and then via describedBy to Comment.  So, this link should be 
+    // automatically created when a Comment object is created and linked to a Rental.
+    // Similarly, this link should be deleted when a Comment object is deleted and unlinked from a Rental.
     //
     /** 
-     * Store a link between a Rental and a Reservation that it is based on.
+     * Store a link between a Customer and a Comment.
+     * @param customer the Customer
+     * @param comment the Comment
+     * @throws RARException in case an error occurred during the store operation 
+     */
+    // public void storeCustomerComment( Customer customer, Comment comment ) throws RARException;   
+
+    /** 
+     * Return a Customer who made a given a Comment.
+     * @param comment the Comment
+     * @return the Customer who made the Comment
+     * @throws RARException in case an error occurred during the restore operation 
+     */
+    public Customer restoreCustomerComment( Comment comment ) throws RARException;
+
+    /** 
+     * Return all Comments made by a Customer.
+     * @param customer the Customer
+     * @return an Iterator of Comment objects commented by the Customer
+     * @throws RARException in case an error occurred during the restore operation 
+     */
+    public Iterator<Comment> restoreCustomerComment( Customer customer ) throws RARException;    
+
+    /** 
+     * Delete a link between a Customer and a Comment.
+     * @param customer the Customer
+     * @param comment the Comment
+     * @throws RARException in case an error occurred during the delete operation 
+     */
+    // public void deleteCustomerComment( Customer customer, Comment comment ) throws RARException;
+
+    // Rental--rentedBy-->Customer   multiplicity: * - 1
+    //
+    // This is a derived association, so the link should be created and deleted by the primary
+    // association's create and delete operations.  In this case, via the Customer creates Reservation 
+    // and then to the Rental association class.  So, this link should be created automatically
+    // when a Rental object is created for a Reservation.  Similarly, this link should be automatically 
+    // deleted when the Rental association class object instance is deleted.
+    //
+    /** 
+     * Store a link between a Rental and a Customer involved in it.
      * @param rental the Rental 
-     * @param reservation the Reervation
-     * @throws RARException in case an error occurred during the store operation 
+     * @param customer the Customer
+     * @throws RARException in case either the rental or the customer is null or another error occurs
      */
-    public void storeRentalReservation( Rental rental, Reservation reservation ) throws RARException;   
-
-    /** 
-     * Return a Rental which is based on the given Reservation.
-     * @param reservation the Reservation
-     * @return the Rental described by the Reservation
-     * @throws RARException in case an error occurred during the restore operation 
-     */
-    public Rental restoreRentalReservation( Reservation reservation ) throws RARException;
-
-    /** 
-     * Return the Reservations the Rental is based on.
-     * @param rental the Rental
-     * @return a Reservation objects of the Rental
-     * @throws RARException in case an error occurred during the restore operation 
-     */
-    public Reservation restoreRentalReservation( Rental rental ) throws RARException;    
-
-    /** 
-     * Delete a link between a Rental and a Reservation that it is based on.
-     * @param rental the Rental
-     * @param reservation the Reservation
-     * @throws RARException in case an error occurred during the delete operation 
-     */
-    public void deleteRentalReservation( Rental rental, Reservation reservation ) throws RARException;
+    // public void createRentalCustomer( Rental rental, Customer customer ) throws RARException;
     
-    // Vehicle--usedIn-->Rental   multiplicity: 1 - *
-    //
     /** 
-     * Store a link between a Vehicle and a Rental.
-     * @param vehicle the Vehicle
+     * Return the Customer involved in the given Rental.
      * @param rental the Rental
-     * @throws RARException in case an error occurred during the store operation 
+     * @return the Customer involved in the Rental
+     * @throws RARException in case either the rental is null or another error occurs
      */
-    public void storeVehicleRental( Vehicle vehicle, Rental rental ) throws RARException;
-
+    public Customer restoreRentalCustomer( Rental rental ) throws RARException;
+    
     /** 
-     * Return all Rentals in which a given Vehicle was used.
-     * @param vehicle the Vehicle
-     * @return a List of Rental objects for the Vehicle
-     * @throws RARException in case an error occurred during the retrieve operation 
+     * Return all Rentals by a given Customer.
+     * @param customer the Customer
+     * @return an iterator of Rentals of the Customer
+     * @throws RARException in case either customer is null or another error occurs
      */
-    public List<Rental> restoreVehicleRental( Vehicle vehicle ) throws RARException;
-
+    public Iterator<Rental> restoreRentalCustomer( Customer customer ) throws RARException;
+    
     /** 
-     * Return a Vehicle used in a given Rental.
+     * Delete a link between a Rental and a Customer involved in it.
      * @param rental the Rental
-     * @return a Vehicle used in the Rental
-     * @throws RARException in case an error occurred during the retrieve operation 
+     * @param customer the Customer
+     * @throws RARException in case either the rental or the customer is null or another error occurs
      */
-    public Vehicle restoreVehicleRental( Rental rental ) throws RARException;
-
-    /** 
-     * Delete a link between a Vehicle and a Rental.
-     * @param vehicle the Vehicle
-     * @param rental the Rental
-     * @throws RARException in case an error occurred during the delete operation 
-     */
-    public void deleteVehicleRental( Vehicle vehicle, Rental rental ) throws RARException;
-
+    // public void deleteRentalCustomer( Rental rental, Customer customer ) throws RARException;
 }
+
