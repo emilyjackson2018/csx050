@@ -251,7 +251,7 @@ public interface ObjectLayer
      * @return the new Reservation object instance with the given attribute values
      * @throws RARException in case either the pickupTime is in the past or if the reservation or the vehicle is null
      */
-    public Rental createRental(Date pickupTime, Date returnTime, boolean late, int charges, Reservation reservation, Vehicle vehicle, Customer customer, CommentImpl comment) throws RARException;
+    public Rental createRental(Date pickupTime, Date returnTime, boolean late, int charges, Reservation reservation, Vehicle vehicle, Customer customer, Comment comment1) throws RARException;
 
     /**
      * Create a new Rental object with undefined attribute values.
