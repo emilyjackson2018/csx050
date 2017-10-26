@@ -4,11 +4,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Iterator;
+import java.util.List;
+
 import com.mysql.jdbc.PreparedStatement;
+
 import edu.uga.cs.rentaride.RARException;
 import edu.uga.cs.rentaride.entity.RentalLocation;
 import edu.uga.cs.rentaride.entity.Vehicle;
-import edu.uga.cs.rentaride.entity.VehicleType;
 import edu.uga.cs.rentaride.object.ObjectLayer;
 
 
@@ -87,7 +89,7 @@ class RentalLocationManager
         }
     }
 
-    public Iterator<RentalLocation> restore(RentalLocation rentalLocation)
+    public List<RentalLocation> restore(RentalLocation rentalLocation)
             throws RARException
     {
     	String       selectRLSql = "select rl.rentalID ,rl.address, rl.capacity, rl.locationName " +
@@ -124,7 +126,7 @@ class RentalLocationManager
             stmt = conn.createStatement();
             if(stmt.execute(query.toString())) {
                 ResultSet r = stmt.getResultSet();
-                return new RentalLocation(r, objectLayer);
+                return (List<RentalLocation>) new RentalLocationList(r, objectLayer);
             }
         }
         catch(Exception e) {
@@ -181,7 +183,7 @@ class RentalLocationManager
 
             if(stmt.execute(query.toString())) {
                 ResultSet r = stmt.getResultSet();
-                return new VehicleIterator(r, objectLayer);
+                return new VehicleList(r, objectLayer);
             }
         }
         catch(Exception e) {

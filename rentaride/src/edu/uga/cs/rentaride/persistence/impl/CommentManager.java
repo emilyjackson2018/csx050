@@ -1,17 +1,20 @@
 package edu.uga.cs.rentaride.persistence.impl;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Iterator;
+import java.util.List;
 
 import com.mysql.jdbc.PreparedStatement;
 
 import edu.uga.cs.rentaride.RARException;
+import edu.uga.cs.rentaride.entity.Comment;
+import edu.uga.cs.rentaride.entity.Customer;
+import edu.uga.cs.rentaride.entity.Rental;
 import edu.uga.cs.rentaride.entity.impl.*;
 import edu.uga.cs.rentaride.object.ObjectLayer;
-import edu.uga.cs.rentaride.object.impl.ObjectLayerImpl;
 
 
 class CommentManager {
@@ -23,7 +26,7 @@ class CommentManager {
         this.objectLayer = objectLayer;
     }
     
-    public void save(CommentImpl comm) 
+    public void save(Comment comment) 
             throws RARException
     {
         String               insertCommentSql = "insert into Comments (commentDate,rental,comment) values (?, ?, ?)";
@@ -34,35 +37,35 @@ class CommentManager {
 
         try {
 
-            if(!comm.isPersistent())
+            if(!comment.isPersistent())
                 stmt = (PreparedStatement) conn.prepareStatement(insertCommentSql);
             else
                 stmt = (PreparedStatement) conn.prepareStatement(updateCommentSql);
 
-            if(comm.getDate() != null)
-                stmt.setString(1, club.getName());
+            if(comment.getDate() != null)
+                stmt.setDate(1, (Date) comment.getDate());
             else 
                 throw new RARException("CommentManager.save: can't save a Comment: date undefined");
 
-            if(comm.getRental() != null)
-                stmt.setString(2, comm.getRental());
+            if(comment.getRental() != null)
+                stmt.setDate(2, (Date) comment.getRental());
             else
                 stmt.setNull(2, java.sql.Types.VARCHAR);
 
-            if(comm.getComment() != null) {
-                java.util.Date jDate = comm.getDate();
+            if(comment.getText() != null) {
+                java.util.Date jDate = comment.getDate();
                 java.sql.Date sDate = new java.sql.Date(jDate.getTime());
                 stmt.setDate(3,  sDate);
             }
             else
                 stmt.setNull(3, java.sql.Types.DATE);
 
-            if(comm.isPersistent())
-                stmt.setLong(5, comm.getId());
+            if(comment.isPersistent())
+                stmt.setLong(5, comment.getId());
 
             inscnt = stmt.executeUpdate();
 
-            if(!comm.isPersistent()) {
+            if(!comment.isPersistent()) {
                 if(inscnt >= 1) {
                     String sql = "select last_insert_id()";
                     if(stmt.execute(sql)) {
@@ -70,7 +73,7 @@ class CommentManager {
                         while(r.next()) {
                             commentID = r.getLong(1);
                             if(commentID > 0)
-                                comm.setId(commentID);
+                                comment.setId(commentID);
                         }
                     }
                 }
@@ -109,8 +112,8 @@ class CommentManager {
 
                 if(comment.getDate() != null)
                     condition.append(" and c.commentDate = '" + comment.getDate() + "'");
-                if(comment.getComment() != null)
-                    condition.append(" and c.comment = '" + comment.getComment() + "'");
+                if(comment.getText() != null)
+                    condition.append(" and c.comment = '" + comment.getText() + "'");
        
                 if(condition.length() > 0) {
                     query.append(condition);
@@ -121,11 +124,11 @@ class CommentManager {
         
         try {
 
-            stmt = conn.createStatement();
+            Statement stmt = conn.createStatement();
 
             if(stmt.execute(query.toString())) {
                 ResultSet r = stmt.getResultSet();
-                return new Comment(r, objectLayer);
+                return (Customer) new CommentImpl();
             }
         }
         catch(Exception e) {
@@ -157,8 +160,8 @@ class CommentManager {
 
                 if(comment.getDate() != null)
                     condition.append(" and c.commentDate = '" + comment.getDate() + "'");
-                if(comment.getComment() != null)
-                    condition.append(" and c.comment = '" + comment.getComment() + "'");
+                if(comment.getText() != null)
+                    condition.append(" and c.comment = '" + comment.getText() + "'");
                 if(condition.length() > 0) {
                     query.append(condition);
                 }
@@ -167,11 +170,11 @@ class CommentManager {
         
         try {
 
-            stmt = conn.createStatement();
+            Statement stmt = conn.createStatement();
 
             if(stmt.execute(query.toString())) {
                 ResultSet r = stmt.getResultSet();
-                return new RentalIterator(r, objectLayer);
+                return (Rental) new RentalList(r, objectLayer);
             }
         }
         catch(Exception e) {
@@ -181,7 +184,7 @@ class CommentManager {
         throw new RARException("CommentManager.restore: Could not restore persistent Rental object");
     }
 
-        public Iterator<CommentImpl> restore(CommentImpl comment) 
+        public List<Comment> restore(Comment modelComment) 
             throws RARException
     {
         String       selectCSql = "select c.commentID, c.commentDate, c.rental, c.comment " +
@@ -193,17 +196,17 @@ class CommentManager {
         
         query.append(selectCSql);
         
-        if(comment != null) {
-            if(comment.getId() >= 0)
-                query.append(" and c.commentID = " + comment.getId());
-            else if(comment.getRental() != null)
-                query.append(" and c.rental = '" + comment.getRental() + "'");
+        if(modelComment != null) {
+            if(modelComment.getId() >= 0)
+                query.append(" and c.commentID = " + modelComment.getId());
+            else if(modelComment.getRental() != null)
+                query.append(" and c.rental = '" + modelComment.getRental() + "'");
             else {
 
-                if(comment.getDate() != null)
-                    condition.append(" and c.commentDate = '" + comment.getDate() + "'");
-                if(comment.getComment() != null)
-                    condition.append(" and c.comment = '" + comment.getComment() + "'");
+                if(modelComment.getDate() != null)
+                    condition.append(" and c.commentDate = '" + modelComment.getDate() + "'");
+                if(modelComment.getText() != null)
+                    condition.append(" and c.comment = '" + modelComment.getText() + "'");
                 if(condition.length() > 0) {
                     query.append(condition);
                 }
@@ -212,10 +215,10 @@ class CommentManager {
         
         try {
 
-            stmt = conn.createStatement();
+            Statement stmt = conn.createStatement();
             if(stmt.execute(query.toString())) {
                 ResultSet r = stmt.getResultSet();
-                return new Comment(r, objectLayer);
+                return (List<Comment>) new CommentImpl();
             }
         }
         catch(Exception e) {
@@ -226,7 +229,7 @@ class CommentManager {
     }
     
     
-    public void delete(CommentImpl comment) 
+    public void delete(Comment comment) 
             throws RARException
     {
         String               deleteCommentSql = "delete from Comments where commentID = ?";              

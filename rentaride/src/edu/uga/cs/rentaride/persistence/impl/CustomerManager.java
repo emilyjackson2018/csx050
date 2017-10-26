@@ -1,18 +1,21 @@
 package edu.uga.cs.rentaride.persistence.impl;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Iterator;
+import java.util.List;
+
 import com.mysql.jdbc.PreparedStatement;
+
 import edu.uga.cs.rentaride.RARException;
 import edu.uga.cs.rentaride.entity.Comment;
 import edu.uga.cs.rentaride.entity.Customer;
 import edu.uga.cs.rentaride.entity.Rental;
 import edu.uga.cs.rentaride.entity.Reservation;
 import edu.uga.cs.rentaride.object.ObjectLayer;
+import edu.uga.cs.rentaride.object.impl.ObjectImpl;
 
 
 class CustomerManager
@@ -63,8 +66,8 @@ class CustomerManager
 				else
 					throw new RARException("customer.save: can't save a customer: License State is not set or not persistent");
 
-				if(customer.getMembershipExpiration() != null)
-					stmt.setDate(5, new java.sql.Date(customer.getMembershipExpiration().getTime()));
+				if(customer.getMemberUntil() != null)
+					stmt.setDate(5, new java.sql.Date(customer.getMemberUntil().getTime()));
 				else
 					throw new RARException("customer.save: can't save a customer: Membership Expiration is not set or not persistent");
 
@@ -83,8 +86,8 @@ class CustomerManager
 				else
 					throw new RARException("customer.save: can't save a customer: lastName is not set or not persistent");
 
-				if(customer.getEmailAddress() != null)
-					stmt.setString(9, customer.getEmailAddress());
+				if(customer.getEmail() != null)
+					stmt.setString(9, customer.getEmail());
 				else
 					throw new RARException("customer.save: can't save a customer: email is not set or not persistent");
 
@@ -129,7 +132,7 @@ class CustomerManager
 			}
 		}
 
-	public Iterator<Customer> restore(Customer customer)
+	public List<Customer> restore(Customer customer)
 		throws RARException
 		{
 			String       selectCSql = "select c.creditCardExpiration, c.creditCardNumber, c.licenseNumber, c.licenseState, c.membershipExpiration " +
@@ -156,8 +159,8 @@ class CustomerManager
 					if(customer.getLicenseState() != null) {
 						condition.append(" License State = '" + customer.getLicenseState() + "'");
 					}
-					if(customer.getMembershipExpiration() != null) {
-						condition.append(" Membership Expiration = '" + customer.getMembershipExpiration().toString() + "'");
+					if(customer.getMemberUntil() != null) {
+						condition.append(" Membership Expiration = '" + customer.getMemberUntil().toString() + "'");
 					}
 				}
 			}
@@ -168,7 +171,7 @@ class CustomerManager
 
 				if(stmt.execute(query.toString())) { // statement returned a result
 					ResultSet r = stmt.getResultSet();
-					return new Customer(r, objectLayer);
+					return (List<Customer>) new CustomerList(r, objectLayer);
 				}
 			}
 			catch(Exception e) {      // just in case...
@@ -207,10 +210,10 @@ class CustomerManager
 					else
 						condition.append(" AND c.lastName = '" + customer.getLastName() + "'");
 
-					if(customer.getEmailAddress() != null)
-						condition.append(" c.emailAddress = '" + customer.getEmailAddress() + "'");
+					if(customer.getEmail() != null)
+						condition.append(" c.emailAddress = '" + customer.getEmail() + "'");
 					else
-						condition.append(" AND c.emailAddress = '" + customer.getEmailAddress() + "'");
+						condition.append(" AND c.emailAddress = '" + customer.getEmail() + "'");
 
 					if(customer.getPassword() != null)
 						condition.append(" c.password = '" + customer.getPassword() + "'");
@@ -238,7 +241,7 @@ class CustomerManager
 				stmt = conn.createStatement();
 				if(stmt.execute(query.toString())) {
 					ResultSet r = stmt.getResultSet();
-					return new ReservationIterator(r, objectLayer);
+					return new ReservationList(r, objectLayer);
 				}
 			}
 			catch(Exception e) {
@@ -248,7 +251,7 @@ class CustomerManager
 			throw new RARException("CustomerManager.restoreCustomerReservation: Could not restore persistent Reservation objects");
 		}
 
-	public Iterator<Comment> restoreCustomerComment(Customer customer)
+	public List<Comment> restoreCustomerComment(Customer customer)
 		throws RARException
 		{
 			String selectPersonSql = "select c.firstName, c.lastName, c.userName, c.emailAddress, c.password, c.createdDate, c.userStatus, c.userType, com.commentDate, com.rental, com.comment " +
@@ -276,10 +279,10 @@ class CustomerManager
 					else
 						condition.append(" AND c.lastName = '" + customer.getLastName() + "'");
 
-					if(customer.getEmailAddress() != null)
-						condition.append(" c.emailAddress = '" + customer.getEmailAddress() + "'");
+					if(customer.getEmail() != null)
+						condition.append(" c.emailAddress = '" + customer.getEmail() + "'");
 					else
-						condition.append(" AND c.emailAddress = '" + customer.getEmailAddress() + "'");
+						condition.append(" AND c.emailAddress = '" + customer.getEmail() + "'");
 
 					if(customer.getPassword() != null)
 						condition.append(" c.password = '" + customer.getPassword() + "'");
@@ -307,7 +310,7 @@ class CustomerManager
 				stmt = conn.createStatement();
 				if(stmt.execute(query.toString())) {
 					ResultSet r = stmt.getResultSet();
-					return new CommentIterator(r, objectLayer);
+					return (List<Comment>) new CommentList(r, (ObjectImpl) objectLayer);
 				}
 			}
 			catch(Exception e) {
@@ -349,10 +352,10 @@ class CustomerManager
 					else
 						condition.append(" AND c.lastName = '" + customer.getLastName() + "'");
 
-					if(customer.getEmailAddress() != null)
-						condition.append(" c.emailAddress = '" + customer.getEmailAddress() + "'");
+					if(customer.getEmail() != null)
+						condition.append(" c.emailAddress = '" + customer.getEmail() + "'");
 					else
-						condition.append(" AND c.emailAddress = '" + customer.getEmailAddress() + "'");
+						condition.append(" AND c.emailAddress = '" + customer.getEmail() + "'");
 
 					if(customer.getPassword() != null)
 						condition.append(" c.password = '" + customer.getPassword() + "'");
@@ -381,7 +384,7 @@ class CustomerManager
 
 				if(stmt.execute(query.toString())) {
 					ResultSet r = stmt.getResultSet();
-					return new RentalIterator(r, objectLayer);
+					return new RentalList(r, objectLayer);
 				}
 			}
 			catch(Exception e) {

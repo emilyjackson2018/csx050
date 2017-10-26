@@ -2,22 +2,12 @@ package edu.uga.cs.rentaride.persistence.impl;
 
 import java.sql.Connection;
 import java.util.Iterator;
+import java.util.List;
 
 import edu.uga.cs.rentaride.RARException;
-import edu.uga.cs.rentaride.entity.Administrator;
-import edu.uga.cs.rentaride.entity.Comment;
-import edu.uga.cs.rentaride.entity.Customer;
-import edu.uga.cs.rentaride.entity.HourlyPrice;
-import edu.uga.cs.rentaride.entity.RentARideConfig;
-import edu.uga.cs.rentaride.entity.Rental;
-import edu.uga.cs.rentaride.entity.RentalLocation;
-import edu.uga.cs.rentaride.entity.Reservation;
-import edu.uga.cs.rentaride.entity.Vehicle;
-import edu.uga.cs.rentaride.entity.VehicleType;
+import edu.uga.cs.rentaride.entity.*;
 import edu.uga.cs.rentaride.object.ObjectLayer;
-import edu.uga.cs.rentaride.persistence.PersistenceLayer;
 import edu.uga.cs.rentaride.persistence.*;
-import edu.uga.cs.rentaride.persistence.impl.*;
 
 
 public class PersistenceLayerImpl
@@ -47,7 +37,7 @@ public class PersistenceLayerImpl
         System.out.println("PersistenceLayerImpl.PersistenceLayerImpl(conn,objectLayer): initialized");
     }
     
-    public Iterator<Administrator> restoreAdministrator( Administrator modelAdministrator ) throws RARException {
+    public List<Administrator> restoreAdministrator( Administrator modelAdministrator ) throws RARException {
         return administratorManager.restore( modelAdministrator );
     }
     
@@ -59,7 +49,7 @@ public class PersistenceLayerImpl
         administratorManager.delete( administrator );
     }
     
-    public Iterator<Customer> restoreCustomer( Customer modelCustomer ) throws RARException {
+    public List<Customer> restoreCustomer( Customer modelCustomer ) throws RARException {
         return customerManager.restore( modelCustomer );
     }
     
@@ -67,7 +57,7 @@ public class PersistenceLayerImpl
         customerManager.save( customer );
     }
     
-    public Iterator<RentalLocation> restoreRentalLocation( RentalLocation modelRentalLocation ) throws RARException {
+    public List<RentalLocation> restoreRentalLocation( RentalLocation modelRentalLocation ) throws RARException {
         return rentalLocationManager.restore( modelRentalLocation );
     }
     
@@ -79,7 +69,7 @@ public class PersistenceLayerImpl
         rentalLocationManager.delete( rentalLocation );
     }
     
-    public Iterator<Reservation> restoreReservation( Reservation modelReservation ) throws RARException {
+    public List<Reservation> restoreReservation( Reservation modelReservation ) throws RARException {
         return reservationManager.restore( modelReservation );
     }
     
@@ -91,7 +81,7 @@ public class PersistenceLayerImpl
         reservationManager.delete( reservation );
     }
     
-    public Iterator<Rental> restoreRental( Rental modelRental ) throws RARException {
+    public List<Rental> restoreRental( Rental modelRental ) throws RARException {
         return rentalManager.restore( modelRental );
     }
     
@@ -103,7 +93,7 @@ public class PersistenceLayerImpl
         rentalManager.delete( rental );
     }
     
-    public Iterator<VehicleType> restoreVehicleType( VehicleType modelVehicleType ) throws RARException {
+    public List<VehicleType> restoreVehicleType( VehicleType modelVehicleType ) throws RARException {
         return vehicleTypeManager.restore( modelVehicleType );
     }
 
@@ -115,7 +105,7 @@ public class PersistenceLayerImpl
         vehicleTypeManager.delete( vehicleType );
     }
     
-    public Iterator<Vehicle> restoreVehicle( Vehicle modelVehicle ) throws RARException {
+    public List<Vehicle> restoreVehicle( Vehicle modelVehicle ) throws RARException {
         return vehicleManager.restore( modelVehicle );
     }
     
@@ -127,7 +117,7 @@ public class PersistenceLayerImpl
         vehicleManager.delete( vehicle );
     }
     
-    public Iterator<Comment> restoreComment( Comment modelComment ) throws RARException {
+    public List<Comment> restoreComment( Comment modelComment ) throws RARException {
         return commentManager.restore( modelComment );
     }
     
@@ -139,7 +129,7 @@ public class PersistenceLayerImpl
         commentManager.delete( comment );
     }
     
-    public Iterator<HourlyPrice> restoreHourlyPrice( HourlyPrice modelHourlyPrice ) throws RARException {
+    public List<HourlyPrice> restorePrice( HourlyPrice modelHourlyPrice ) throws RARException {
         return hourlyPriceManager.restore( modelHourlyPrice );
     }
     
@@ -151,12 +141,12 @@ public class PersistenceLayerImpl
         hourlyPriceManager.delete( hourlyPrice );
     }
 
-    public RentARideConfig restoreRentARideConfig() throws RARException {
-        return rentARideConfigManager.restore( );
-    }
+   /* public RentARideParams restoreRentARideParams() throws RARException {
+        //return rentARideParamsManager.restore( );
+    }*/
     
-    public void storeRentARideConfig( RentARideConfig rentARideConfig ) throws RARException {
-        rentARideConfigManager.save( rentARideConfig );
+    public void storeRentARideConfig( RentARideParams rentARideConfig ) throws RARException {
+        //rentARideParamsManager.save( rentARideConfig );
     }
     
 	public void storeCustomerReservation( Customer customer, Reservation reservation ) throws RARException {
@@ -166,7 +156,7 @@ public class PersistenceLayerImpl
             throw new RARException("The customer is not persistent");
         
         Rental rental = reservation.getRental();
-        rental.setCustomer(customer);
+        //rental.setCustomer(customer);
         reservation.setCustomer( customer );
         reservationManager.save( reservation );
         rentalManager.save( rental );
@@ -182,7 +172,7 @@ public class PersistenceLayerImpl
 
     public void deleteCustomerReservation( Customer customer, Reservation reservation ) throws RARException {
         Rental rental = reservation.getRental();
-        rental.setCustomer(null);
+        //rental.setCustomer(null);
         reservation.setCustomer( null );
         reservationManager.save( reservation );
         rentalManager.save( rental );
@@ -202,9 +192,9 @@ public class PersistenceLayerImpl
         return reservationManager.restoreReservationRentalLocation( reservation );
     }
 
-    public Iterator<Reservation> restoreReservationRentalLocation( RentalLocation rentalLocation ) throws RARException {
-        return rentalLocationManager.restoreReservationRentalLocation( rentalLocation );
-    }
+   /*public Iterator<Reservation> restoreReservationRentalLocation( RentalLocation rentalLocation ) throws RARException {
+        //return rentalLocationManager.restoreReservationRentalLocation( rentalLocation );
+    }*/
 
     public void deleteReservationRentalLocation( Reservation reservation, RentalLocation rentalLocation ) throws RARException {
         reservation.setRentalLocation( null );
@@ -217,7 +207,7 @@ public class PersistenceLayerImpl
         if (!vehicleType.isPersistent())
             throw new RARException("The vehicle type is not persistent");
         
-        reservation.setRentalLocation( vehicleType );
+        reservation.setVehicleType( vehicleType );
         reservationManager.save( reservation );
     }
 
@@ -225,9 +215,9 @@ public class PersistenceLayerImpl
         return reservationManager.restoreReservationVehicleType(reservation );
     }
 
-    public Iterator<Reservation> restoreReservationVehicleType( VehicleType vehicleType ) throws RARException {
+    /*public Iterator<Reservation> restoreReservationVehicleType( VehicleType vehicleType ) throws RARException {
         return vehicleManager.restoreReservationVehicleType( vehicleType );
-    }
+    }*/
 
     public void deleteReservationVehicleType( Reservation reservation, VehicleType vehicleType ) throws RARException {
         reservation.setRentalLocation( null );
@@ -287,7 +277,7 @@ public class PersistenceLayerImpl
             throw new RARException("The vehicleType is not persistent");
         
         hourlyPrice.setVehicleType( vehicleType );
-        hourlyPriceManager.save( hourlyprice );
+        hourlyPriceManager.save( hourlyPrice );
     }
 
     public VehicleType restoreVehicleTypeHourlyPrice( HourlyPrice hourlyPrice ) throws RARException {
@@ -297,10 +287,10 @@ public class PersistenceLayerImpl
     public Iterator<HourlyPrice> restoreVehicleTypeHourlyPrice( VehicleType vehicleType ) throws RARException {
         return vehicleTypeManager.restoreVehicleTypeHourlyPrice( vehicleType );
     }
-   public Iterator<HourlyPrice> restoreHourlyPrice( HourlyPrice modelHourlyPrice ) throws RARException {
-        hourlyPrice.setVehicleType( null );
-        hourlyPriceManager.save( hourlyprice );
-    }
+   /*public List<HourlyPrice> restoreHourlyPrice( HourlyPrice modelHourlyPrice ) throws RARException {
+        modelHourlyPrice.setVehicleType( null );
+        hourlyPriceManager.save( modelHourlyPrice );
+    }*/
 
     public void storeRentalComment( Rental rental, Comment comment ) throws RARException {
         if (rental == null)
@@ -309,7 +299,7 @@ public class PersistenceLayerImpl
             throw new RARException("The rental is not persistent");
         
         Customer customer = rental.getCustomer();
-        comment.setCustomer(customer);
+        //comment.setCustomer(customer);
         comment.setRental( rental );
         commentManager.save( comment );
     }
@@ -318,12 +308,12 @@ public class PersistenceLayerImpl
         return commentManager.restoreRentalComment(comment);
     }
 
-    public Iterator<Comment> restoreRentalComment( Rental rental ) throws RARException {
+    public List<Comment> restoreRentalComment( Rental rental ) throws RARException {
         return rentalManager.restoreRentalComment(rental);
     }
 
     public void deleteRentalComment( Rental rental, Comment comment ) throws RARException {
-        comment.setCustomer(null);
+        //comment.setCustomer(null);
         comment.setRental( null );
         commentManager.save( comment );
     }
@@ -332,7 +322,7 @@ public class PersistenceLayerImpl
         return commentManager.restoreCustomerComment( comment ); 
     }
 
-    public Iterator<Comment> restoreCustomerComment( Customer customer ) throws RARException {
+    public List<Comment> restoreCustomerComment( Customer customer ) throws RARException {
         return customerManager.restoreCustomerComment( customer ); 
     }
 
@@ -345,10 +335,58 @@ public class PersistenceLayerImpl
     }
 
 	@Override
-	public Iterator<Vehicle> restoreVehicletRentalLocation(
-			RentalLocation rentalLocation) throws RARException {
+	public void storeRentARideParams(RentARideParams rentARideParams)
+			throws RARException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Iterator<Reservation> restoreReservationVehicleType(
+			VehicleType vehicleType) throws RARException {
+		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public List<Vehicle> restoreRentalLocationVehicles(
+			RentalLocation rentalLocation) throws RARException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void deleteVehicleTypeHourlyPrice(VehicleType vehicleType,
+			HourlyPrice hourlyPrice) throws RARException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public RentARideParams restoreRentARideParams() throws RARException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<HourlyPrice> restoreHourlyPrice(HourlyPrice modelHourlyPrice)
+			throws RARException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Iterator<Reservation> restoreReservationRentalLocation(
+			RentalLocation rentalLocation) throws RARException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/*@Override
+	public List<Vehicle> restoreVehicletRentalLocation(
+			RentalLocation rentalLocation) throws RARException {
+		return null;
+	}*/
     
 }
 

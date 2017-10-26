@@ -5,18 +5,14 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Iterator;
+import java.util.List;
+
 import com.mysql.jdbc.PreparedStatement;
+
 import edu.uga.cs.rentaride.RARException;
-import edu.uga.cs.rentaride.entity.HourlyPrice;
-import edu.uga.cs.rentaride.entity.RentalLocation;
-import edu.uga.cs.rentaride.entity.Reservation;
-import edu.uga.cs.rentaride.entity.VehicleType;
-import edu.uga.cs.rentaride.entity.VehicleCondition;
-import edu.uga.cs.rentaride.entity.Vehicle;
+import edu.uga.cs.rentaride.entity.*;
 import edu.uga.cs.rentaride.object.ObjectLayer;
-import java.util.*;
-import java.sql.*;
+
 
 class VehicleManager {
     private ObjectLayer objectLayer = null;
@@ -80,7 +76,7 @@ class VehicleManager {
                 stmt.setNull(7, java.sql.Types.VARCHAR);
             
             if(vehicle.getVehicleType() != null)
-                stmt.setString(8, vehicle.getVehicleType().getType());
+                stmt.setString(8, vehicle.getVehicleType().getName());
             else
                 stmt.setNull(8, java.sql.Types.VARCHAR);
             
@@ -129,7 +125,7 @@ class VehicleManager {
         }
     }
 
-    public Iterator<Vehicle> restore(Vehicle vehicle) 
+    public List<Vehicle> restore(Vehicle vehicle) 
             throws RARException
     {
         String       selectVSql = "select v.registrationTag, v.lastService, v.make, v.mileage, v.model, v.rentalLocation, " + 
@@ -183,7 +179,7 @@ class VehicleManager {
             System.out.println("stmt: " + query);
             if(stmt.execute(query.toString())) {
                 ResultSet r = stmt.getResultSet();
-                return new Vehicle(r, objectLayer);
+                return (List<Vehicle>) new VehicleList(r, objectLayer);
             }
         }
         catch(Exception e) {
@@ -246,7 +242,7 @@ class VehicleManager {
             stmt = conn.createStatement();
             if(stmt.execute(query.toString())) {
                 ResultSet r = stmt.getResultSet();
-                return new RentalLocationIterator(r, objectLayer);
+                return (RentalLocation) new RentalLocationList(r, objectLayer);
             }
         }
         catch(Exception e) {
@@ -265,7 +261,7 @@ class VehicleManager {
         StringBuffer query = new StringBuffer(100);
         StringBuffer condition = new StringBuffer(100);
         condition.setLength(0);
-        query.append(selectRLSql);
+        query.append(selectVTSql);
         
         if(vehicle != null) {
             if(vehicle.getId() >= 0)
@@ -308,7 +304,7 @@ class VehicleManager {
             stmt = conn.createStatement();
             if(stmt.execute(query.toString())) {
                 ResultSet r = stmt.getResultSet();
-                return new VehicleTypeIterator(r, objectLayer);
+                return (VehicleType) new VehicleTypeList(r, objectLayer);
             }
         }
         catch(Exception e) {

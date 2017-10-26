@@ -4,8 +4,10 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Iterator;
+import java.util.List;
+
 import com.mysql.jdbc.PreparedStatement;
+
 import edu.uga.cs.rentaride.RARException;
 import edu.uga.cs.rentaride.entity.HourlyPrice;
 import edu.uga.cs.rentaride.entity.VehicleType;
@@ -40,11 +42,11 @@ class HourlyPriceManager {
             else 
                 throw new RARException("HourlyPriceManager.save: can't save an HourlyPrice: max price undefined");
             
-            if(hourlyPrice.getMinHours() != 0)
+            /*if(hourlyPrice.getMinHours() != 0)
                 stmt.setInt(2, hourlyPrice.getMinHours());
             else 
                 throw new RARException("HourlyPriceManager.save: can't save an HourlyPrice: min price undefined");
-            
+            */
             if(hourlyPrice.getPrice() == 0){
             	stmt.setInt(3, hourlyPrice.getPrice());
             } else {
@@ -82,7 +84,7 @@ class HourlyPriceManager {
         }
     }
 
-    public Iterator<HourlyPrice> restore(HourlyPrice hourlyPrice) 
+    public List<HourlyPrice> restore(HourlyPrice hourlyPrice) 
             throws RARException
     {
         String       selectHPSql = "select hp.maxHours, hp.minHours, hp.price from HourlyPrice hp where hourlyPriceID = id ";
@@ -100,9 +102,9 @@ class HourlyPriceManager {
                 if(hourlyPrice.getMaxHours() != 0)
                 	query.append(" and maxHours = '" + hourlyPrice.getMaxHours() + "'");
 
-                if(hourlyPrice.getMinHours() != 0) {
+               /* if(hourlyPrice.getMinHours() != 0) {
                     query.append(" and minHours = '" + hourlyPrice.getMinHours() + "'");
-                }
+                }*/
             }
         }
         
@@ -111,7 +113,7 @@ class HourlyPriceManager {
             stmt = conn.createStatement();
             if(stmt.execute(query.toString())) {
                 ResultSet r = stmt.getResultSet();
-                return new HourlyPrice(r, objectLayer);
+                return (List<HourlyPrice>) new HourlyPriceList(r, objectLayer);
             }
         }
         catch(Exception e) {
@@ -127,7 +129,7 @@ class HourlyPriceManager {
         String       selectHPSql = "select vt.typeName, hp.maxHours, hp.minHours, hp.price from HourlyPrice hp, VehicleType vt where hp.hourlyPriceID = vt.vehicleTypeId ";
         Statement    stmt = null;
         StringBuffer query = new StringBuffer(100);
-        StringBuffer condition = new StringBuffer(100);
+       // StringBuffer condition = new StringBuffer(100);
         
 	query.append(selectHPSql);
         
@@ -139,9 +141,9 @@ class HourlyPriceManager {
                 if(hourlyPrice.getMaxHours() != 0)
                 	query.append(" and maxHours = '" + hourlyPrice.getMaxHours() + "'");
 
-                if(hourlyPrice.getMinHours() != 0) {
+               /* if(hourlyPrice.getMinHours() != 0) {
                     query.append(" and minHours = '" + hourlyPrice.getMinHours() + "'");
-                }
+                }*/
             }
         }
         
@@ -151,7 +153,7 @@ class HourlyPriceManager {
 
             if(stmt.execute(query.toString())) {
                 ResultSet r = stmt.getResultSet();
-                return new VehicleTypeIterator(r, objectLayer).next();
+                return new VehicleTypeList(r, objectLayer).next();
             }
         }
         catch(Exception e) {

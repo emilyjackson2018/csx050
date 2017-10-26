@@ -5,14 +5,12 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Iterator;
+import java.util.List;
+
 import com.mysql.jdbc.PreparedStatement;
+
 import edu.uga.cs.rentaride.RARException;
-import edu.uga.cs.rentaride.entity.Reservation;
-import edu.uga.cs.rentaride.entity.Rental;
-import edu.uga.cs.rentaride.entity.RentalLocation;
-import edu.uga.cs.rentaride.entity.VehicleType;
-import edu.uga.cs.rentaride.entity.Customer;
+import edu.uga.cs.rentaride.entity.*;
 import edu.uga.cs.rentaride.object.ObjectLayer;
 
 
@@ -57,8 +55,8 @@ class ReservationManager {
             else
                 stmt.setNull(3, java.sql.Types.INTEGER);
             
-            if(reservation.getRentalDuration()!= 0)
-                stmt.setInt(4, reservation.getRentalDuration());
+            if(reservation.getLength()!= 0)
+                stmt.setInt(4, reservation.getLength());
             else
                 stmt.setNull(4, java.sql.Types.INTEGER);
             
@@ -68,7 +66,7 @@ class ReservationManager {
                 stmt.setNull(5, java.sql.Types.VARCHAR);
             
             if(reservation.getVehicleType()!= null)
-                stmt.setString(6, reservation.getVehicleType().getType());
+                stmt.setString(6, reservation.getVehicleType().getName());
             else
                 stmt.setNull(6, java.sql.Types.VARCHAR);
 
@@ -103,10 +101,10 @@ class ReservationManager {
         }
     }
 
-    public Iterator<Reservation> restore(Reservation reservation)
+    public List<Reservation> restore(Reservation reservation)
             throws RARException
     {
-        String       selectRSql = " select r.customer, r.pickupTime, r.rental, r.rentalDuration, r.rentalLocation, " + 
+		String       selectRSql = " select r.customer, r.pickupTime, r.rental, r.Length, r.rentalLocation, ";
         Statement    stmt = null;
         StringBuffer query = new StringBuffer(100);
         StringBuffer condition = new StringBuffer(100);
@@ -126,8 +124,8 @@ class ReservationManager {
                 if(reservation.getRental()!= null)
                     condition.append(" and rental = '" + reservation.getRental()+ "'");
                 
-                if(reservation.getRentalDuration()!= 0)
-                    condition.append(" and rentalDuration = '" + reservation.getRentalDuration()+ "'");
+                if(reservation.getLength()!= 0)
+                    condition.append(" and Length = '" + reservation.getLength()+ "'");
                 
                 if(reservation.getRentalLocation()!= null)
                     condition.append(" and rentalLocation = '" + reservation.getRentalLocation()+ "'");
@@ -142,7 +140,7 @@ class ReservationManager {
             stmt = conn.createStatement();
             if(stmt.execute(query.toString())){
                 ResultSet r = stmt.getResultSet();
-                return new Reservation(r, objectLayer);
+                return (List<Reservation>) new ReservationList(r, objectLayer);
             }
         }
         catch(Exception e){
@@ -180,8 +178,8 @@ class ReservationManager {
                 if(reservation.getPickupTime()!= null)
                     condition.append(" and r.pickupTime = '" + reservation.getPickupTime()+ "'");
 
-                if(reservation.getRentalDuration()!= 0)
-                    condition.append(" and r.rentalDuration = '" + reservation.getRentalDuration()+ "'");
+                if(reservation.getLength()!= 0)
+                    condition.append(" and r.Length = '" + reservation.getLength()+ "'");
 
                 if(reservation.getRentalLocation()!= null)
                     condition.append(" and r.rentalLocation = '" + reservation.getRentalLocation()+ "'");
@@ -200,9 +198,9 @@ class ReservationManager {
             stmt = conn.createStatement();
             if(stmt.execute(query.toString())){
                 ResultSet r = stmt.getResultSet();
-                Iterator<Customer> custIter = new CustomerIterator(r, objectLayer);
-                if(custIter != null && custIter.hasNext()){
-                    return custIter.next();
+                List<Customer> custIter = (List<Customer>) new CustomerList(r, objectLayer);
+                if(custIter != null && ((ReservationList) custIter).hasNext()){
+                    return (Customer) custIter;
                 }
                 else
                     return null;
@@ -235,8 +233,8 @@ class ReservationManager {
                 if(reservation.getPickupTime()!= null)
                     condition.append(" and r.pickupTime = '" + reservation.getPickupTime()+ "'");
 
-                if(reservation.getRentalDuration()!= 0)
-                    condition.append(" and r.rentalDuration = '" + reservation.getRentalDuration()+ "'");
+                if(reservation.getLength()!= 0)
+                    condition.append(" and r.Length = '" + reservation.getLength()+ "'");
 
                 if(reservation.getRentalLocation()!= null)
                     condition.append(" and r.rentalLocation = '" + reservation.getRentalLocation()+ "'");
@@ -254,9 +252,9 @@ class ReservationManager {
             stmt = conn.createStatement();
             if(stmt.execute(query.toString())){
                 ResultSet r = stmt.getResultSet();
-                Iterator<RentalLocation> rentIter = new RentalLocationIterator(r, objectLayer);
-                if(rentIter != null && rentIter.hasNext()){
-                    return rentIter.next();
+                List<RentalLocation> rentIter = (List<RentalLocation>) new RentalLocationList(r, objectLayer);
+                if(rentIter != null && ((ReservationList) rentIter).hasNext()){
+                    return (RentalLocation) rentIter;
                 }
                 else
                     return null;
@@ -296,8 +294,8 @@ class ReservationManager {
                 if(reservation.getPickupTime()!= null)
                     condition.append(" and r.pickupTime = '" + reservation.getPickupTime()+ "'");
 
-                if(reservation.getRentalDuration()!= 0)
-                    condition.append(" and r.rentalDuration = '" + reservation.getRentalDuration()+ "'");
+                if(reservation.getLength()!= 0)
+                    condition.append(" and r.Length = '" + reservation.getLength()+ "'");
 
                 if(reservation.getRentalLocation()!= null)
                     condition.append(" and r.rentalLocation = '" + reservation.getRentalLocation()+ "'");
@@ -316,7 +314,7 @@ class ReservationManager {
             stmt = conn.createStatement();
             if(stmt.execute(query.toString())){
                 ResultSet r = stmt.getResultSet();
-                Iterator<VehicleType> vTIter = new VehicleTypeIterator(r, objectLayer);
+                VehicleTypeList vTIter = new VehicleTypeList(r, objectLayer);
                 if(vTIter != null && vTIter.hasNext()){
                     return vTIter.next();
                 }

@@ -1,13 +1,14 @@
 package edu.uga.cs.rentaride.persistence;
 
 import java.util.Iterator;
+import java.util.List;
 
 import edu.uga.cs.rentaride.RARException;
 import edu.uga.cs.rentaride.entity.Administrator;
 import edu.uga.cs.rentaride.entity.Comment;
 import edu.uga.cs.rentaride.entity.Customer;
 import edu.uga.cs.rentaride.entity.HourlyPrice;
-import edu.uga.cs.rentaride.entity.RentARideConfig;
+import edu.uga.cs.rentaride.entity.RentARideParams;
 import edu.uga.cs.rentaride.entity.Rental;
 import edu.uga.cs.rentaride.entity.RentalLocation;
 import edu.uga.cs.rentaride.entity.Reservation;
@@ -32,7 +33,7 @@ public interface PersistenceLayer
      * @return an Iterator of the located Administrator objects
      * @throws RARException in case an error occurred during the restore operation 
      */
-    public Iterator<Administrator> restoreAdministrator( Administrator modelAdministrator ) throws RARException;
+    public List<Administrator> restoreAdministrator( Administrator modelAdministrator ) throws RARException;
     
     /** 
      * Store a given Administrator object in the persistent data store.  
@@ -52,11 +53,11 @@ public interface PersistenceLayer
     
     /** 
      * Restore all Customer objects that match attributes of the model Customer.
-     * @param modelCustomer the model Customer; if null is provided, all Customer objects will be returned
+     * @param customerID the model Customer; if null is provided, all Customer objects will be returned
      * @return an Iterator of the located Customer objects
      * @throws RARException in case an error occurred during the restore operation 
      */
-    public Iterator<Customer> restoreCustomer( Customer modelCustomer ) throws RARException;
+    public List<Customer> restoreCustomer( Customer customerID ) throws RARException;
     
     /** 
      * Store a given Customer object in the persistent data store.
@@ -74,7 +75,7 @@ public interface PersistenceLayer
      * @return an Iterator of the located RentalLocation objects
      * @throws RARException in case an error occurred during the restore operation 
      */
-    public Iterator<RentalLocation> restoreRentalLocation( RentalLocation modelRentalLocation ) throws RARException;
+    public List<RentalLocation> restoreRentalLocation( RentalLocation modelRentalLocation ) throws RARException;
     
     /** 
      * Store a given RentalLocation object in the persistent data store.
@@ -98,7 +99,7 @@ public interface PersistenceLayer
      * @return an Iterator of the located Reservation objects
      * @throws RARException in case an error occurred during the restore operation 
      */
-    public Iterator<Reservation> restoreReservation( Reservation modelReservation ) throws RARException;
+    public List<Reservation> restoreReservation( Reservation modelReservation ) throws RARException;
     
     /** 
      * Store a given Reservation object in the persistent data store.
@@ -122,7 +123,7 @@ public interface PersistenceLayer
      * @return an Iterator of the located Rental objects
      * @throws RARException in case an error occurred during the restore operation 
      */
-    public Iterator<Rental> restoreRental( Rental modelRental ) throws RARException;
+    public List<Rental> restoreRental( Rental modelRental ) throws RARException;
     
     /** 
      * Store a given Rental object in the persistent data store.
@@ -146,7 +147,7 @@ public interface PersistenceLayer
      * @return an Iterator of the located VehicleType objects
      * @throws RARException in case an error occurred during the restore operation 
      */
-    public Iterator<VehicleType> restoreVehicleType( VehicleType modelVehicleType ) throws RARException;
+    public List<VehicleType> restoreVehicleType( VehicleType modelVehicleType ) throws RARException;
 
     /** 
      * Store a given VehicleType object in the persistent data store.  
@@ -170,7 +171,7 @@ public interface PersistenceLayer
      * @return an Iterator of the located Vehicle objects
      * @throws RARException in case an error occurred during the restore operation 
      */
-    public Iterator<Vehicle> restoreVehicle( Vehicle modelVehicle ) throws RARException;
+    public List<Vehicle> restoreVehicle( Vehicle modelVehicle ) throws RARException;
     
     /** 
      * Store a given Vehicle object in the persistent data store.
@@ -194,7 +195,7 @@ public interface PersistenceLayer
      * @return an Iterator of the located Comment objects
      * @throws RARException in case an error occurred during the restore operation 
      */
-    public Iterator<Comment> restoreComment( Comment modelComment ) throws RARException;
+    public List<Comment> restoreComment( Comment modelComment ) throws RARException;
     
     /** 
      * Store a given Comment object in the persistent data store.
@@ -218,7 +219,7 @@ public interface PersistenceLayer
      * @return an Iterator of the located HourlyPrice objects
      * @throws RARException in case an error occurred during the restore operation 
      */
-    public Iterator<HourlyPrice> restoreHourlyPrice( HourlyPrice modelHourlyPrice ) throws RARException;
+    public List<HourlyPrice> restoreHourlyPrice( HourlyPrice modelHourlyPrice ) throws RARException;
     
     /** 
      * Store a given HourlyPrice object in the persistent data store.
@@ -242,7 +243,7 @@ public interface PersistenceLayer
      * @return RentARideConfig the RentARideConfig configuration singleton object
      * @throws RARException in case an error occurred during the delete operation 
      */
-    public RentARideConfig restoreRentARideConfig() throws RARException;
+    public RentARideParams restoreRentARideParams() throws RARException;
     
     /** 
      * Store the RentARideConfig object.
@@ -251,7 +252,7 @@ public interface PersistenceLayer
      * @param rentARideConfig the RentARideConfig object to be stored
      * @throws RARException in case an error occurred during the delete operation 
      */
-    public void storeRentARideConfig( RentARideConfig rentARideConfig ) throws RARException;
+    public void storeRentARideParams( RentARideParams rentARideParams ) throws RARException;
 
     // Associations
     //
@@ -379,7 +380,7 @@ public interface PersistenceLayer
      * @param rentalLocation the RentalLocation
      * @throws RARException in case an error occurred during the restore operation 
      */
-    public Iterator<Vehicle> restoreVehicletRentalLocation( RentalLocation rentalLocation ) throws RARException;
+    public List<Vehicle> restoreRentalLocationVehicles( RentalLocation rentalLocation ) throws RARException;
 
     /** 
      * Delete a link between a Vehicle and a RentalLocation.
@@ -481,7 +482,7 @@ public interface PersistenceLayer
      * @return an Iterator of Comment objects for the Rental
      * @throws RARException in case an error occurred during the restore operation 
      */
-    public Iterator<Comment> restoreRentalComment( Rental rental ) throws RARException;    
+    public List<Comment> restoreRentalComment( Rental rental ) throws RARException;    
 
     /** 
      * Delete a link between a Rental and a Comment describing the Rental.
@@ -521,7 +522,7 @@ public interface PersistenceLayer
      * @return an Iterator of Comment objects commented by the Customer
      * @throws RARException in case an error occurred during the restore operation 
      */
-    public Iterator<Comment> restoreCustomerComment( Customer customer ) throws RARException;    
+    public List<Comment> restoreCustomerComment( Customer customer ) throws RARException;    
 
     /** 
      * Delete a link between a Customer and a Comment.

@@ -4,12 +4,11 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Iterator;
+import java.util.List;
+
 import com.mysql.jdbc.PreparedStatement;
+
 import edu.uga.cs.rentaride.RARException;
-import edu.uga.cs.rentaride.entity.HourlyPrice;
-import edu.uga.cs.rentaride.entity.Reservation;
-import edu.uga.cs.rentaride.entity.Vehicle;
 import edu.uga.cs.rentaride.entity.VehicleType;
 import edu.uga.cs.rentaride.object.ObjectLayer;
 
@@ -41,8 +40,8 @@ class VehicleTypeManager
             else
                 stmt = (PreparedStatement) conn.prepareStatement(updateVTSql);
 
-            if(vehicleType.getType() != null)
-            	stmt.setString(1, vehicleType.getType());
+            if(vehicleType.getName() != null)
+            	stmt.setString(1, vehicleType.getName());
             else
                 throw new RARException("VehicleTypeManager.save: can't save a VehicleType: name undefined");
             if(vehicleType.isPersistent())
@@ -76,7 +75,7 @@ class VehicleTypeManager
         }
     }
 
-    public Iterator<VehicleType> restore(VehicleType vehicleType)
+    public List<VehicleType> restore(VehicleType vehicleType)
             throws RARException
     {
         String       selectVTSql = "select vt.vehicleTypeId, vt.typeName " +
@@ -91,8 +90,8 @@ class VehicleTypeManager
         if(vehicleType != null) {
             if(vehicleType.getId() >= 0)
                 query.append(" and vehicleTypeId = " + vehicleType.getId());
-            else if(vehicleType.getType() != null)
-                query.append(" and typeName = '" + vehicleType.getType() + "'");
+            else if(vehicleType.getName() != null)
+                query.append(" and typeName = '" + vehicleType.getName() + "'");
             else {
             }
         }
@@ -102,7 +101,7 @@ class VehicleTypeManager
             stmt = conn.createStatement();
             if(stmt.execute(query.toString())) {
                 ResultSet r = stmt.getResultSet();
-                return new VehicleType(r, objectLayer);
+                return (List<VehicleType>) new VehicleTypeList(r, objectLayer);
             }
         }
         catch(Exception e) {
@@ -112,7 +111,7 @@ class VehicleTypeManager
         throw new RARException("VehicleTypeManager.restore: Could not restore persistent VehicleType object");
     }
 
-    public Iterator<HourlyPrice> restoreVehicleTypeHourlyPrice(VehicleType vehicleType)
+    public HourlyPriceList restoreVehicleTypeHourlyPrice(VehicleType vehicleType)
             throws RARException
     {
         String       selectPersonSql = " select hp.maxHours, hp.minHours, hp.price, " +
@@ -131,8 +130,8 @@ class VehicleTypeManager
                 query.append(" and vt.vehicleTypeId = " + vehicleType.getId());
             else {
 
-                if(vehicleType.getType() != null)
-                    condition.append(" and vt.vehicleType = '" + vehicleType.getType() + "'");
+                if(vehicleType.getName() != null)
+                    condition.append(" and vt.vehicleType = '" + vehicleType.getName() + "'");
 
                
 
@@ -147,7 +146,7 @@ class VehicleTypeManager
             stmt = conn.createStatement();
             if(stmt.execute(query.toString())) {
                 ResultSet r = stmt.getResultSet();
-                return new HourlyPriceIterator(r, objectLayer);
+                return new HourlyPriceList(r, objectLayer);
 
             }
         }
@@ -158,7 +157,7 @@ class VehicleTypeManager
         throw new RARException("VehicleManager.restoreReservationVehicleType: Could not restore persistent HourlyPrice object");
     }
     
-    public Iterator<Vehicle> restoreVehicleVehicleType(VehicleType vehicleType)
+    public VehicleList restoreVehicleVehicleType(VehicleType vehicleType)
             throws RARException
     {
         String       selectPersonSql = "select v.registrationTag, v.lastService, v.make, v.mileage, v.model, v.rentalLocation, v.status, v.vehicleType, " +
@@ -177,8 +176,8 @@ class VehicleTypeManager
                 query.append(" and vt.vehicleTypeId = " + vehicleType.getId());
             else {
 
-                if(vehicleType.getType() != null)
-                    condition.append(" and vt.vehicleType = '" + vehicleType.getType() + "'");
+                if(vehicleType.getName() != null)
+                    condition.append(" and vt.vehicleType = '" + vehicleType.getName() + "'");
 
                
 
@@ -193,7 +192,7 @@ class VehicleTypeManager
             stmt = conn.createStatement();
             if(stmt.execute(query.toString())) {
                 ResultSet r = stmt.getResultSet();
-                return new VehicleIterator(r, objectLayer);
+                return new VehicleList(r, objectLayer);
 
             }
         }
@@ -204,7 +203,7 @@ class VehicleTypeManager
         throw new RARException("VehicleManager.restoreReservationVehicleType: Could not restore persistent Vehicle object");
     }
     
-    public Iterator<Reservation> restoreReservationVehicleType(VehicleType vehicleType)
+    public ReservationList restoreReservationVehicleType(VehicleType vehicleType)
             throws RARException
     {
         String       selectPersonSql = "select r.customer, r.pickupTime, r.rental, r.rentalDuration, r.rentalLocation, r.vehicleType, r.reservationID, " + 
@@ -222,8 +221,8 @@ class VehicleTypeManager
                 query.append(" and vt.vehicleTypeId = " + vehicleType.getId());
             else {
 
-                if(vehicleType.getType() != null)
-                    condition.append(" and vt.vehicleType = '" + vehicleType.getType() + "'");
+                if(vehicleType.getName() != null)
+                    condition.append(" and vt.vehicleType = '" + vehicleType.getName() + "'");
 
                
 
@@ -239,7 +238,7 @@ class VehicleTypeManager
 
             if(stmt.execute(query.toString())) {
                 ResultSet r = stmt.getResultSet();
-                return new ReservationIterator(r, objectLayer);
+                return new ReservationList(r, objectLayer);
 
             }
         }

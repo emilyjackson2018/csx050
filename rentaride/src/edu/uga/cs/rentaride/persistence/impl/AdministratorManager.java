@@ -5,14 +5,17 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Iterator;
+import java.util.List;
+
 import com.mysql.jdbc.PreparedStatement;
+
 import edu.uga.cs.rentaride.RARException;
-import edu.uga.cs.rentaride.entity.Administrator;
-import edu.uga.cs.rentaride.object.ObjectLayer;
+import edu.uga.cs.rentaride.entity.*;
+import edu.uga.cs.rentaride.object.*;
 
 
-class AdministratorManager {
+class AdministratorManager
+extends Persistent  {
 	private ObjectLayer objectLayer = null;
 	private Connection   conn = null;
 
@@ -41,8 +44,8 @@ class AdministratorManager {
 			else
 				throw new RARException("Administrator.save: can't save a Administrator: Created Date undefined");
 
-			if(administrator.getEmailAddress() != null)
-				stmt.setString(2, administrator.getEmailAddress());
+			if(administrator.getEmail() != null)
+				stmt.setString(2, administrator.getEmail());
 			else
 				throw new RARException("administrator.save: can't save a administrator: Email Address is not set or not persistent");
 
@@ -61,9 +64,9 @@ class AdministratorManager {
 			else
 				throw new RARException("administrator.save: can't save a administrator: Password is not set or not persistent");
 
-			if(administrator.getResidenceAddress() != null) // type is unique and non null
+			if(administrator.getAddress() != null) // type is unique and non null
 				// This is me setting the value in col typeName in table VehicleType to the provided value
-				stmt.setString(6, administrator.getResidenceAddress());
+				stmt.setString(6, administrator.getAddress());
 			else
 				throw new RARException("Administrator.save: can't save a Administrator: Residence undefined");
 
@@ -115,7 +118,7 @@ class AdministratorManager {
 		}
 	}
 
-	public Iterator<Administrator> restore(Administrator administrator)
+	public <Administrator> List<edu.uga.cs.rentaride.entity.Administrator> restore(Administrator administrator)
 		throws RARException
 		{
 			String       selectASql = "select a.createdDate, a.emailAddress, a.firstName, a.lastName, a.password, a.residenceAddress, a.userName, a.userStatus " +
@@ -128,32 +131,31 @@ class AdministratorManager {
 			query.append(selectASql);
 
 			if(administrator != null) {
-				if(administrator.getId() >= 0){
-					query.append(" and id = " + administrator.getId());
+				if(((Persistent) administrator).getId() >= 0){
+					query.append(" and id = " + ((Persistent) administrator).getId());
 				} else { 
-					if(administrator.getCreatedDate() != null)
-						condition.append(" and Created Date = '" + administrator.getCreatedDate().toString() + "'");
+					if(((User) administrator).getCreatedDate() != null)
+						condition.append(" and Created Date = '" + ((User) administrator).getCreatedDate().toString() + "'");
 
-					if(administrator.getEmailAddress() != null)
-						condition.append(" and Email Address = '" + administrator.getEmailAddress() + "'");
+						condition.append(" and Email Address = '" + ((User) administrator).getEmail() + "'");
 
-					if(administrator.getFirstName() != null)
-						condition.append(" and First Name = '" + administrator.getFirstName() + "'");
+					if(((User) administrator).getFirstName() != null)
+						condition.append(" and First Name = '" + ((User) administrator).getFirstName() + "'");
 
-					if(administrator.getLastName() != null)
-						condition.append(" and Last Name = '" + administrator.getLastName() + "'");
+					if(((User) administrator).getLastName() != null)
+						condition.append(" and Last Name = '" + ((User) administrator).getLastName() + "'");
 
-					if(administrator.getPassword() != null)
-						condition.append(" and Password = '" + administrator.getPassword() + "'");
+					if(((User) administrator).getPassword() != null)
+						condition.append(" and Password = '" + ((User) administrator).getPassword() + "'");
 
-					if(administrator.getResidenceAddress() != null)
-						condition.append(" and Residence Address = '" + administrator.getResidenceAddress()  + "'");
+					if(((User) administrator).getAddress() != null)
+						condition.append(" and Residence Address = '" + ((User) administrator).getAddress()  + "'");
 
-					if(administrator.getUserName() != null)
-						condition.append(" and User Name = '" + administrator.getUserName() + "'");
+					if(((User) administrator).getUserName() != null)
+						condition.append(" and User Name = '" + ((User) administrator).getUserName() + "'");
 
-					if(administrator.getUserStatus() != null)
-						condition.append(" and User Status = '" + administrator.getUserStatus() + "'");
+					if(((User) administrator).getUserStatus() != null)
+						condition.append(" and User Status = '" + ((User) administrator).getUserStatus() + "'");
 
 
 
@@ -166,7 +168,7 @@ class AdministratorManager {
 
 				if(stmt.execute(query.toString())) {
 					ResultSet r = stmt.getResultSet();
-					return new Administrator(r, objectLayer);
+					//return new Administrator(r, objectLayer);
 				}
 			}
 			catch(Exception e) {

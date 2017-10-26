@@ -4,11 +4,16 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Iterator;
+import java.util.List;
+
 import com.mysql.jdbc.PreparedStatement;
+
 import edu.uga.cs.rentaride.RARException;
+import edu.uga.cs.rentaride.entity.Comment;
+import edu.uga.cs.rentaride.entity.Customer;
 import edu.uga.cs.rentaride.entity.Rental;
 import edu.uga.cs.rentaride.object.ObjectLayer;
+import edu.uga.cs.rentaride.object.impl.ObjectImpl;
 
 
 class RentalManager {
@@ -89,7 +94,7 @@ class RentalManager {
         }
     }
 
-    public Iterator<Rental> restore(Rental rental)
+    public List<Rental> restore(Rental rental)
             throws RARException
     {
         String       selectRSql = "select rent.customer, rent.pickupTime, rent.returnTime, rent.condition " +
@@ -127,7 +132,7 @@ class RentalManager {
 
             if(stmt.execute(query.toString())) {
                 ResultSet r = stmt.getResultSet();
-                return new Rental(r, objectLayer);
+                return (List<Rental>) new RentalList(r, objectLayer);
             }
         }
         catch(Exception e) {
@@ -138,7 +143,7 @@ class RentalManager {
     }
 
 
-    Iterator<Comment> restoreRentalComment(Rental rental)
+    List<Comment> restoreRentalComment(Rental rental)
             throws RARException
     {
         String       selectRSql = "select c.commendDate, c.comment, c.rental, rent.customer, rent.pickupTime, rent.returnTime, rent.condition " +
@@ -176,7 +181,7 @@ class RentalManager {
 
             if(stmt.execute(query.toString())) {
                 ResultSet r = stmt.getResultSet();
-                return new CommentIterator(r, objectLayer);
+                return (List<Comment>) new CommentList(r, (ObjectImpl) objectLayer);
             }
         }
         catch(Exception e) {
@@ -228,7 +233,7 @@ class RentalManager {
 
             if(stmt.execute(query.toString())) {
                 ResultSet r = stmt.getResultSet();
-                return new Rental(r, objectLayer);
+                return (Customer) new RentalList(r, objectLayer);
             }
         }
         catch(Exception e) {
