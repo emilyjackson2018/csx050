@@ -381,6 +381,15 @@ implements ObjectLayer
 				return null;
 			}
 
+			@Override
+			public Rental createRental(Date pickupTime, Date returnTime,
+					boolean late, int charges, Reservation reservation,
+					Vehicle vehicle, Customer customer, Comment comment1)
+					throws RARException {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
 			/*@Override
 				public List<Vehicle> restoreRentalLocationVehicles(RentalLocation rentalLocation) throws RARException {
 					return null;
