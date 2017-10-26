@@ -19,7 +19,7 @@ public interface Reservation
 	/** Constructor for Reservation without parameters 
      * 
      */
-	public Reservation ();
+	//public Reservation ();
 	
 	/** Constructor for Reservation with parameters
      * @param pickupTime time of pickup
@@ -29,7 +29,7 @@ public interface Reservation
 	 * @param rentalLocation of reservation
 	 * @param rental information
      */
-	public Reservation (Date pickupTime, int length, Customer customer, VehicleType vehicleType, RentalLocation rentalLocation, Rental rental);
+	//public Reservation (Date pickupTime, int length, Customer customer, VehicleType vehicleType, RentalLocation rentalLocation, Rental rental);
     /** Return the intended pickup time.
      * @return the pickup time for this reservation
      */

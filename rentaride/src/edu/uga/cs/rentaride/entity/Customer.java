@@ -15,7 +15,7 @@ public interface Customer
 	/** Customer contructor without parameters
      * 
      */
-	public Customer();
+	//public Customer();
 	
 	/** Customer contructor with parameters
 	 * @param memberUntil membership expiration
@@ -27,8 +27,8 @@ public interface Customer
 	 * @param commentList list of comments
 	 * @param rentalList list of rentals 
      */
-	public Customer(Date memberUntil, String licState, String licNumber, String ccNumber, String ccExpiration, List<Reservation> reservationList,
-	List<Comment> commentList, List<Rental> rentalList);
+	//public Customer(Date memberUntil, String licState, String licNumber, String ccNumber, String ccExpiration, List<Reservation> reservationList,
+	//List<Comment> commentList, List<Rental> rentalList);
 	
     /** Return the expiration Date of this Customer's membership in Rent-A-Ride.
      * @return the membership expiration Date for this customer 

@@ -9,7 +9,7 @@ public interface Administrator
 	/** Constructor for administrator without parameters 
      * 
      */
-	public Administrator();
-	public Administrator(String firstName, String lastName, String userName, String email, String password, Date createDate, 
-	String address, UserStatus userStatus);
+	//public Administrator();
+	//public Administrator(String firstName, String lastName, String userName, String email, String password, Date createDate, 
+	//String address, UserStatus userStatus);
 }

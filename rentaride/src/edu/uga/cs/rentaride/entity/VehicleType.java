@@ -18,7 +18,7 @@ public interface VehicleType
 	/** Constructor for VehicleType without parameters 
      * 
      */
-	public VehicleType ();
+	//public VehicleType ();
 	
 	/** Constructor for VehicleType with parameters
      * @param name of vehicle type
@@ -26,7 +26,7 @@ public interface VehicleType
 	 * @param vehicleList of vehicle type
 	 * @param reservationList of vehicle type
      */
-	public VehicleType (String name, List<HourlyPrice> priceList, List<Vehicle> vehicleList, List<Reservation> reservationList);
+	//public VehicleType (String name, List<HourlyPrice> priceList, List<Vehicle> vehicleList, List<Reservation> reservationList);
     /** Return the name of this vehicle type.
      * @return name of this vehicle type
      */

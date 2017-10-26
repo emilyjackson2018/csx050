@@ -1,6 +1,8 @@
 package edu.uga.cs.rentaride.entity;
 
 
+import java.util.List;
+
 import edu.uga.cs.rentaride.RARException;
 import edu.uga.cs.rentaride.persistence.Persistable;
 
@@ -14,14 +16,14 @@ public interface RentalLocation
 	/** Constructor for RentalLocation without parameters 
      * 
      */
-	public RentalLocation();
+	//public RentalLocation();
 	
 	/** Constructor for rentalLocation with parameters
      * @param name of location
 	 * @param address of location
 	 * @param capacty of location
      */
-	public RentalLocation (String name, String address, int capacity);
+	//public RentalLocation (String name, String address, int capacity);
 	
     /** Return the name of this rental location
      * @return the name of this rental location

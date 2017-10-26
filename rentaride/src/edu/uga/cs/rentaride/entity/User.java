@@ -16,7 +16,7 @@ public interface User
 	/** Constructor for user without parameters 
      * 
      */
-	public User ();
+	//public User ();
 	
 	/** Constructor for user with parameters
      * @param firstName of user
@@ -28,7 +28,7 @@ public interface User
 	 * @param address of user
 	 * @param userStatus status of user
      */
-	public User (String firstName, String lastName, String userName, String email, String password, Date createDate, String address, UserStatus userStatus);
+	//public User (String firstName, String lastName, String userName, String email, String password, Date createDate, String address, UserStatus userStatus);
 		
     /** Return the user's first name.
      * @return the user's first name

@@ -15,7 +15,7 @@ public interface Comment
 	/** Constructor for comment without parameters 
      * 
      */
-	public Comment();
+	//public Comment();
 	
 	/** Constructor for comment with parameters
      * @param text comment
@@ -23,7 +23,7 @@ public interface Comment
 	 * @param rental number
      * @param customer information
      */
-	public Comment (String text, Date date, Rental rental, Customer customer);
+	//public Comment (String text, Date date, Rental rental, Customer customer);
 	
     /** Return the text of this comment.
      * @return the text of this comment.

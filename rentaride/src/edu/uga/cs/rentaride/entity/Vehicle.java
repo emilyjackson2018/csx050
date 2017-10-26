@@ -20,7 +20,7 @@ public interface Vehicle
 	/** Constructor for Vehicle without parameters 
      * 
      */
-	public Vehicle ();
+	//public Vehicle ();
 	
 	/** Constructor for Vehicle with parameters
      * @param make of vehicle
@@ -35,8 +35,8 @@ public interface Vehicle
 	 * @param location of vehicle
 	 * @param rentalList list of rentals
 	 */
-	public Vehicle (String make, String model, int year, String tag, int mileage, Date lastServiced, VehicleStatus status, VehicleCondition condition,
-	VehicleType vehicleType, RentalLocation location, List<Rental> rentalList);
+	//public Vehicle (String make, String model, int year, String tag, int mileage, Date lastServiced, VehicleStatus status, VehicleCondition condition,
+	//VehicleType vehicleType, RentalLocation location, List<Rental> rentalList);
     /** Return the make of this vehicle.
      * @return the make of this vehicle
      */

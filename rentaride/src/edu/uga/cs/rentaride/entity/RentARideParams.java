@@ -15,13 +15,13 @@ public interface RentARideParams
 	/** Constructor for RentARideParams without parameters 
      * 
      */
-	public RentARideParams ();
+//	public RentARideParams ();
 	
 	/** Constructor for RentARideParams with parameters
      * @param membershipPrice price of membership
 	 * @param lateFee of rental
      */
-	public RentARideParams (int membershipPrice, int lateFee);
+	//public RentARideParams (int membershipPrice, int lateFee);
 	
     /** Return the current price of the Rent-A-Ride membership.
      * @return the Rent-A-Ride current price (in cents) of the Rent-A-Ride membership

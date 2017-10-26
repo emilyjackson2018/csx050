@@ -14,14 +14,14 @@ public interface HourlyPrice
 	/** Constructor for HourlyPrice without parameters 
      * 
      */
-	public HourlyPrice();
+	//public HourlyPrice();
 	
 	/** Constructor for HourlyPrice with parameters
      * @param maxHrs maximum hours
 	 * @param price of rental
 	 * @param vehicleType type of vehicle
      */
-	public HourlyPrice(int maxHrs, int price, VehicleType vehicleType);
+	//public HourlyPrice(int maxHrs, int price, VehicleType vehicleType);
 	
     /** Return the maximum hours for this price setting.
      * @return the maximum hours for this price setting

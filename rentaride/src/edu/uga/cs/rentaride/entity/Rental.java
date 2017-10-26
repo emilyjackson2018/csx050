@@ -15,7 +15,7 @@ public interface Rental
 	/** Constructor for rental without parameters 
      * 
      */
-	public Rental ();
+	//public Rental ();
 	
 	/** Constructor for rental with parameters
      * @param pickupTime for rental
@@ -27,7 +27,7 @@ public interface Rental
 	 * @param customer reserving vehicle
 	 * @param comment of customer on return
      */
-	public Rental (Date pickupTime, Date returnTime, boolean late, int charges, Reservation reservation, Vehicle vehicle, Customer customer, Comment comment);
+	//public Rental (Date pickupTime, Date returnTime, boolean late, int charges, Reservation reservation, Vehicle vehicle, Customer customer, Comment comment);
 
     /** Return the date when the vehicle in this rental was picked up.
      * @return the pickup date for this rental
