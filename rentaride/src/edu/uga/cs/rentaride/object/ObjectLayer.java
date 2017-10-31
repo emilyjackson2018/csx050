@@ -3,6 +3,7 @@ package edu.uga.cs.rentaride.object;
 import java.util.Date;
 import java.util.List;
 
+
 import edu.uga.cs.rentaride.RARException;
 import edu.uga.cs.rentaride.entity.Administrator;
 import edu.uga.cs.rentaride.entity.Comment;
@@ -12,12 +13,10 @@ import edu.uga.cs.rentaride.entity.RentARideParams;
 import edu.uga.cs.rentaride.entity.Rental;
 import edu.uga.cs.rentaride.entity.RentalLocation;
 import edu.uga.cs.rentaride.entity.Reservation;
-import edu.uga.cs.rentaride.entity.UserStatus;
 import edu.uga.cs.rentaride.entity.Vehicle;
 import edu.uga.cs.rentaride.entity.VehicleCondition;
 import edu.uga.cs.rentaride.entity.VehicleStatus;
 import edu.uga.cs.rentaride.entity.VehicleType;
-import edu.uga.cs.rentaride.entity.impl.CommentImpl;
 
 
 
@@ -82,8 +81,8 @@ public interface ObjectLayer
      * @return the new Administrator object instance with the given attribute values, UserStatus is UserStatus.ACTIVE
      * @throws RARException in case the userName is non-unique
      */
-    public Administrator createAdministrator(String firstName, String lastName, String userName, String email, String password, Date createDate, 
-    		String address, UserStatus userStatus) throws RARException;
+    public Administrator createAdministrator( String firstName, String lastName, String userName, 
+                                              String password, String email, String address, Date createDate ) throws RARException;
 
     /**
      * Create a new Administrator object with undefined attribute values.
@@ -132,8 +131,9 @@ public interface ObjectLayer
      * @return the new Customer object instance with the given attribute values, UserStatus is UserStatus.ACTIVE
      * @throws RARException in case the userName is non-unique
      */
-    public Customer createCustomer(Date memberUntil, String licState, String licNumber, String ccNumber, Date ccExpiration, List<Reservation> reservationList,
-    		List<Comment> commentList, List<Rental> rentalList) throws RARException;
+    public Customer createCustomer( String firstName, String lastName, String userName, String password,
+            String email, String address, Date createDate, Date membershipExpiration, String licenseState, 
+            String licenseNumber, String cardNumber, Date cardExpiration ) throws RARException;
 
     /**
      * Create a new Customer object with undefined attribute values.
@@ -173,7 +173,7 @@ public interface ObjectLayer
      * @return the new RentalLocation object instance with the given attribute values
      * @throws RARException in case the name is non-unique or the capacity is non-positive
      */
-    public RentalLocation createRentalLocation(String name, String address, int capacity) throws RARException;
+    public RentalLocation createRentalLocation( String name, String address, int capacity ) throws RARException;
 
     /**
      * Create a new RentalLocation object with undefined attribute values.
@@ -213,7 +213,8 @@ public interface ObjectLayer
      * @return the new Reservation object instance with the given attribute values
      * @throws RARException in case either the pickupTime is in the past, rentalLength is non-positive, or if the vehicleType, rentalLocation, customer is null
      */
-    public Reservation createReservation(Date pickupTime, int length, Customer customer, VehicleType vehicleType, RentalLocation rentalLocation, Rental rental) throws RARException;
+    public Reservation createReservation( Date pickupTime, int rentalLength, VehicleType vehicleType, 
+                                          RentalLocation rentalLocation, Customer customer ) throws RARException;
 
     /**
      * Create a new Reservation object with undefined attribute values.
@@ -251,7 +252,7 @@ public interface ObjectLayer
      * @return the new Reservation object instance with the given attribute values
      * @throws RARException in case either the pickupTime is in the past or if the reservation or the vehicle is null
      */
-    public Rental createRental(Date pickupTime, Date returnTime, boolean late, int charges, Reservation reservation, Vehicle vehicle, Customer customer, Comment comment1) throws RARException;
+    public Rental createRental( Date pickupTime, Reservation reservation, Vehicle vehicle ) throws RARException;
 
     /**
      * Create a new Rental object with undefined attribute values.
@@ -287,7 +288,7 @@ public interface ObjectLayer
      * @return the new VehicleType object instance with the given attribute value
      * @throws RARException in case the vehicle type name is non-unique
      */
-    public VehicleType createVehicleType(String name, List<HourlyPrice> priceList, List<Vehicle> vehicleList, List<Reservation> reservationList) throws RARException;
+    public VehicleType createVehicleType( String name ) throws RARException;
 
     /**
      * Create a new VehicleType object with undefined attribute values.
@@ -332,8 +333,9 @@ public interface ObjectLayer
      * @return the new Vehicle object instance with the given attribute values
      * @throws RARException in case either the year or mileage are non-positive, or the vehicleType and/or the rentalLocation is null
      */
-    public Vehicle createVehicle(String make, String model, int year, String tag, int mileage, Date lastServiced, VehicleStatus status, VehicleCondition condition,
-			VehicleType vehicleType, RentalLocation location, List<Rental> rentalList) throws RARException;
+    public Vehicle createVehicle( String make, String model, int year, String registrationTag, int mileage, Date lastServiced,
+                                  VehicleType vehicleType, RentalLocation rentalLocation, VehicleCondition vehicleCondition, 
+                                  VehicleStatus vehicleStatus ) throws RARException;
 
     /**
      * Create a new Vehicle object with undefined attribute values.
@@ -371,7 +373,7 @@ public interface ObjectLayer
      * @return the new Comment object instance with the given attribute values
      * @throws RARException in case either the rental is null
      */
-    public Comment createComment(String text, Date date, Rental rental, Customer customer) throws RARException;
+    public Comment createComment( String text, Date date, Rental rental ) throws RARException;
 
     /**
      * Create a new Comment object with undefined attribute values.
@@ -409,7 +411,7 @@ public interface ObjectLayer
      * @return the new HourlyPrice object instance with the given attribute values
      * @throws RARException in case either maxHrs or price is non-positive or if the vehicleType is null
      */
-    public HourlyPrice createHourlyPrice(int maxHrs, int price, VehicleType vehicleType) throws RARException;
+    public HourlyPrice createHourlyPrice( int maxHrs, int price, VehicleType vehicleType ) throws RARException;
 
     /**
      * Create a new HourlyPrice object with undefined attribute values.
@@ -450,7 +452,7 @@ public interface ObjectLayer
      * so only one object will exist.
      * @return the RentARideConfig object
      */
-    public RentARideParams findRentARideParam() throws RARException;
+    public RentARideParams findRentARideParams();
     
     /**
      * Store a given RentARideConfig object in persistent data store.

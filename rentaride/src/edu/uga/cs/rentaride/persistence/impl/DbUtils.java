@@ -1,7 +1,8 @@
 package edu.uga.cs.rentaride.persistence.impl;
 
 
-import java.sql.Connection;
+import com.mysql.jdbc.*;
+
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
@@ -87,7 +88,7 @@ public class DbUtils {
      * @return  a database connection object
      * @throws  GVException
      */
-    public static Connection connect() 
+    public static java.sql.Connection connect() 
             throws RARException 
     {
         try {
@@ -98,16 +99,13 @@ public class DbUtils {
             throw new RARException( "DbUtils.connect: Unable to find Driver" );
         }
         try {
-            return DriverManager.getConnection( DbAccessConfig.DB_CONNECTION_URL,
-                                                DbAccessConfig.DB_CONNECTION_USERNAME,
-                                                DbAccessConfig.DB_CONNECTION_PWD );
+            return DriverManager.getConnection(DbAccessConfig.DB_CONNECTION_URL, DbAccessConfig.DB_CONNECTION_USERNAME, DbAccessConfig.DB_CONNECTION_PWD );
         } 
         catch (SQLException ex) {
             //log.error( "DbUtils.connect: Unable to connect to database", ex );
             throw new RARException( "DbUtils.connect: Unable to connect to database " + ex.getMessage() );
         }
     }
-
 }
 
 

@@ -1,392 +1,395 @@
 package edu.uga.cs.rentaride.persistence.impl;
 
-import java.sql.Connection;
-import java.util.Iterator;
 import java.util.List;
 
+import java.sql.Connection;
+
 import edu.uga.cs.rentaride.RARException;
-import edu.uga.cs.rentaride.entity.*;
+import edu.uga.cs.rentaride.entity.Administrator;
+import edu.uga.cs.rentaride.entity.Comment;
+import edu.uga.cs.rentaride.entity.Customer;
+import edu.uga.cs.rentaride.entity.HourlyPrice;
+import edu.uga.cs.rentaride.entity.RentARideParams;
+import edu.uga.cs.rentaride.entity.Rental;
+import edu.uga.cs.rentaride.entity.RentalLocation;
+import edu.uga.cs.rentaride.entity.Reservation;
+import edu.uga.cs.rentaride.entity.Vehicle;
+import edu.uga.cs.rentaride.entity.VehicleType;
 import edu.uga.cs.rentaride.object.ObjectLayer;
-import edu.uga.cs.rentaride.persistence.*;
+import edu.uga.cs.rentaride.persistence.PersistenceLayer;
 
+public class PersistenceLayerImpl implements PersistenceLayer {
 
-public class PersistenceLayerImpl
-    implements PersistenceLayer
-{
-    private AdministratorManager administratorManager = null;
-    private CommentManager commentManager = null;
-    private CustomerManager customerManager = null;
-    private HourlyPriceManager hourlyPriceManager = null;
-    private RentalManager rentalManager = null;
-    private RentalLocationManager rentalLocationManager = null;
-    private ReservationManager reservationManager = null;
-    private VehicleManager vehicleManager = null;
-    private VehicleTypeManager vehicleTypeManager = null;
-    
-    public PersistenceLayerImpl( Connection conn, ObjectLayer objectLayer )
-    {
-        administratorManager = new AdministratorManager( conn, objectLayer);
-        commentManager = new CommentManager( conn, objectLayer);
-        customerManager = new CustomerManager( conn, objectLayer);
-        hourlyPriceManager = new HourlyPriceManager( conn, objectLayer);
-        rentalManager = new RentalManager( conn, objectLayer);
-        rentalLocationManager = new RentalLocationManager( conn, objectLayer);
-        reservationManager = new ReservationManager( conn, objectLayer);
-        vehicleManager = new VehicleManager( conn, objectLayer);
-        vehicleTypeManager = new VehicleTypeManager( conn, objectLayer);
-        System.out.println("PersistenceLayerImpl.PersistenceLayerImpl(conn,objectLayer): initialized");
-    }
-    
-    public List<Administrator> restoreAdministrator( Administrator modelAdministrator ) throws RARException {
-        return administratorManager.restore( modelAdministrator );
-    }
-    
-    public void storeAdministrator( Administrator administrator ) throws RARException {
-        administratorManager.save( administrator );
-    }
-    
-    public void deleteAdministrator( Administrator administrator ) throws RARException {
-        administratorManager.delete( administrator );
-    }
-    
-    public List<Customer> restoreCustomer( Customer modelCustomer ) throws RARException {
-        return customerManager.restore( modelCustomer );
-    }
-    
-    public void storeCustomer( Customer customer ) throws RARException {
-        customerManager.save( customer );
-    }
-    
-    public List<RentalLocation> restoreRentalLocation( RentalLocation modelRentalLocation ) throws RARException {
-        return rentalLocationManager.restore( modelRentalLocation );
-    }
-    
-    public void storeRentalLocation( RentalLocation rentalLocation ) throws RARException {
-        rentalLocationManager.save( rentalLocation );
-    }
-    
-    public void deleteRentalLocation( RentalLocation rentalLocation ) throws RARException {
-        rentalLocationManager.delete( rentalLocation );
-    }
-    
-    public List<Reservation> restoreReservation( Reservation modelReservation ) throws RARException {
-        return reservationManager.restore( modelReservation );
-    }
-    
-    public void storeReservation( Reservation reservation ) throws RARException {
-        reservationManager.save( reservation );
-    }
-    
-    public void deleteReservation( Reservation reservation ) throws RARException {
-        reservationManager.delete( reservation );
-    }
-    
-    public List<Rental> restoreRental( Rental modelRental ) throws RARException {
-        return rentalManager.restore( modelRental );
-    }
-    
-    public void storeRental( Rental rental ) throws RARException {
-        rentalManager.save( rental );
-    }
-    
-    public void deleteRental( Rental rental ) throws RARException {
-        rentalManager.delete( rental );
-    }
-    
-    public List<VehicleType> restoreVehicleType( VehicleType modelVehicleType ) throws RARException {
-        return vehicleTypeManager.restore( modelVehicleType );
-    }
-
-    public void storeVehicleType( VehicleType vehicleType ) throws RARException {
-        vehicleTypeManager.save( vehicleType );
-    }
-    
-    public void deleteVehicleType( VehicleType vehicleType ) throws RARException {
-        vehicleTypeManager.delete( vehicleType );
-    }
-    
-    public List<Vehicle> restoreVehicle( Vehicle modelVehicle ) throws RARException {
-        return vehicleManager.restore( modelVehicle );
-    }
-    
-    public void storeVehicle( Vehicle vehicle ) throws RARException {
-        vehicleManager.save( vehicle );
-    }
-    
-    public void deleteVehicle( Vehicle vehicle ) throws RARException {
-        vehicleManager.delete( vehicle );
-    }
-    
-    public List<Comment> restoreComment( Comment modelComment ) throws RARException {
-        return commentManager.restore( modelComment );
-    }
-    
-    public void storeComment( Comment comment ) throws RARException {
-        commentManager.save( comment );
-    }
-    
-    public void deleteComment( Comment comment ) throws RARException {
-        commentManager.delete( comment );
-    }
-    
-    public List<HourlyPrice> restorePrice( HourlyPrice modelHourlyPrice ) throws RARException {
-        return hourlyPriceManager.restore( modelHourlyPrice );
-    }
-    
-    public void storeHourlyPrice( HourlyPrice hourlyPrice ) throws RARException {
-        hourlyPriceManager.save( hourlyPrice );
-    }
-    
-    public void deleteHourlyPrice( HourlyPrice hourlyPrice ) throws RARException {
-        hourlyPriceManager.delete( hourlyPrice );
-    }
-
-   /* public RentARideParams restoreRentARideParams() throws RARException {
-        //return rentARideParamsManager.restore( );
-    }*/
-    
-    public void storeRentARideConfig( RentARideParams rentARideConfig ) throws RARException {
-        //rentARideParamsManager.save( rentARideConfig );
-    }
-    
-	public void storeCustomerReservation( Customer customer, Reservation reservation ) throws RARException {
-        if (customer == null)
-            throw new RARException("The customer is null");
-        if (!customer.isPersistent())
-            throw new RARException("The customer is not persistent");
-        
-        Rental rental = reservation.getRental();
-        //rental.setCustomer(customer);
-        reservation.setCustomer( customer );
-        reservationManager.save( reservation );
-        rentalManager.save( rental );
-    }
-
-    public Customer restoreCustomerReservation( Reservation reservation ) throws RARException {
-        return reservationManager.restoreCustomerReservation( reservation );
-    }
-
-    public Iterator<Reservation> restoreCustomerReservation( Customer customer ) throws RARException {
-        return customerManager.restoreCustomerReservation( customer );
-    }
-
-    public void deleteCustomerReservation( Customer customer, Reservation reservation ) throws RARException {
-        Rental rental = reservation.getRental();
-        //rental.setCustomer(null);
-        reservation.setCustomer( null );
-        reservationManager.save( reservation );
-        rentalManager.save( rental );
-    }
-    
-	public void storeReservationRentalLocation( Reservation reservation, RentalLocation rentalLocation ) throws RARException {
-        if (rentalLocation == null)
-            throw new RARException("The rental location is null");
-        if (!rentalLocation.isPersistent())
-            throw new RARException("The rental location is not persistent");
-        
-        reservation.setRentalLocation( rentalLocation );
-        reservationManager.save( reservation );
-    }
-
-    public RentalLocation restoreReservationRentalLocation( Reservation reservation ) throws RARException {
-        return reservationManager.restoreReservationRentalLocation( reservation );
-    }
-
-   /*public Iterator<Reservation> restoreReservationRentalLocation( RentalLocation rentalLocation ) throws RARException {
-        //return rentalLocationManager.restoreReservationRentalLocation( rentalLocation );
-    }*/
-
-    public void deleteReservationRentalLocation( Reservation reservation, RentalLocation rentalLocation ) throws RARException {
-        reservation.setRentalLocation( null );
-        reservationManager.save( reservation );
-    }
-
-    public void storeReservationVehicleType( Reservation reservation, VehicleType vehicleType ) throws RARException {
-        if (vehicleType == null)
-            throw new RARException("The vehicle type is null");
-        if (!vehicleType.isPersistent())
-            throw new RARException("The vehicle type is not persistent");
-        
-        reservation.setVehicleType( vehicleType );
-        reservationManager.save( reservation );
-    }
-
-    public VehicleType restoreReservationVehicleType( Reservation reservation ) throws RARException {
-        return reservationManager.restoreReservationVehicleType(reservation );
-    }
-
-    /*public Iterator<Reservation> restoreReservationVehicleType( VehicleType vehicleType ) throws RARException {
-        return vehicleManager.restoreReservationVehicleType( vehicleType );
-    }*/
-
-    public void deleteReservationVehicleType( Reservation reservation, VehicleType vehicleType ) throws RARException {
-        reservation.setRentalLocation( null );
-        reservationManager.save( reservation );
-    }
-    
-    public void storeVehicleRentalLocation( Vehicle vehicle, RentalLocation rentalLocation ) throws RARException {
-        if (rentalLocation == null)
-            throw new RARException("The rental location is null");
-        if (!rentalLocation.isPersistent())
-            throw new RARException("The rental location is not persistent");
-        
-        vehicle.setRentalLocation( rentalLocation );
-        vehicleManager.save( vehicle );
-    }
-
-    public RentalLocation restoreVehicleRentalLocation( Vehicle vehicle ) throws RARException {
-        return vehicleManager.restoreVehicleRentalLocation( vehicle );
-    }
-
-    public Iterator<Vehicle> restoreVehicleRentalLocation( RentalLocation rentalLocation ) throws RARException {
-         return rentalLocationManager.restoreVehicleRentalLocation( rentalLocation );
-    }
-
-    public void deleteVehicleRentalLocation( Vehicle vehicle, RentalLocation rentalLocation ) throws RARException {
-        vehicle.setRentalLocation( null );
-        vehicleManager.save( vehicle );
-    }
-
-    public void storeVehicleVehicleType( Vehicle vehicle, VehicleType vehicleType ) throws RARException {
-        if (vehicleType == null)
-            throw new RARException("The vehicleType is null");
-        if (!vehicleType.isPersistent())
-            throw new RARException("The vehicleType is not persistent");
-        
-        vehicle.setVehicleType( vehicleType );
-        vehicleManager.save( vehicle );
-    }
-
-    public VehicleType restoreVehicleVehicleType( Vehicle vehicle ) throws RARException {
-        return vehicleManager.restoreVehicleVehicleType( vehicle );
-    }
-
-    public Iterator<Vehicle> restoreVehicleVehicleType( VehicleType vehicleType ) throws RARException {
-        return vehicleTypeManager.restoreVehicleVehicleType( vehicleType );
-    }
-
-    public void deleteVehicleVehicleType( Vehicle vehicle, VehicleType vehicleType ) throws RARException {
-        vehicle.setVehicleType( null );
-        vehicleManager.save( vehicle );
-    }
-
-    public void storeVehicleTypeHourlyPrice( VehicleType vehicleType, HourlyPrice hourlyPrice ) throws RARException {
-        if (vehicleType == null)
-            throw new RARException("The vehicleType is null");
-        if (!vehicleType.isPersistent())
-            throw new RARException("The vehicleType is not persistent");
-        
-        hourlyPrice.setVehicleType( vehicleType );
-        hourlyPriceManager.save( hourlyPrice );
-    }
-
-    public VehicleType restoreVehicleTypeHourlyPrice( HourlyPrice hourlyPrice ) throws RARException {
-        return hourlyPriceManager.restoreVehicleTypeHourlyPrice( hourlyPrice );
-    }
-
-    public Iterator<HourlyPrice> restoreVehicleTypeHourlyPrice( VehicleType vehicleType ) throws RARException {
-        return vehicleTypeManager.restoreVehicleTypeHourlyPrice( vehicleType );
-    }
-   /*public List<HourlyPrice> restoreHourlyPrice( HourlyPrice modelHourlyPrice ) throws RARException {
-        modelHourlyPrice.setVehicleType( null );
-        hourlyPriceManager.save( modelHourlyPrice );
-    }*/
-
-    public void storeRentalComment( Rental rental, Comment comment ) throws RARException {
-        if (rental == null)
-            throw new RARException("The rental is null");
-        if (!rental.isPersistent())
-            throw new RARException("The rental is not persistent");
-        
-        Customer customer = rental.getCustomer();
-        //comment.setCustomer(customer);
-        comment.setRental( rental );
-        commentManager.save( comment );
-    }
-
-    public Rental restoreRentalComment( Comment comment ) throws RARException {
-        return commentManager.restoreRentalComment(comment);
-    }
-
-    public List<Comment> restoreRentalComment( Rental rental ) throws RARException {
-        return rentalManager.restoreRentalComment(rental);
-    }
-
-    public void deleteRentalComment( Rental rental, Comment comment ) throws RARException {
-        //comment.setCustomer(null);
-        comment.setRental( null );
-        commentManager.save( comment );
-    }
-
-    public Customer restoreCustomerComment( Comment comment ) throws RARException {
-        return commentManager.restoreCustomerComment( comment ); 
-    }
-
-    public List<Comment> restoreCustomerComment( Customer customer ) throws RARException {
-        return customerManager.restoreCustomerComment( customer ); 
-    }
-
-    public Customer restoreRentalCustomer( Rental rental ) throws RARException {
-        return rentalManager.restoreRentalCustomer( rental );
-    }
-    
-    public Iterator<Rental> restoreRentalCustomer( Customer customer ) throws RARException {
-        return customerManager.restoreRentalCustomer( customer );
-    }
+	private AdministratorManager 	 administratorManager = null;
+	private CommentManager 			 commentManager = null;
+	private CustomerManager 	     customerManager = null;
+	private HourlyPriceManager   	 hourlyPriceManager = null;
+	private RentalLocationManager 	 rentalLocationManager = null;
+	private RentalManager			 rentalManager = null;
+	private ReservationManager		 reservationManager = null;
+	private VehicleManager			 vehicleManager = null;
+	private VehicleTypeManager		 vehicleTypeManager = null;
+	
+	public PersistenceLayerImpl(Connection conn, ObjectLayer objectLayer) {
+		administratorManager = new AdministratorManager(conn, objectLayer);
+		commentManager = new CommentManager(conn, objectLayer);
+		customerManager = new CustomerManager(conn, objectLayer); 
+		hourlyPriceManager = new HourlyPriceManager(conn, objectLayer); 
+		rentalLocationManager = new RentalLocationManager(conn, objectLayer); 
+		rentalManager = new RentalManager(conn, objectLayer);
+		reservationManager = new ReservationManager(conn, objectLayer); 
+		vehicleManager = new VehicleManager(conn, objectLayer);
+		vehicleTypeManager = new VehicleTypeManager(conn, objectLayer);
+	}
+	
+	@Override
+	public List<Administrator> restoreAdministrator(Administrator modelAdministrator) throws RARException {
+		return administratorManager.restore(modelAdministrator);
+	}
 
 	@Override
-	public void storeRentARideParams(RentARideParams rentARideParams)
-			throws RARException {
+	public void storeAdministrator(Administrator administrator) throws RARException {
+		administratorManager.save(administrator);
+	}
+
+	@Override
+	public void deleteAdministrator(Administrator administrator) throws RARException {
+		administratorManager.delete(administrator);
+	}
+
+	@Override
+	public List<Customer> restoreCustomer(Customer modelCustomer) throws RARException {
+		return restoreCustomer(modelCustomer);
+	}
+
+	@Override
+	public void storeCustomer(Customer customer) throws RARException {
+		customerManager.save(customer);
+	}
+
+	@Override
+	public List<RentalLocation> restoreRentalLocation(RentalLocation modelRentalLocation) throws RARException {
+		return rentalLocationManager.restore(modelRentalLocation);
+	}
+
+	@Override
+	public void storeRentalLocation(RentalLocation rentalLocation) throws RARException {
+		rentalLocationManager.save(rentalLocation);
+	}
+
+	@Override
+	public void deleteRentalLocation(RentalLocation rentalLocation) throws RARException {
+		rentalLocationManager.delete(rentalLocation);
+	}
+
+	@Override
+	public List<Reservation> restoreReservation(Reservation modelReservation) throws RARException {
+		return reservationManager.restore(modelReservation);
+	}
+
+	@Override
+	public void storeReservation(Reservation reservation) throws RARException {
+		reservationManager.save(reservation);
+	}
+
+	@Override
+	public void deleteReservation(Reservation reservation) throws RARException {
+		reservationManager.delete(reservation);
+	}
+
+	@Override
+	public List<Rental> restoreRental(Rental modelRental) throws RARException {
+		return rentalManager.restore(modelRental);
+	}
+
+	@Override
+	public void storeRental(Rental rental) throws RARException {
+		rentalManager.save(rental);
+	}
+
+	@Override
+	public void deleteRental(Rental rental) throws RARException {
+		rentalManager.delete(rental);
+	}
+
+	@Override
+	public List<VehicleType> restoreVehicleType(VehicleType modelVehicleType) throws RARException {
+		return vehicleTypeManager.restore(modelVehicleType);
+	}
+
+	@Override
+	public void storeVehicleType(VehicleType vehicleType) throws RARException {
+		vehicleTypeManager.save(vehicleType);
+	}
+
+	@Override
+	public void deleteVehicleType(VehicleType vehicleType) throws RARException {
+		vehicleTypeManager.delete(vehicleType);
+	}
+
+	@Override
+	public List<Vehicle> restoreVehicle(Vehicle modelVehicle) throws RARException {
+		return vehicleManager.restore(modelVehicle);
+	}
+
+	@Override
+	public void storeVehicle(Vehicle vehicle) throws RARException {
+		vehicleManager.save(vehicle);
+	}
+
+	@Override
+	public void deleteVehicle(Vehicle vehicle) throws RARException {
+		vehicleManager.delete(vehicle);
+	}
+
+	@Override
+	public List<Comment> restoreComment(Comment modelComment) throws RARException {
+		return commentManager.restore(modelComment);
+	}
+
+	@Override
+	public void storeComment(Comment comment) throws RARException {
+		commentManager.save(comment);
+	}
+
+	@Override
+	public void deleteComment(Comment comment) throws RARException {
+		commentManager.delete(comment);
+	}
+
+	@Override
+	public List<HourlyPrice> restoreHourlyPrice(HourlyPrice modelHourlyPrice) throws RARException {
+		return hourlyPriceManager.restore(modelHourlyPrice);
+	}
+
+	@Override
+	public void storeHourlyPrice(HourlyPrice hourlyPrice) throws RARException {
+		hourlyPriceManager.save(hourlyPrice);
+	}
+
+	@Override
+	public void deleteHourlyPrice(HourlyPrice hourlyPrice) throws RARException {
+		hourlyPriceManager.restore(hourlyPrice);
+	}
+
+	//NEED TO DO THIS
+	@Override
+	public RentARideParams restoreRentARideConfig() throws RARException {
+		return null;
+	}
+
+	//NEED TO DO THIS
+	@Override
+	public void storeRentARideConfig(RentARideParams rentARideConfig) throws RARException {
+		return;
+	}
+
+	@Override
+	public void storeCustomerReservation(Customer customer, Reservation reservation) throws RARException {
+		reservationManager.save(customer, reservation);
+	}
+
+	@Override
+	public Customer restoreCustomerReservation(Reservation reservation) throws RARException {
+		return reservationManager.restoreCustomerReservation(reservation);
+	}
+
+	@Override
+	public List<Reservation> restoreCustomerReservation(Customer customer) throws RARException {
+		return reservationManager.restoreCustomerReservation(customer);
+	}
+
+	@Override
+	public void deleteCustomerReservation(Customer customer, Reservation reservation) throws RARException {
+		reservationManager.deleteCustomerReservation(customer, reservation);
+	}
+
+	@Override
+	public void storeReservationRentalLocation(Reservation reservation, RentalLocation rentalLocation) throws RARException {
+		
+	}
+
+	@Override
+	public RentalLocation restoreReservationRentalLocation(Reservation reservation) throws RARException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Reservation> restoreReservationRentalLocation(RentalLocation rentalLocation) throws RARException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void deleteReservationRentalLocation(Reservation reservation, RentalLocation rentalLocation) throws RARException {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public Iterator<Reservation> restoreReservationVehicleType(
-			VehicleType vehicleType) throws RARException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Vehicle> restoreRentalLocationVehicles(
-			RentalLocation rentalLocation) throws RARException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void deleteVehicleTypeHourlyPrice(VehicleType vehicleType,
-			HourlyPrice hourlyPrice) throws RARException {
+	public void storeReservationVehicleType(Reservation reservation, VehicleType vehicleType) throws RARException {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public RentARideParams restoreRentARideParams() throws RARException {
+	public VehicleType restoreReservationVehicleType(Reservation reservation) throws RARException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<HourlyPrice> restoreHourlyPrice(HourlyPrice modelHourlyPrice)
-			throws RARException {
+	public List<Reservation> restoreReservationVehicleType(VehicleType vehicleType) throws RARException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Iterator<Reservation> restoreReservationRentalLocation(
-			RentalLocation rentalLocation) throws RARException {
+	public void deleteReservationVehicleType(Reservation reservation, VehicleType vehicleType) throws RARException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void storeVehicleRentalLocation(Vehicle vehicle, RentalLocation rentalLocation) throws RARException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public RentalLocation restoreVehicleRentalLocation(Vehicle vehicle) throws RARException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	/*@Override
-	public List<Vehicle> restoreVehicletRentalLocation(
-			RentalLocation rentalLocation) throws RARException {
+	@Override
+	public List<Vehicle> restoreVehicleRentalLocation(RentalLocation rentalLocation) throws RARException {
+		// TODO Auto-generated method stub
 		return null;
-	}*/
-    
+	}
+
+	@Override
+	public void deleteVehicleRentalLocation(Vehicle vehicle, RentalLocation rentalLocation) throws RARException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void storeVehicleVehicleType(Vehicle vehicle, VehicleType vehicleType) throws RARException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public VehicleType restoreVehicleVehicleType(Vehicle vehicle) throws RARException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Vehicle> restoreVehicleVehicleType(VehicleType vehicleType) throws RARException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void deleteVehicleVehicleType(Vehicle vehicle, VehicleType vehicleType) throws RARException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void storeVehicleTypeHourlyPrice(VehicleType vehicleType, HourlyPrice hourlyPrice) throws RARException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public VehicleType restoreVehicleTypeHourlyPrice(HourlyPrice hourlyPrice) throws RARException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<HourlyPrice> restoreVehicleTypeHourlyPrice(VehicleType vehicleType) throws RARException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void deleteVehicleTypeHourlyPrice(VehicleType vehicleType, HourlyPrice hourlyPrice) throws RARException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void storeRentalComment(Rental rental, Comment comment) throws RARException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Rental restoreRentalComment(Comment comment) throws RARException {
+		return null; 
+		//return commentManager.restoreRentalComment(comment);
+	}
+
+	@Override
+	public List<Comment> restoreRentalComment(Rental rental) throws RARException {
+		return null;
+	}
+
+	@Override
+	public void deleteRentalComment(Rental rental, Comment comment) throws RARException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void storeRentalReservation(Rental rental, Reservation reservation) throws RARException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Rental restoreRentalReservation(Reservation reservation) throws RARException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Reservation restoreRentalReservation(Rental rental) throws RARException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void deleteRentalReservation(Rental rental, Reservation reservation) throws RARException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void storeVehicleRental(Vehicle vehicle, Rental rental) throws RARException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<Rental> restoreVehicleRental(Vehicle vehicle) throws RARException {
+		return VehicleManager.restoreVehicleRental(vehicle);
+	}
+
+	@Override
+	public Vehicle restoreVehicleRental(Rental rental) throws RARException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void deleteVehicleRental(Vehicle vehicle, Rental rental) throws RARException {
+		rentalManager.delete(vehicle, rental);
+	}
+
 }
-

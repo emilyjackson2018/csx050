@@ -13,20 +13,7 @@ import edu.uga.cs.rentaride.persistence.Persistable;
  */
 public interface VehicleType
     extends Persistable
-{	
-	
-	/** Constructor for VehicleType without parameters 
-     * 
-     */
-	//public VehicleType ();
-	
-	/** Constructor for VehicleType with parameters
-     * @param name of vehicle type
-	 * @param priceList of vehicle type
-	 * @param vehicleList of vehicle type
-	 * @param reservationList of vehicle type
-     */
-	//public VehicleType (String name, List<HourlyPrice> priceList, List<Vehicle> vehicleList, List<Reservation> reservationList);
+{
     /** Return the name of this vehicle type.
      * @return name of this vehicle type
      */

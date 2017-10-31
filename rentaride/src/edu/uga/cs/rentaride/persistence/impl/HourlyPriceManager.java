@@ -1,193 +1,171 @@
 package edu.uga.cs.rentaride.persistence.impl;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.mysql.jdbc.PreparedStatement;
 
 import edu.uga.cs.rentaride.RARException;
 import edu.uga.cs.rentaride.entity.HourlyPrice;
-import edu.uga.cs.rentaride.entity.VehicleType;
+import edu.uga.cs.rentaride.entity.impl.HourlyPriceImpl;
 import edu.uga.cs.rentaride.object.ObjectLayer;
 
-
-class HourlyPriceManager {
-    private ObjectLayer objectLayer = null;
-    private Connection   conn = null;
-    
-    public HourlyPriceManager(Connection conn, ObjectLayer objectLayer) {
+public class HourlyPriceManager {
+	private ObjectLayer objectLayer = null;
+    private Connection  conn = null;
+	
+    public HourlyPriceManager(java.sql.Connection conn, ObjectLayer objectLayer) {
         this.conn = conn;
         this.objectLayer = objectLayer;
     }
     
     public void save(HourlyPrice hourlyPrice) throws RARException {
-        String               insertHPSql = "insert into HourlyPrice (maxHours, minHours, price, hourlyPriceID) values (?, ?, ?, ?)";
-        String               updateHPSql = "update HourlyPrice set maxHours = ?, minHours = ?, price = ?, hourlyPriceID = ? where id = ?";
+    	String               insertSQL = "insert into hourlyPrice (max_hours, price, type_id values (?, ?, ?)";
+        String               updateSQL = "update hourlyPrice set max_hours = ?, price = ?, type_id = ? where id = ? ";
         PreparedStatement    stmt = null;
         int                  inscnt;
-        long                 HPId;
-                 
+        long                 id;
+        
         try {
-
-            if(!hourlyPrice.isPersistent())
-                stmt = (PreparedStatement) conn.prepareStatement(insertHPSql);
-            else
-                stmt = (PreparedStatement) conn.prepareStatement(updateHPSql);
-
-            if(hourlyPrice.getMaxHours()!= 0)
-                stmt.setInt(1, hourlyPrice.getMaxHours());
-            else 
-                throw new RARException("HourlyPriceManager.save: can't save an HourlyPrice: max price undefined");
-            
-            /*if(hourlyPrice.getMinHours() != 0)
-                stmt.setInt(2, hourlyPrice.getMinHours());
-            else 
-                throw new RARException("HourlyPriceManager.save: can't save an HourlyPrice: min price undefined");
-            */
-            if(hourlyPrice.getPrice() == 0){
-            	stmt.setInt(3, hourlyPrice.getPrice());
-            } else {
-            	stmt.setNull(3, java.sql.Types.INTEGER);
-            }
-            
-            if(hourlyPrice.isPersistent())
-                stmt.setLong(4, hourlyPrice.getId());
-
+        	
+	        if (!hourlyPrice.isPersistent())
+	            stmt = (PreparedStatement) conn.prepareStatement(insertSQL);
+	        else
+	            stmt = (PreparedStatement) conn.prepareStatement(updateSQL);
+	        
+	        //MaxHours
+	        if (hourlyPrice.getMaxHours() != -1 || hourlyPrice.getMaxHours() > -1) { //or not greater than minHours, getMinHours?
+	        	stmt.setInt(1, hourlyPrice.getMaxHours());
+	        } else 
+	        	stmt.setNull(1, java.sql.Types.VARCHAR); //Throw error instead? Unsure
+	        
+	        //Price
+	        if (hourlyPrice.getPrice() != -1 || hourlyPrice.getPrice()>-1) {
+	        	stmt.setInt(2, hourlyPrice.getPrice());
+	        } else 
+	        	stmt.setNull(2, java.sql.Types.VARCHAR); //Throw error instead? Unsure
+	        
+	        //Type_id
+	        if (hourlyPrice.getVehicleType() != null) {
+	        	stmt.setLong(3, hourlyPrice.getVehicleType().getId());
+	        } else 
+	        	stmt.setNull(3, java.sql.Types.INTEGER); //Throw error instead? Unsure
+	        
             inscnt = stmt.executeUpdate();
+            
+            if (!hourlyPrice.isPersistent()) {
+                if (inscnt >= 1) {
+                    String sql = "SELECT LAST_INSERT_ID()";
+                    if(stmt.execute(sql)) { // statement returned a result
 
-            if(!hourlyPrice.isPersistent()) {
-                if(inscnt >= 1) {
-                    String sql = "select last_insert_id()";
-                    if(stmt.execute(sql)) {
-                        ResultSet r = stmt.getResultSet();
-                        while(r.next()) {
-                            HPId = r.getLong(1);
-                            if(HPId > 0)
-                            	hourlyPrice.setId(HPId);
+                        //Retrieve the result
+                        ResultSet rs = stmt.getResultSet();
+
+                        while(rs.next()) {
+
+            				//Retrieve the last insert AUTO_INCREMENT value
+                            id = rs.getLong(1);
+                            if(id > 0)
+                            	hourlyPrice.setId(id); // set this hourlyPrice's db id (proxy object)
                         }
                     }
                 }
                 else
-                    throw new RARException("HourlyPriceManager.save: failed to save an HourlyPrice");
+                    throw new RARException("HourlyPriceManager.save: failed to save an Hourly Price");
             }
             else {
-                if(inscnt < 1)
-                    throw new RARException("HourlyPriceManager.save: failed to save an HourlyPrice");
+                if( inscnt < 1 )
+                    throw new RARException("HourlyPriceManager.save: failed to save an Hourly Price"); 
             }
+        }//try 
+        catch (SQLException e)  {
+        	e.printStackTrace();
+            throw new RARException("HourlyPriceManager.save: failed to save an hourly price: " + e);
         }
-        catch(SQLException e) {
-            e.printStackTrace();
-            throw new RARException("HourlyPriceManager.save: failed to save a HourlyPrice: " + e);
-        }
-    }
-
-    public List<HourlyPrice> restore(HourlyPrice hourlyPrice) 
-            throws RARException
-    {
-        String       selectHPSql = "select hp.maxHours, hp.minHours, hp.price from HourlyPrice hp where hourlyPriceID = id ";
-        Statement    stmt = null;
-        StringBuffer query = new StringBuffer(100);
-        StringBuffer condition = new StringBuffer(100);
-        condition.setLength(0);
-        query.append(selectHPSql);
+        throw new RARException( "HourlyPriceManager.restore: Could not restore persistent hourly price object" );
         
-        if(hourlyPrice != null) {
-            if(hourlyPrice.getId() >= 0)
-                query.append(" and hourlyPriceID = " + hourlyPrice.getId());
-            else {
-
-                if(hourlyPrice.getMaxHours() != 0)
-                	query.append(" and maxHours = '" + hourlyPrice.getMaxHours() + "'");
-
-               /* if(hourlyPrice.getMinHours() != 0) {
-                    query.append(" and minHours = '" + hourlyPrice.getMinHours() + "'");
-                }*/
-            }
-        }
-        
-        try {
-
-            stmt = conn.createStatement();
-            if(stmt.execute(query.toString())) {
-                ResultSet r = stmt.getResultSet();
-                return (List<HourlyPrice>) new HourlyPriceList(r, objectLayer);
-            }
-        }
-        catch(Exception e) {
-            throw new RARException("HourlyPriceManager.restore: Could not restore persistent HourlyPrice object; Root cause: " + e);
-        }
-
-        throw new RARException("HourlyPriceManager.restore: Could not restore persistent HourlyPrice object");
     }
     
-       VehicleType restoreVehicleTypeHourlyPrice(HourlyPrice hourlyPrice)
-            throws RARException
-    {
-        String       selectHPSql = "select vt.typeName, hp.maxHours, hp.minHours, hp.price from HourlyPrice hp, VehicleType vt where hp.hourlyPriceID = vt.vehicleTypeId ";
-        Statement    stmt = null;
-        StringBuffer query = new StringBuffer(100);
-       // StringBuffer condition = new StringBuffer(100);
-        
-	query.append(selectHPSql);
-        
-        if(hourlyPrice != null) {
-            if(hourlyPrice.getId() >= 0)
-                query.append(" and hourlyPriceID = " + hourlyPrice.getId());
-            else {
-
-                if(hourlyPrice.getMaxHours() != 0)
-                	query.append(" and maxHours = '" + hourlyPrice.getMaxHours() + "'");
-
-               /* if(hourlyPrice.getMinHours() != 0) {
-                    query.append(" and minHours = '" + hourlyPrice.getMinHours() + "'");
-                }*/
-            }
-        }
-        
-        try {
-
-            stmt = conn.createStatement();
-
-            if(stmt.execute(query.toString())) {
-                ResultSet r = stmt.getResultSet();
-                return new VehicleTypeList(r, objectLayer).next();
-            }
-        }
-        catch(Exception e) {
-            throw new RARException("HourlyPriceManager.restore: Could not restore persistent VehicleType object; Root cause: " + e);
-        }
-
-        throw new RARException("HourlyPriceManager.restore: Could not restore persistent VehicleType object");
-    }
-
-
-    public void delete(HourlyPrice hourlyPrice) 
-            throws RARException
-    {
-        String               deleteHPSql = "delete from HourlyPrice where id = ?";              
+    //Restore
+    public List<HourlyPrice> restore(HourlyPrice hourlyPrice) throws RARException {
+    	
+    	String       selectASQL = "SELECT a.max_hours, a.price " +
+                " from hourly_price a  ";
+	Statement    stmt = null;
+	StringBuffer query = new StringBuffer(100);
+	StringBuffer condition = new StringBuffer(100);
+	List<HourlyPrice> hourlyPrices = new ArrayList<HourlyPrice>();
+	
+	condition.setLength(0);
+	
+	query.append(selectASQL);
+	
+	if (hourlyPrice != null) {
+		if (hourlyPrice.getId() >= 0) {
+			query.append(" WHERE id = " + hourlyPrice.getId());
+		} else {
+			if (hourlyPrice.getMaxHours() != -1)
+				condition.append(" AND max_hours = '" + hourlyPrice.getMaxHours() + "'");
+			
+			if (hourlyPrice.getPrice() != -1)
+				condition.append(" AND price = '" + hourlyPrice.getPrice() + "'");
+		} //else
+	}//if
+	
+	try {
+		
+		stmt = conn.createStatement();
+		
+		if (stmt.execute(query.toString())) {
+			int		max_hours;
+			int		price;
+			HourlyPrice hourlyPriceProxy = null;
+		    
+			ResultSet rs = stmt.getResultSet();
+			
+			while (rs.next()) {
+				max_hours 	= rs.getInt(1);
+				price		= rs.getInt(2);
+				
+				hourlyPriceProxy = objectLayer.createHourlyPrice();
+				hourlyPriceProxy.setMaxHours(max_hours);
+				hourlyPriceProxy.setPrice(price);
+				
+				hourlyPrices.add(hourlyPriceProxy);
+			}
+			return hourlyPrices;
+		}
+	} catch (SQLException e) {
+		throw new RARException("AdministratorManager.restore: Could not restore persistent objects; Root cause: " + e );
+	}
+	throw new RARException( "AdministratorManager.restore: Could not restore persistent Administrator object" );
+    	
+    }//restored
+    
+    //Delete method
+    public void delete(HourlyPriceImpl hourlyPrice) throws RARException {
+    	String               deleteCommentSQL = "delete from hourlyPrice where id = ?";              
         PreparedStatement    stmt = null;
         int                  inscnt;
-             
-        if(!hourlyPrice.isPersistent())
-            return;
+        
+        if(!hourlyPrice.isPersistent()) return; //Jump out if not persistent, nothing to be deleted
         
         try {
-            stmt = (PreparedStatement) conn.prepareStatement(deleteHPSql);
-            stmt.setLong(1, hourlyPrice.getId());
-            inscnt = stmt.executeUpdate();          
-            if(inscnt == 1) {
-                return;
+            
+            stmt = (PreparedStatement) conn.prepareStatement( deleteCommentSQL );
+            stmt.setLong( 1, hourlyPrice.getId() );
+            inscnt = stmt.executeUpdate();
+            
+            if (inscnt == 1) {
+            	return;
+            } else {
+            	throw new RARException( "HourlyPriceManager.delete: failed to delete this hourly price" );
             }
-            else
-                throw new RARException("HourlyPriceManager.delete: failed to delete a HourlyPrice");
-        }
-        catch(SQLException e) {
-            e.printStackTrace();
-            throw new RARException("HourlyPriceManager.delete: failed to delete a HourlyPrice: " + e);        }
+            
+        }//try 
+        catch( SQLException e ) {
+            throw new RARException( "HourlyPriceManager.delete: failed to delete this hourly price: " + e.getMessage() );
+        }//catch
     }
 }
-
-

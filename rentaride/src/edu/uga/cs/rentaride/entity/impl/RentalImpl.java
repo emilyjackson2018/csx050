@@ -3,181 +3,135 @@ package edu.uga.cs.rentaride.entity.impl;
 import java.util.Date;
 
 import edu.uga.cs.rentaride.RARException;
-import edu.uga.cs.rentaride.persistence.impl.Persistent;
-import edu.uga.cs.rentaride.entity.*;
+import edu.uga.cs.rentaride.entity.Comment;
+import edu.uga.cs.rentaride.entity.Customer;
+import edu.uga.cs.rentaride.entity.Rental;
+import edu.uga.cs.rentaride.entity.Reservation;
+import edu.uga.cs.rentaride.entity.Vehicle;
 
-/** This class represent a rental event, involving a prior reservation, a vehicle being rented, and 
- * the customer.
- *
- */
-public class RentalImpl 
-    extends Persistent
-	implements Rental
-{
-	private Date pickupTime;
-	private Date returnTime;
-	private boolean late;
-	private int charges;
+public class RentalImpl implements Rental {
+
+	private Date		pickupDate;
+	private Date		returnDate;
+	private boolean		isLate;
+	private int			charges;
+	
+	private long 		id;
+	
+	private Customer    customer;
+	private Comment     comment;
 	private Reservation reservation;
-	private Vehicle vehicle;
-	private Customer customer;
-	private Comment comment;
+	private Vehicle     vehicle;
 	
-	
-	/** Constructor for rental without parameters 
-     * 
-     */
-	public RentalImpl (){
-		super(-1);
-		pickupTime = null;
-		returnTime = null;
-		late = false;
-		charges = '\0';
-		reservation = null;
-		vehicle = null;
+	public RentalImpl() {
+		super();
+		pickupDate = null;
+		returnDate = null;
+		isLate = false;
+		charges = -1;
+		
+		id = -1;
+		
 		customer = null;
 		comment = null;
-		
+		reservation = null;
+		vehicle = null;
 	}
-	/** Constructor for rental with parameters
-     * @param pickupTime for rental
-	 * @param returnTime of rental
-	 * @param late true if rental is late
-     * @param charges applied to rental
-	 * @param reservation of vehicle
-	 * @param vehicle reserved
-	 * @param customer reserving vehicle
-	 * @param comment of customer on return
-     */
-	public RentalImpl (Date pickupTime, Date returnTime, boolean late, int charges, Reservation reservation, Vehicle vehicle, Customer customer, CommentImpl comment){
-		super(-1);
-		if (customer == null){
-			System.out.println("Rental must be reserved by a customer.");
-		}
-		else if (reservation == null){
-			System.out.println("Rental must have a reservation associated with it.");
-		}
-		else if(vehicle == null){
-			System.out.println("Rental must have a vehicle.");
-		}
-		else{
-			this.pickupTime = pickupTime;
-			this.returnTime = returnTime;
-			this.late = late;
-			this.charges = charges;
-			this.reservation = reservation;
-			this.vehicle = vehicle;
-			this.customer = customer;
-			this.comment = comment;
-		}
-	}
-    /** Return the date when the vehicle in this rental was picked up.
-     * @return the pickup date for this rental
-     */
-    public Date getPickupTime(){
-		return pickupTime;
-	}
-    
-    /** Set the date when the vehicle in this rental was picked up.
-     * @param pickupTime the new pickup time of this rental
-     */
-    public void setPickupTime( Date pickupTime ){
-		this.pickupTime = pickupTime;
-	}
-    
-    /** Return the date when the vehicle in this rental was returned.
-     * @return the date when the vehicle was returned
-     */
-    public Date getReturnTime(){
-		return returnTime;
-	}
-    
-    /** Set the date when the vehicle in this rental was returned.
-     * @param returnTime the return time of this rental
-     * @throws RARException in case the return time is not later than the pickup time
-     */
-    public void setReturnTime( Date returnTime ) throws RARException{
-		this.returnTime = returnTime;
-	}
-    
-    /** Return true if this rental was returned late; false otherwise.
-     * It is a derived attribute, so no setter method is provided.
-     * @return the late status of this rental
-     */
-    public boolean getLate(){
-		return late;
-	}
-    
-    /** Return the charges applied to this rental.
-     * @return the charges applied to this rental
-     */
-    public int getCharges()
+	
+	public RentalImpl(Date pickupDate,
+					  Reservation reservation,
+					  Vehicle vehicle)
 	{
-		return charges;
-	}
-    
-    /** Set the charges applied to this rental.
-     * @param charges the new charges for this rental
-     * @throws RARException in case charges is non-positive
-     */
-    public void setCharges( int charges ) throws RARException{
-		this.charges = charges;
-	}
-    
-    /** Return the reservation for this rental.
-     * @return the Reservation object of this rental
-     */
-    public Reservation getReservation(){
-		return reservation;
-	}
-    
-    /** Set the reservation for this rental.
-     * @param reservation the new Reservation object of this rental
-     * @throws RARException in case reservation is null
-     */
-    public void setReservation( Reservation reservation ) throws RARException{
+		super();
+		this.pickupDate = pickupDate;
 		this.reservation = reservation;
-	}
-    
-    /** Return the vehicle for this rental.
-     * @return the Vehicle object of this rental
-     */
-    public Vehicle getVehicle(){
-		return vehicle;
-	}
-    
-    /** Set the vehicle for this rental.
-     * @param vehicle the new Vehicle for this rental
-     * @throws RARException in case vehicle is null
-     */
-    public void setVehicle( Vehicle vehicle ) throws RARException{
 		this.vehicle = vehicle;
 	}
-    
-    /** Return the customer involved in this rental.
-     * @return the Customer object of this rental
-     */
-    public Customer getCustomer(){
+	
+	@Override
+	public long getId() {
+		return id;
+	}
+
+	@Override
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	@Override
+	public boolean isPersistent() {
+		if (id != -1) return true;
+		else return false;
+	}
+
+	@Override
+	public Date getPickupTime() {
+		return pickupDate;
+	}
+
+	@Override
+	public void setPickupTime(Date pickupTime) {
+		this.pickupDate = pickupTime;
+	}
+
+	@Override
+	public Date getReturnTime() {
+		return returnDate;
+	}
+
+	@Override
+	public void setReturnTime(Date returnTime) throws RARException {
+		this.returnDate = returnTime;
+	}
+
+	@Override
+	public boolean getLate() {
+		return isLate;
+	}
+
+	@Override
+	public int getCharges() {
+		return charges;
+	}
+
+	@Override
+	public void setCharges(int charges) throws RARException {
+		this.charges = charges;
+	}
+
+	@Override
+	public Reservation getReservation() {
+		return reservation;
+	}
+
+	@Override
+	public void setReservation(Reservation reservation) throws RARException {
+		this.reservation = reservation;
+	}
+
+	@Override
+	public Vehicle getVehicle() {
+		return vehicle;
+	}
+
+	@Override
+	public void setVehicle(Vehicle vehicle) throws RARException {
+		this.vehicle = vehicle;
+	}
+
+	@Override
+	public Customer getCustomer() {
 		return customer;
 	}
-    
-    /** Set the customer involved in this rental.  
-     * This is a derived association, so no setter is needed.
-     * @param customer the new Customer for this rental
-     */
-    // public void setCustomer( Customer customer );
-    
-    /** Return the comment associated with this rental.
-     * @return the Comment associated with this rental
-     */
-    public Comment getComment(){
+
+	@Override
+	public Comment getComment() {
 		return comment;
 	}
-    
-    /** Associate a comment with this rental.
-     * @param comment the Comment to be associated with this rental
-     */
-    public void setComment( Comment comment ){
+
+	@Override
+	public void setComment(Comment comment) {
 		this.comment = comment;
 	}
+	
 }

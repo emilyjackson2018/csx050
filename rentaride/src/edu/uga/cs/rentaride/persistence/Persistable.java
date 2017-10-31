@@ -26,7 +26,7 @@ public interface Persistable {
      * 
      * @return persistent identifier of an entity object instance.
      */
-    public long    getId();
+    public long getId();
 
     /**
      * Set the persistent identifier for this entity object.  This method is typically used by the persistence
@@ -34,7 +34,7 @@ public interface Persistable {
      * 
      * @param id the persistent object key
      */
-    public void    setId( long id );
+    public void setId( long id );
   
     /**
      * Check if this entity object has been stored in the the persistent data store (for the first time).
@@ -46,4 +46,3 @@ public interface Persistable {
     public boolean isPersistent();
 
 };
-

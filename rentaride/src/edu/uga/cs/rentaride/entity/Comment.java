@@ -12,19 +12,6 @@ import edu.uga.cs.rentaride.persistence.Persistable;
 public interface Comment 
     extends Persistable
 {
-	/** Constructor for comment without parameters 
-     * 
-     */
-	//public Comment();
-	
-	/** Constructor for comment with parameters
-     * @param text comment
-	 * @param date of rental
-	 * @param rental number
-     * @param customer information
-     */
-	//public Comment (String text, Date date, Rental rental, Customer customer);
-	
     /** Return the text of this comment.
      * @return the text of this comment.
      */
@@ -60,10 +47,4 @@ public interface Comment
      * @return the Customer who made this comment
      */
     public Customer getCustomer();
-    
-    /** Set the customer for this Comment.
-     * It is a derived association, so there is no setter method for this value.
-     * @param customer the customer who made the comment
-     */
-    // public void setCustomer( Customer customer );
 }

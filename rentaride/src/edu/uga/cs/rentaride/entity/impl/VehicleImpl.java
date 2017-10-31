@@ -4,236 +4,192 @@ import java.util.Date;
 import java.util.List;
 
 import edu.uga.cs.rentaride.RARException;
-import edu.uga.cs.rentaride.persistence.impl.Persistent;
-import edu.uga.cs.rentaride.entity.*;
+import edu.uga.cs.rentaride.entity.Rental;
+import edu.uga.cs.rentaride.entity.RentalLocation;
+import edu.uga.cs.rentaride.entity.Vehicle;
+import edu.uga.cs.rentaride.entity.VehicleCondition;
+import edu.uga.cs.rentaride.entity.VehicleStatus;
+import edu.uga.cs.rentaride.entity.VehicleType;
 
+public class VehicleImpl implements Vehicle {
 
-
-/** This class represents a vehicle maintained by the Rent-A-Ride system.  In addition to
- * several vehicle attributes, each vehicle
- * has a vehicle type and is assigned to a rental location.  
- *
- */
-public class VehicleImpl
-    extends Persistent
-	implements Vehicle
-{
-	
 	private String make;
 	private String model;
 	private int year;
-	private String tag;
 	private int mileage;
+	private String tag;
 	private Date lastServiced;
-	private VehicleStatus status;
-	private VehicleCondition condition;
-	private VehicleType vehicleType;
-	private RentalLocation location;
-	private List<Rental> rentalList;
+	private long id;
 	
-	/** Constructor for Vehicle without parameters 
-     * 
-     */
-	public VehicleImpl ()	{
-		super(-1);
+	private VehicleType vehicleType;
+	private VehicleStatus vehicleStatus;
+	private VehicleCondition vehicleCondition;
+	private RentalLocation rentalLocation;
+	private List<Rental> rentals;
+	
+	public VehicleImpl() {
+		super();
 		make = null;
 		model = null;
-		year = '\0';
+		year = -1;
+		mileage = -1;
 		tag = null;
-		mileage = '\0';
 		lastServiced = null;
-		status = null;
-		condition = null;
-		vehicleType = null;
-		location = null;
-		rentalList = null;
+		id = -1;
 		
+		vehicleType = null;
+		vehicleStatus = null;
+		vehicleCondition = null;
+		rentalLocation = null;
+		rentals = null;
 	}
 	
-	/** Constructor for Vehicle with parameters
-     * @param make of vehicle
-	 * @param model of vehicle
-	 * @param year of vehicle
-	 * @param tag of vehicle
-	 * @param mileage of vehicle
-	 * @param lastServiced date of vehicle
-	 * @param status of vehicle
-	 * @param condition of vehicle
-	 * @param vehicleType type of vehicle
-	 * @param location of vehicle
-	 * @param rentalList list of rentals
-	 */
-	public VehicleImpl (String make, String model, int year, String tag, int mileage, Date lastServiced, VehicleStatus status, VehicleCondition condition,
-	VehicleType vehicleType, RentalLocation location, List<Rental> rentalList){
-		super(-1);
-		if(location == null){
-			System.out.println("Vehicle must have a rental location.");
-		}
-		else if(vehicleType == null){
-			System.out.println("Vehicle must have a vehicle type.");
-		}
-		else{
-			this.make = make;
-			this.model = model;
-			this.year = year;
-			this.tag = tag;
-			this.mileage = mileage;
-			this.lastServiced = lastServiced;
-			this.status = status;
-			this.condition = condition;
-			this.vehicleType = vehicleType;
-			this.location = location;
-			this.rentalList = rentalList;
-			}
-	}
-	
-    /** Return the make of this vehicle.
-     * @return the make of this vehicle
-     */
-    public String getMake(){
-		return make;
-	}
-    
-    /** Set the make of this vehicle.
-     * @param make the new make of this vehicle
-     */
-    public void setMake( String make ){
+	public VehicleImpl(String make,
+					   String model,
+					   int year,
+					   String tag,
+					   int mileage,
+					   Date lastServiced,
+					   VehicleType vehicleType,
+					   RentalLocation rentalLocation,
+					   VehicleCondition vehicleCondition,
+					   VehicleStatus vehicleStatus
+					  ) 
+	{
+		super();
 		this.make = make;
-	}
-    
-    /** Return the model of this vehicle.
-     * @return the model of this vehicle
-     */
-    public String getModel(){
-		return model;
-	}
-    
-    /** Set the model of this vehicle.
-     * @param model the new model of this vehicle
-     */
-    public void setModel( String model ){
 		this.model = model;
-	}
-    
-    /** Return the year of this vehicle.
-     * @return the year of this vehicle
-     */
-    public int getYear(){
-		return year;
-	}
-    
-    /** Set the year of this vehicle.
-     * @param year the new year of this vehicle
-     * @throws RARException in case year is non-positive
-     */
-    public void setYear( int year ) throws RARException{
 		this.year = year;
-	}
-    
-    /** Return the registration tag of this vehicle.
-     * @return the registration tag of this vehicle
-     */
-    public String getRegistrationTag(){
-		return tag;
-	}
-    
-    /** Set the registration tag of this vehicle.
-     * @param registrationTag the new registration tag of this vehicle
-     */
-    public void setRegistrationTag( String registrationTag ){
-		tag = registrationTag;
-	}
-    
-    /** Return the mileage of this vehicle.
-     * @return the mileage of this vehicle
-     */
-    public int getMileage(){
-		return mileage;
-	}
-    
-    /** Set the mileage of this vehicle.
-     * @param mileage the new mileage of this vehicle
-     * @throws RARException in case mileage is non-positive
-     */
-    public void setMileage( int mileage ) throws RARException{
+		this.tag = tag;
 		this.mileage = mileage;
-	}
-    
-    /** Return the last service date of this vehicle.
-     * @return the last service date of this vehicle
-     */
-    public Date getLastServiced(){
-		return lastServiced;
-	}
-    
-    /** Set the last service date of this vehicle.
-     * @param lastServiced new last service date for this vehicle
-     */
-    public void setLastServiced( Date lastServiced ){
 		this.lastServiced = lastServiced;
+		
+		this.vehicleType = vehicleType;
+		this.vehicleStatus = vehicleStatus;
+		this.vehicleCondition = vehicleCondition;
+		this.rentalLocation = rentalLocation;
+		this.rentals = rentals;
 	}
-    
-    /** Return the status of this vehicle (INLOCATION or INRENTAL)
-     * @return status of this vehicle
-     */
-    public VehicleStatus getStatus(){
-		return status;
-	}
-    
-    /** Set the status of this vehicle (must be INLOCATION or INRENTAL)
-     * @param status the new status of this vehicle (must be INLOCATION or INRENTAL)
-     */
-    public void setStatus( VehicleStatus status ){
-		this.status = status;
+	
+	@Override
+	public long getId() {
+		return id;
 	}
 
-    /** Return the condition of this vehicle (GOOD or NEEDSMAINTENANCE)
-     * @return the condition of this vehicle
-     */
-    public VehicleCondition getCondition(){
-		return condition;
+	@Override
+	public void setId(long id) {
+		this.id = id;
 	}
-    
-    /** Set the condition of this vehicle (must be GOOD or NEEDSMAINTENANCE)
-     * @param condition the new condition of this vehicle (must be GOOD or NEEDSMAINTENANCE)
-     */
-    public void setCondition( VehicleCondition condition ){
-		this.condition = condition;
+
+	@Override
+	public boolean isPersistent() {
+		if (id != -1) return true;
+		else return false;
 	}
-    
-    /** Return the vehicle type for this vehicle.
-     * @return the VehicleType representing the type of this vehicle
-     */
-    public VehicleType getVehicleType(){
+
+	@Override
+	public String getMake() {
+		return make;
+	}
+
+	@Override
+	public void setMake(String make) {
+		this.make = make;
+	}
+
+	@Override
+	public String getModel() {
+		return model;
+	}
+
+	@Override
+	public void setModel(String model) {
+		this.model = model;
+	}
+
+	@Override
+	public int getYear() {
+		return year;
+	}
+
+	@Override
+	public void setYear(int year) throws RARException {
+		this.year = year;
+	}
+
+	@Override
+	public String getRegistrationTag() {
+		return tag;
+	}
+
+	@Override
+	public void setRegistrationTag(String registrationTag) {
+		this.tag = registrationTag;
+	}
+
+	@Override
+	public int getMileage() {
+		return mileage;
+	}
+
+	@Override
+	public void setMileage(int mileage) throws RARException {
+		this.mileage = mileage;
+	}
+
+	@Override
+	public Date getLastServiced() {
+		return lastServiced;
+	}
+
+	@Override
+	public void setLastServiced(Date lastServiced) {
+		this.lastServiced = lastServiced;
+	}
+
+	@Override
+	public VehicleStatus getStatus() {
+		return vehicleStatus;
+	}
+
+	@Override
+	public void setStatus(VehicleStatus status) {
+		this.vehicleStatus = status;
+	}
+
+	@Override
+	public VehicleCondition getCondition() {
+		return vehicleCondition;
+	}
+
+	@Override
+	public void setCondition(VehicleCondition condition) {
+		this.vehicleCondition = condition;
+	}
+
+	@Override
+	public VehicleType getVehicleType() {
 		return vehicleType;
 	}
-    
-    /** Set the vehicle type for this vehicle.
-     * @param vehicleType the new VehicleType representing the type of this vehicle
-     */
-    public void setVehicleType( VehicleType vehicleType ){
+
+	@Override
+	public void setVehicleType(VehicleType vehicleType) {
 		this.vehicleType = vehicleType;
 	}
-    
-    /** Return the rental location of this vehicle.
-     * @return the rental location of this vehicle
-     */
-    public RentalLocation getRentalLocation(){
-		return location;
+
+	@Override
+	public RentalLocation getRentalLocation() {
+		return rentalLocation;
 	}
-    
-    /** Set the rental location of this vehicle.
-     * @param rentalLocation the new rental location of this vehicle
-     * @throws RARException in case rentalLocation is null
-     */
-    public void setRentalLocation( RentalLocation rentalLocation ) throws RARException{
-		this.location = rentalLocation;
+
+	@Override
+	public void setRentalLocation(RentalLocation rentalLocation) throws RARException {
+		this.rentalLocation = rentalLocation;
 	}
-    
-    /** Return a list of all rentals which used this vehicle.
-     * @return a list of all rentals for this vehicle
-     */
-    public List<Rental> getRentals(){
-		return rentalList;
+
+	@Override
+	public List<Rental> getRentals() {
+		return rentals;
 	}
+
 }

@@ -1,273 +1,197 @@
 package edu.uga.cs.rentaride.persistence.impl;
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.ResultSet;
+
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.List;
+import java.sql.Connection;
 
 import com.mysql.jdbc.PreparedStatement;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Time;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import edu.uga.cs.rentaride.RARException;
-import edu.uga.cs.rentaride.entity.Comment;
-import edu.uga.cs.rentaride.entity.Customer;
 import edu.uga.cs.rentaride.entity.Rental;
+import edu.uga.cs.rentaride.entity.Vehicle;
+import edu.uga.cs.rentaride.entity.RentalLocation;
+import edu.uga.cs.rentaride.entity.impl.VehicleImpl;
+import edu.uga.cs.rentaride.entity.impl.RentalImpl;
+import edu.uga.cs.rentaride.entity.impl.RentalLocationImpl;
 import edu.uga.cs.rentaride.object.ObjectLayer;
-import edu.uga.cs.rentaride.object.impl.ObjectImpl;
 
 
-class RentalManager {
-    private ObjectLayer objectLayer = null;
-    private Connection   conn = null;
-
+public class RentalManager {
+	
+	private ObjectLayer objectLayer = null;
+    private Connection  conn = null;
+	
     public RentalManager(Connection conn, ObjectLayer objectLayer) {
         this.conn = conn;
         this.objectLayer = objectLayer;
     }
-
-    public void save(Rental rental)
-            throws RARException
-    {
-        String               insertRSql = "insert into Rental (customer, pickupTime, returnTime, condition) values (?, ?, ?, ?)";
-        String               updateRSql = "update Rental set customer, = ? pickupTime = ?, returnTime = ? where rentalNo = ? ";
-        PreparedStatement    stmt = null;
-        int                  inscnt;
-        long                 RId;
-
-
-        try {
-
-            if(!rental.isPersistent())
-                stmt = (PreparedStatement) conn.prepareStatement(insertRSql);
+    
+    //Save implementation
+    public void save(Rental rental) throws RARException {
+    
+        String              insertRentalSQL = "insert into rental (pickup_time, return_time, vehicle) values (?, ?, ?)";
+        String              updateRentalSQL = "update rental set id = ?, customer = ?, pickup_time = ?, return_time = ?, vehicle = ?";
+        PreparedStatement   stmt = null;
+        int                 inscnt;
+        long                id;
+        
+        try{
+            //Persistence check
+            if(!rental.isPersistent() )
+                stmt = (PreparedStatement) conn.prepareStatement( insertRentalSQL );
             else
-                stmt = (PreparedStatement) conn.prepareStatement(updateRSql);
-
-            if(rental.getCustomer() != null)
-            	stmt.setString(1, rental.getCustomer().getUserName());
-            else
-                throw new RARException("Rental.save: can't save a Rental: Customer undefined");
-
-            if(rental.getPickupTime() != null)
-                stmt.setDate(2, (Date) rental.getPickupTime());
-            else
-                throw new RARException("Rental.save: can't save a rental: Pickup Time is not set or not persistent");
-
-            if(rental.getReturnTime() != null)
-                stmt.setDate(3, (Date) rental.getReturnTime());
-            else
-            	 throw new RARException("Rental.save: can't save a rental: Return Time is not set or not persistent");
-       
-            if(rental.getVehicle().getCondition() != null)
-                stmt.setString(4, rental.getVehicle().getCondition().toString());
-            else
-            	 throw new RARException("rental.save: can't save a rental: Condition is not set or not persistent");
-       
+                stmt = (PreparedStatement) conn.prepareStatement( updateRentalSQL );
             
+            //Set pickup time
+            if(rental.getPickupTime() != null)
+                stmt.setDate(1, (java.sql.Date) rental.getPickupTime());
+            else
+                throw new RARException("RentalManager.save: can't save a Rental: Pickup time is undefined");
+            //Set return time
+            if(rental.getReturnTime() != null)
+                stmt.setDate(2, (java.sql.Date) rental.getReturnTime());
+            else
+                throw new RARException("RentalManager.save: can't save a Rental: Return time is undefined");
+            //Set vehicle
+            if(rental.getVehicle() != null)
+                stmt.setInt(3, (int) rental.getVehicle().getId());
+            else
+                throw new RARException("RentalManager.save: can't save a Rental: Vehicle is undefined");
+            
+            //Update 
             if(rental.isPersistent())
-                stmt.setLong(5, rental.getId());
-
+                stmt.setLong( 6, rental.getId());
+            
             inscnt = stmt.executeUpdate();
-
-            if(!rental.isPersistent()) {
-                if(inscnt >= 1) {
+            
+            if(!rental.isPersistent()){
+                if(inscnt >=1){
                     String sql = "select last_insert_id()";
-                    if(stmt.execute(sql)) {
+                    if(stmt.execute(sql)){
                         ResultSet r = stmt.getResultSet();
-                        while(r.next()) {
-                            RId = r.getLong(1);
-                            if(RId > 0)
-                            	rental.setId(RId);
+                        
+                        while(r.next()){
+                            id = r.getLong(1);
+                            if(id != -1)
+                                rental.setId(id);
                         }
                     }
                 }
                 else
-                    throw new RARException("RentalManager.save: failed to save a rental");
+                    throw new RARException("RentalManager.save: failed to save a Rental");
             }
-            else {
-                if(inscnt < 1)
-                    throw new RARException("RentalManager.save: failed to save a rental");
-            }
-        }
-        catch(SQLException e) {
-            e.printStackTrace();
-            throw new RARException("RentalManager.save: failed to save a Rental: " + e);
-        }
-    }
-
-    public List<Rental> restore(Rental rental)
-            throws RARException
-    {
-        String       selectRSql = "select rent.customer, rent.pickupTime, rent.returnTime, rent.condition " +
-                                      " from Rentals rent where 1 = 1 ";
-        Statement    stmt = null;
-        StringBuffer query = new StringBuffer(100);
-        StringBuffer condition = new StringBuffer(100);
-        condition.setLength(0);
-        query.append(selectRSql);
-
-        if(rental != null) {
-            if(rental.getId() >= 0){
-                query.append(" and rentalNo = " + rental.getId());
-            } else { 
-            	if(rental.getCustomer() != null)
-                condition.append(" and Customer = '" + rental.getCustomer().toString() + "'");
-                        
-                if(rental.getPickupTime() != null)
-                    condition.append(" and Pickup Time = '" + rental.getPickupTime().toString() + "'");
-
-                if(rental.getReturnTime() != null)
-                    condition.append(" and Return Time = '" + rental.getPickupTime().toString() + "'");
-       
-                if(rental.getVehicle().getCondition() != null) {
-                    condition.append(" Condition = '" + rental.getVehicle().getCondition().toString() + "'");
-                }
+            else{
+                if(inscnt <1)
+                    throw new RARException("RentalManager.save: failed to save a Rental");
             }
         }
-
-        query.append(condition);
         
-        try {
-
-            stmt = conn.createStatement();
-
-            if(stmt.execute(query.toString())) {
-                ResultSet r = stmt.getResultSet();
-                return (List<Rental>) new RentalList(r, objectLayer);
-            }
+        catch (SQLException e){
+            throw new RARException("RentalManager.save: failed to save a Rental:" + e );
         }
-        catch(Exception e) {
-            throw new RARException("RentalManager.restore: Could not restore persistent Rental object; Root cause: " + e);
-        }
-
-        throw new RARException("RentalManager.restore: Could not restore persistent Rental object");
-    }
-
-
-    List<Comment> restoreRentalComment(Rental rental)
-            throws RARException
-    {
-        String       selectRSql = "select c.commendDate, c.comment, c.rental, rent.customer, rent.pickupTime, rent.returnTime, rent.condition " +
-                                      " from Rentals rent, Comment c where 1 = 1 ";
-        Statement    stmt = null;
-        StringBuffer query = new StringBuffer(100);
-        StringBuffer condition = new StringBuffer(100);
-        condition.setLength(0);
-        query.append(selectRSql);
-
-        if(rental != null) {
-            if(rental.getId() >= 0){
-                query.append(" and rentalNo = " + rental.getId());
-            } else { 
-            	if(rental.getCustomer() != null)
-                condition.append(" and Customer = '" + rental.getCustomer().toString() + "'");
-                        
-                if(rental.getPickupTime() != null)
-                    condition.append(" and Pickup Time = '" + rental.getPickupTime().toString() + "'");
-
-                if(rental.getReturnTime() != null)
-                    condition.append(" and Return Time = '" + rental.getPickupTime().toString() + "'");
-       
-                if(rental.getVehicle().getCondition() != null) {
-                    condition.append(" Condition = '" + rental.getVehicle().getCondition().toString() + "'");
-                }
-            }
-        }
-
-        query.append(condition);
         
-        try {
-
-            stmt = conn.createStatement();
-
-            if(stmt.execute(query.toString())) {
-                ResultSet r = stmt.getResultSet();
-                return (List<Comment>) new CommentList(r, (ObjectImpl) objectLayer);
-            }
-        }
-        catch(Exception e) {
-            throw new RARException("RentalManager.restore: Could not restore persistent Comment object; Root cause: " + e);
-        }
-
-        throw new RARException("RentalManager.restore: Could not restore persistent Comment object");
     }
-
-
-    Customer restoreRentalCustomer(Rental rental)
-            throws RARException
-    {
-        String       selectRSql = "select rent.customer, rent.pickupTime, rent.returnTime, rent.condition " +
-                                      " from Rentals rent where 1 = 1 ";
-        Statement    stmt = null;
-        StringBuffer query = new StringBuffer(100);
-        StringBuffer condition = new StringBuffer(100);
-
-        condition.setLength(0);
-
-        // form the query based on the given Rental object instance
-        query.append(selectRSql);
-
-        if(rental != null) {
-            if(rental.getId() >= 0){ // id is unique, so it is sufficient to get a Rental
-                query.append(" and rentalNo = " + rental.getId());
-            } else { 
-            	if(rental.getCustomer() != null) // Type is unique, so it is sufficient to get a Rental
-                condition.append(" and Customer = '" + rental.getCustomer().toString() + "'");
-                        
-                if(rental.getPickupTime() != null)
-                    condition.append(" and Pickup Time = '" + rental.getPickupTime().toString() + "'");
-
-                if(rental.getReturnTime() != null)
-                    condition.append(" and Return Time = '" + rental.getPickupTime().toString() + "'");
-       
-                if(rental.getVehicle().getCondition() != null) {
-                    condition.append(" Condition = '" + rental.getVehicle().getCondition().toString() + "'");
-                }
-            }
-        }
-
-        query.append(condition);
-        
-        try {
-
-            stmt = conn.createStatement();
-
-            if(stmt.execute(query.toString())) {
-                ResultSet r = stmt.getResultSet();
-                return (Customer) new RentalList(r, objectLayer);
-            }
-        }
-        catch(Exception e) {
-            throw new RARException("RentalManager.restore: Could not restore persistent Rental object; Root cause: " + e);
-        }
-
-        throw new RARException("RentalManager.restore: Could not restore persistent Rental object");
-    }
-
     
-    public void delete(Rental rental)
-            throws RARException
-    {
-        String               deleteRSql = "delete from Rental where id = ?";
+    public List<Rental> restore(Rental modelRental) throws RARException {
+        String       selectASQL = "SELECT r.id, r.customer_id, r.vehicle_id, r.pickup_time, r.return_time, " + " from rental r WHERE";
+        Statement 	 stmt = null;
+        StringBuffer query = new StringBuffer(100);
+        StringBuffer condition = new StringBuffer(100);
+        List<Rental> rentals = new ArrayList<Rental>();
+    	
+        condition.setLength(0);
+        
+        query.append(selectASQL);
+        
+        if (modelRental != null) {
+		    if(modelRental.getId() >= 0) {
+		        query.append(" AND id = " + modelRental.getId());
+		    } else {
+		        if(modelRental.getId()!=-1)
+		            condition.append(" AND id = '" + modelRental.getId() + "'");
+		        if(modelRental.getCustomer()!=null)
+		            condition.append(" AND customer = '" + modelRental.getCustomer() + "'");
+		        if(modelRental.getPickupTime()!=null)
+		            condition.append(" AND pickup_time = '" + modelRental.getPickupTime() + "'");
+		        if(modelRental.getReturnTime()!=null)
+		            condition.append(" AND return_time = '" + modelRental.getReturnTime() + "'");
+		        if(modelRental.getVehicle()!=null)
+		            condition.append(" AND vehicle = '" + modelRental.getVehicle() + "'");
+		    } //else
+        }//if
+        
+        try {
+            
+            stmt = conn.createStatement();
+            
+            if(stmt.execute(query.toString())){
+                long    id;
+                long  	customer_id;
+                Date    pickup_time;
+                Date    return_time;
+                Vehicle vehicle;
+                
+                Rental rentalProxy = null;
+                
+                ResultSet rs = stmt.getResultSet();
+                
+                while(rs.next()){
+                    id = rs.getLong(1);
+                    customer_id = rs.getLong(2);
+                    pickup_time = rs.getDate(3);
+                    return_time = rs.getDate(4);
+                    //vehicle = rs.getString(5);
+                    
+                    rentalProxy = objectLayer.createRental();
+                    rentalProxy.setId(id);
+                    rentalProxy.setPickupTime(pickup_time);
+                    rentalProxy.setReturnTime(return_time);
+                    
+                    rentals.add(rentalProxy);
+                }
+                return rentals;
+            }
+        }
+        
+        catch(SQLException e){
+            throw new RARException("RentalManager.restore: COuld not restore persistent objects: Root cause: " + e);
+        }
+    throw new RARException("RentalManger.restore: Could not restore persistent Rental object");   
+    }//Restore
+    
+    public void delete(Rental rental) throws RARException {
+    	String               deleteCommentSQL = "delete from rental where id = ?";          
         PreparedStatement    stmt = null;
         int                  inscnt;
-
-        if(!rental.isPersistent())
-            return;
-
+        
+        if(!rental.isPersistent()) return;
+        
         try {
-            stmt = (PreparedStatement) conn.prepareStatement(deleteRSql);
-            stmt.setLong(1, rental.getId());
+            
+            stmt = (PreparedStatement) conn.prepareStatement( deleteCommentSQL );
+            stmt.setLong( 1, rental.getId() );
             inscnt = stmt.executeUpdate();
-            if(inscnt == 1) {
-                return;
-            }
-            else
-                throw new RARException("RentalManager.delete: failed to delete a Rental");
-        }
-        catch(SQLException e) {
-            e.printStackTrace();
-            throw new RARException("RentalManager.delete: failed to delete a Rental: " + e);        }
+            
+            if (inscnt == 1)
+            	return;
+            else 
+                throw new RARException( "RentalManager.delete: failed to delete this Rental" );
+            
+        }//try 
+        catch( SQLException e ) {
+            throw new RARException( "RentalManager.delete: failed to delete this Rental: " + e.getMessage() );
+        }//catch
     }
+
+	public void delete(Vehicle vehicle, Rental rental) {
+		// TODO Auto-generated method stub
+		
+	}
 }
-
-

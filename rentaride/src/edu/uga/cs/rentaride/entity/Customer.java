@@ -12,24 +12,6 @@ import edu.uga.cs.rentaride.RARException;
 public interface Customer 
     extends User
 {
-	/** Customer contructor without parameters
-     * 
-     */
-	//public Customer();
-	
-	/** Customer contructor with parameters
-	 * @param memberUntil membership expiration
-	 * @param licState license state
-	 * @param licNumber license number
-	 * @param ccNumber credit card number
-	 * @param ccExpiration credit card expiration
-	 * @param reservationList list of reservations
-	 * @param commentList list of comments
-	 * @param rentalList list of rentals 
-     */
-	//public Customer(Date memberUntil, String licState, String licNumber, String ccNumber, String ccExpiration, List<Reservation> reservationList,
-	//List<Comment> commentList, List<Rental> rentalList);
-	
     /** Return the expiration Date of this Customer's membership in Rent-A-Ride.
      * @return the membership expiration Date for this customer 
      */

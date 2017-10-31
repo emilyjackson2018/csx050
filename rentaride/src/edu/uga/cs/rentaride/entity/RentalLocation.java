@@ -1,8 +1,6 @@
 package edu.uga.cs.rentaride.entity;
 
 
-import java.util.List;
-
 import edu.uga.cs.rentaride.RARException;
 import edu.uga.cs.rentaride.persistence.Persistable;
 
@@ -12,19 +10,6 @@ import edu.uga.cs.rentaride.persistence.Persistable;
 public interface RentalLocation
     extends Persistable
 {
-	
-	/** Constructor for RentalLocation without parameters 
-     * 
-     */
-	//public RentalLocation();
-	
-	/** Constructor for rentalLocation with parameters
-     * @param name of location
-	 * @param address of location
-	 * @param capacty of location
-     */
-	//public RentalLocation (String name, String address, int capacity);
-	
     /** Return the name of this rental location
      * @return the name of this rental location
      */
@@ -56,23 +41,4 @@ public interface RentalLocation
      * @throws RARException in case capacity is non-positive
      */
     public void setCapacity( int capacity ) throws RARException;
-    
-    /** Get a list of reservations made for this rental location.
-     * @return a List of reservations made for this rental location
-     */
-    public List<Reservation> getReservations();
-    
-    // Not needed;  reservations for this location are added one-by-one by creating 
-    // Reservation objects or changing existing ones for this rental location.
-    // void setReservatios( List<Reservation> reservations );
-    
-    /** Get a list of vehicles located at this rental location.
-     * @return a List of vehicles located at this rental location
-     */
-    public List<Vehicle> getVehicles();
-    
-    // Not needed;  vehicles located at this location are added one-by-one by creating
-    // Vehicle objects or re-assigning existing ones to this rental location.
-    // void setVehicles( List<Reservation> reservations );}
 }
-

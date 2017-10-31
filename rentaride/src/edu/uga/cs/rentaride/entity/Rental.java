@@ -12,23 +12,6 @@ import edu.uga.cs.rentaride.persistence.Persistable;
 public interface Rental 
     extends Persistable
 {
-	/** Constructor for rental without parameters 
-     * 
-     */
-	//public Rental ();
-	
-	/** Constructor for rental with parameters
-     * @param pickupTime for rental
-	 * @param returnTime of rental
-	 * @param late true if rental is late
-     * @param charges applied to rental
-	 * @param reservation of vehicle
-	 * @param vehicle reserved
-	 * @param customer reserving vehicle
-	 * @param comment of customer on return
-     */
-	//public Rental (Date pickupTime, Date returnTime, boolean late, int charges, Reservation reservation, Vehicle vehicle, Customer customer, Comment comment);
-
     /** Return the date when the vehicle in this rental was picked up.
      * @return the pickup date for this rental
      */

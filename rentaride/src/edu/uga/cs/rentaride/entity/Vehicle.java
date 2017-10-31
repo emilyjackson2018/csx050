@@ -16,27 +16,6 @@ import edu.uga.cs.rentaride.persistence.Persistable;
 public interface Vehicle
     extends Persistable
 {
-	
-	/** Constructor for Vehicle without parameters 
-     * 
-     */
-	//public Vehicle ();
-	
-	/** Constructor for Vehicle with parameters
-     * @param make of vehicle
-	 * @param model of vehicle
-	 * @param year of vehicle
-	 * @param tag of vehicle
-	 * @param mileage of vehicle
-	 * @param lastServiced date of vehicle
-	 * @param status of vehicle
-	 * @param condition of vehicle
-	 * @param vehicleType type of vehicle
-	 * @param location of vehicle
-	 * @param rentalList list of rentals
-	 */
-	//public Vehicle (String make, String model, int year, String tag, int mileage, Date lastServiced, VehicleStatus status, VehicleCondition condition,
-	//VehicleType vehicleType, RentalLocation location, List<Rental> rentalList);
     /** Return the make of this vehicle.
      * @return the make of this vehicle
      */

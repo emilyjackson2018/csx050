@@ -12,24 +12,6 @@ import edu.uga.cs.rentaride.persistence.Persistable;
 public interface User
     extends Persistable
 {
-	
-	/** Constructor for user without parameters 
-     * 
-     */
-	//public User ();
-	
-	/** Constructor for user with parameters
-     * @param firstName of user
-	 * @param lastName of user
-	 * @param userName of user
-     * @param email of user
-	 * @param password of user
-	 * @param createDate of user
-	 * @param address of user
-	 * @param userStatus status of user
-     */
-	//public User (String firstName, String lastName, String userName, String email, String password, Date createDate, String address, UserStatus userStatus);
-		
     /** Return the user's first name.
      * @return the user's first name
      */
