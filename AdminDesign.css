@@ -1,0 +1,977 @@
+Web {
+  position: fixed;
+  left: 128px;
+  top: 252px;
+  width: 1400px;
+  height: 4800px;
+  z-index: 110;
+}
+.Layer_6 {
+  position: absolute;
+  left: -128px;
+  top: -252px;
+  width: 0px;
+  height: 0px;
+  z-index: 113;
+}
+#VehicleListBox {
+  background-color: rgba(0, 0, 0, 0.89);
+  opacity: 0.729;
+  position: absolute;
+  left: -3.9%;
+  top: -1.18%;
+  width: 474px;
+  height: 445px;
+  z-index: 110;
+}
+#LocationListBox {
+  background-color: rgba(0, 0, 0, 0.89);
+  opacity: 0.729;
+  position: absolute;
+  left: 40%;
+  top: -1.18%;
+  width: 474px;
+  height: 445px;
+  z-index: 110;
+}
+#CurrentLocations{
+  position: absolute;
+  background-color: rgba(0,0,0,0.5);
+  opacity: 100%;
+  left:-3.9%;
+  top: -1.18%;
+  width: 474px;
+  height: 2%;
+  z-index: 113;
+}
+
+#CurrentVehicles{
+  position: absolute;
+  opacity: 100%;
+  left: 40%;
+  top: -1.18%;
+  width: 510spx;
+  height: 147px;
+  z-index: 113;
+
+}
+.____ {
+  font-size: 72px;
+  font-family: "Myriad Pro";
+  color: rgb(51, 204, 102);
+  font-style: italic;
+  line-height: 1.111;
+  text-align: left;
+  position: absolute;
+  left: -128px;
+  top: -175.996px;
+  z-index: 111;
+}
+.LocationList_text{
+  font-size: 18px;
+  font-family: "Myriad Pro";
+  color: rgb(255, 255, 255);
+  font-style: italic;
+  line-height: 4.444;
+  text-align: center;
+  position: absolute;
+  left: 693.844px;
+  top: 446.903px;
+  z-index: 110;
+}
+.VehicleList_text {
+  font-size: 14px;
+  font-family: "Myriad Pro";
+  color: rgb(47, 209, 120);
+  font-style: italic;
+  line-height: 5.714;
+  text-align: center;
+  position: absolute;
+  left: 104.844px;
+  top: 449.901px;
+  z-index: 109;
+}
+.Current_LocationsHead {
+  font-size: 63px;
+  font-family: "Myriad Pro";
+  color: rgb(0, 255, 156);
+  font-style: italic;
+  line-height: 1.27;
+  text-align: center;
+  position: absolute;
+  left: 572.844px;
+  top: 301.495px;
+  z-index: 108;
+}
+.Current_VehiclesHead {
+  font-size: 63px;
+  font-family: "Myriad Pro";
+  color: rgb(0, 255, 156);
+  font-style: italic;
+  line-height: 1.27;
+  text-align: center;
+  position: absolute;
+  left: 54.844px;
+  top: 299.995px;
+  z-index: 107;
+}
+
+.UpdateHeader{
+    position: fixed;
+    top:27px;
+    left: 0px;
+}
+
+#fullpage{
+    width:5000px;
+    height: 5000px;
+    margin-left: -500px;
+    margin-top: -500px;
+    padding: 0px;
+    position: fixed;
+}
+.UpdateBack{
+  color:gainsboro;
+  background-size:100%;
+  background-color: gainsboro;
+  min-height: 100%;
+  z-index: -5;
+}
+.ProfileBack{
+  color:dimgray;
+  background-size:100%;
+  background-color: dimgray;
+  min-height: 100%;
+  z-index: -100;
+}
+.ProPicBackground {
+  background-color: rgba(0, 0, 0, 0.58);
+  opacity: 0.212;
+  position: absolute;
+  left: 354px;
+  top: 2089px;
+  width: 236px;
+  height: 477px;
+  z-index: 50;
+}
+
+#propic{
+    top: -0.8%;
+    left: 7.5%;
+    position:absolute;
+}
+
+#propicbutton{
+    position: absolute;
+    top: 5.8%;
+    left:7.6%
+}
+#ProfileTextBackground {
+  font-size: 19px;
+  font-family: sans-serif;
+  color: rgb(47, 209, 120);
+  font-style: ;
+  position: absolute;
+  z-index: 109;
+  left: 42%;
+  line-height: 1.7;
+}
+
+#textbox{
+    width:30%;
+    height: 10%;
+    max-height: 10px;
+    margin-left: 39%;
+    margin-bottom: auto;
+    margin-top: -2.7%;
+    padding: 0px;
+    position: absolute;
+}
+.ProTextBox{
+  color:gainsboro;
+  background-size:100%;
+  background-color: gainsboro;
+  min-height: 8.5%;
+  z-index: -55;
+}
+#infobutton{
+    position: absolute;
+    top: 5%;
+    left: 46.5%
+}
+#memberback{
+  color:whitesmoke;
+  background-size:100%;
+  background-color: whitesmoke;
+  min-height: 100%;
+  z-index: -100;
+}
+a.link{
+    text-decoration: none;
+}
+a.hover{
+    color:silver;
+}
+a.visited{
+    color:black;
+}
+table.memberTable {
+  font-family: 'Raleway', sans-serif;
+  border: 0.25px solid #BABABA;
+  background-color: whitesmoke;
+  width: 75%;
+  height: 50px;
+  text-align: left;
+  left: 0px;
+  position:absolute;
+}
+table.memberTable td, table.memberTable th {
+  border: 0.5px solid #4A4A4A;
+  padding: 6px 2px;
+  left: 0px;  
+}
+table.memberTable tbody td {
+  font-size: 13px;
+  color: black;
+}
+table.memberTable tr:nth-child(even) {
+  background: #888888;
+}
+table.memberTable thead {
+  background: #888888;
+  border-bottom: 3px solid #000000;
+}
+table.memberTable thead th {
+  font-size: 13px;
+  font-weight: 400;
+  color: black;
+  text-align: left;
+  border-left: 0.5px solid #4A4A4A;
+}
+table.memberTable thead th:first-child {
+  border-left: none;
+}
+
+table.memberTable tfoot {
+  font-size: 12px;
+  font-weight: bold;
+  color: black;
+  background: whitesmoke;
+  background: whitesmoke;
+  background: whitesmoke;
+  background: #888888;
+  border-top: 0.25px solid #4A4A4A;
+}
+table.memberTable tfoot td {
+  font-size: 12px;
+}
+#select{
+    cursor: pointer;
+    position: absolute;
+    left: 75%;
+    font-weight:bold;
+    font-style: oblique;
+}
+.s1{
+    top:2.95%
+}
+.s2{
+    top:11.05%
+}
+.s3{
+    top:20.3%
+}
+.s4{
+    top:28.8%
+}
+.Layer_7 {
+  position: absolute;
+  left: -128px;
+  top: -252px;
+  width: 0px;
+  height: 0px;
+  z-index: 106;
+}
+
+.Layer_10 {
+  position: absolute;
+  left: -128px;
+  top: -252px;
+  width: 0px;
+  height: 0px;
+  z-index: 104;
+}
+._ {
+  font-size: 16px;
+  font-family: "Myriad Pro";
+  color: rgb(6, 0, 0);
+  text-transform: uppercase;
+  line-height: 2.5;
+  text-align: center;
+  position: absolute;
+  left: -128px;
+  top: -214.032px;
+  width: 0px;
+  height: 0px;
+  z-index: 103;
+}
+MenuOverlay {
+  background-color: rgba(0, 0, 0, 0.795);
+  opacity: 0.467;
+  position: fixed;
+  left: 0%;
+  top: 0%;
+  width: 100%;
+  height: 5.5%;
+  z-index: 102;
+}
+
+FullOverlay {
+  background-color: rgba(0, 0, 0, 0.6);
+  opacity: 0.431;
+  position: absolute;
+  z-index: 90;
+}
+.Re {
+  font-size: 6px;
+  font-family: "Thonburi";
+  color: rgb(48, 69, 57);
+  line-height: 1.2;
+  text-align: left;
+  position: absolute;
+  left: 593px;
+  top: 345.9px;
+  z-index: 101;
+}
+#MainBackgroundHome {
+  min-height:100%;
+  min-width: 1024px;
+  width: 100%;
+  height: auto;
+  position: fixed;
+  top: 0; 
+  left: 0;
+}
+#Nav_Bar {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 1608px;
+  height: 5068px;
+  z-index: 99;
+  cursor: pointer;
+}
+#MenuIcon1 {
+  position: fixed;
+  left: 10%;
+  top: 0.8%;
+  width:28px;
+  height:0.5%;
+  background-color: black;
+  margin: 4px;
+  z-index: 150;
+  cursor: pointer;
+}
+#MenuIcon2 {
+  position: fixed;
+  left: 10%;
+  top: 1.6%;
+  width:28px;
+  height:0.5%;
+  background-color: black;
+  margin: 4px ;
+  z-index: 150;
+  cursor: pointer;
+}
+#MenuIcon3 {
+  position: fixed;
+  left: 10%;
+  top: 2.5%;
+  width:28px;
+  height:0.5%;
+  background-color: black;
+  margin: 4px ;
+  z-index: 150;
+  cursor: pointer;
+}
+MenuIconLocation{
+    position:fixed;
+    left:10px;
+}
+#HomeMenuText {
+  font-size: 110%;
+  font-family: 'Raleway', sans-serif;
+  font-weight: 300;
+  color: rgb(6, 0, 0);
+  text-decoration: none;
+  text-transform: uppercase;
+  line-height: 200%;
+  position: absolute;
+  top: -256px;
+  z-index: 150;
+  cursor: pointer;
+}
+.homeButt{
+    position: absolute;
+    left:121px;
+}
+.sysButt{
+    position:absolute;
+    left: 240px;
+}
+.proButt{
+    position:absolute;
+    left:488px;
+}
+.memButt{
+    position:absolute;
+    left: 690px;
+}
+.soButt{
+    position: absolute;
+    left:880px;
+}
+#CurrentPageHighlight {
+  background-color: rgb(0, 255, 156);
+  position: absolute;
+  left: 506px;
+  top: 252px;
+  width: 109px;
+  height: 81px;
+  z-index: 95;
+}
+.Search {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 1608px;
+  height: 5068px;
+  z-index: 94;
+}
+.Layer_3 {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 0px;
+  height: 0px;
+  z-index: 91;
+}
+.Layer_4 {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 0px;
+  height: 0px;
+  z-index: 90;
+}
+.Layer_5 {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 0px;
+  height: 0px;
+  z-index: 89;
+}
+.Layer_2 {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 0px;
+  height: 0px;
+  z-index: 88;
+}
+.Layer_19 {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 0px;
+  height: 0px;
+  z-index: 87;
+}
+.___________ {
+  font-size: 63px;
+  font-family: "Myriad Pro";
+  color: rgb(0, 255, 156);
+  font-weight: bold;
+  font-style: italic;
+  line-height: 1.27;
+  text-align: center;
+  position: absolute;
+  left: 0px;
+  top: 71.495px;
+  z-index: 86;
+}
+.________ {
+  font-size: 72px;
+  font-family: "Ayuthaya";
+  color: rgb(0, 255, 156);
+  line-height: 1.111;
+  text-align: center;
+  position: absolute;
+  left: 0px;
+  top: 76.004px;
+  z-index: 85;
+}
+.Elegant_Landing_Page_Headline_Here {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 0px;
+  height: 0px;
+  z-index: 84;
+}
+.HomepageCarImage {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 1608px;
+  height: 5068px;
+  z-index: 83;
+}
+#WelcomeAdminImage {
+  position: fixed;
+  left: 30%;
+  top: 5.5%;
+  width: 35%;
+  height: 24%;
+  z-index: 78;
+}
+.Out_of_clutter__find_simplicity_ {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 0px;
+  height: 0px;
+  z-index: 76;
+}
+.Body_Text {
+  font-size: 16px;
+  font-family: "Acumin Pro";
+  color: rgb(82, 82, 82);
+  line-height: 1.875;
+  text-align: left;
+  position: absolute;
+  left: 0px;
+  top: 28.176px;
+  width: 0px;
+  height: 0px;
+  z-index: 75;
+}
+.Layer_8 {
+  background-image: url("Layer 8.png");
+  position: absolute;
+  left: 285px;
+  top: 1354px;
+  width: 243px;
+  height: 45px;
+  z-index: 74;
+}
+._ {
+  font-size: 16px;
+  font-family: "Acumin Pro";
+  color: rgb(204, 204, 204);
+  line-height: 1.875;
+  text-align: left;
+  position: absolute;
+  left: 323.937px;
+  top: 1686px;
+  z-index: 72;
+}
+.Layer_11 {
+  background-image: url("Layer 11.png");
+  position: absolute;
+  left: 627px;
+  top: 1525px;
+  width: 302px;
+  height: 45px;
+  z-index: 71;
+}
+.Layer_9 {
+  background-image: url("Layer 9.png");
+  position: absolute;
+  left: 622px;
+  top: 1354px;
+  width: 291px;
+  height: 45px;
+  z-index: 70;
+}
+.Layer_12 {
+  background-image: url("Layer 12.png");
+  position: absolute;
+  left: 253px;
+  top: 1525px;
+  width: 323px;
+  height: 45px;
+  z-index: 69;
+}
+.Layer_14 {
+  background-image: url("Layer 14.png");
+  position: absolute;
+  left: 997px;
+  top: 1525px;
+  width: 305px;
+  height: 45px;
+  z-index: 68;
+}
+.Layer_13 {
+  background-image: url("Layer 13.png");
+  position: absolute;
+  left: 994px;
+  top: 1354px;
+  width: 286px;
+  height: 45px;
+  z-index: 67;
+}
+.Base {
+  background-color: rgb(246, 246, 246);
+  position: absolute;
+  left: 128px;
+  top: 1052px;
+  width: 1400px;
+  height: 800px;
+  z-index: 65;
+}
+._3 {
+  position: absolute;
+  left: -128px;
+  top: -252px;
+  width: 1608px;
+  height: 5068px;
+  z-index: 63;
+}
+.Layer_15 {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 0px;
+  height: 0px;
+  z-index: 61;
+}
+.Layer_18 {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 0px;
+  height: 0px;
+  z-index: 59;
+}
+._ {
+  font-size: 24px;
+  font-family: "Bodoni 72";
+  color: rgb(255, 255, 255);
+  line-height: 1.25;
+  text-align: center;
+  position: absolute;
+  left: 0px;
+  top: 26.544px;
+  width: 0px;
+  height: 0px;
+  z-index: 58;
+}
+.Layer_21 {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 0px;
+  height: 0px;
+  z-index: 57;
+}
+.Layer_22 {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 0px;
+  height: 0px;
+  z-index: 56;
+}
+.Layer_20 {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 0px;
+  height: 0px;
+  z-index: 55;
+}
+.Layer_16 {
+  background-image: url("Layer 16.png");
+  position: absolute;
+  left: 362px;
+  top: 2435px;
+  width: 216px;
+  height: 34px;
+  z-index: 54;
+}
+.Layer_17 {
+  background-image: url("Layer 17.png");
+  position: absolute;
+  left: 891px;
+  top: 2415px;
+  width: 250px;
+  height: 45px;
+  z-index: 53;
+}
+.Rectangle_9 {
+  background-color: rgb(0, 0, 0);
+  position: absolute;
+  left: 190px;
+  top: 1237px;
+  width: 1149px;
+  height: 507px;
+  z-index: 52;
+}
+
+._4 {
+  position: absolute;
+  left: -128px;
+  top: -252px;
+  width: 1608px;
+  height: 5068px;
+  z-index: 44;
+}
+.Layer_23 {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 0px;
+  height: 0px;
+  z-index: 43;
+}
+.Rectangle_27 {
+  border-width: 1px;
+  border-style: dashed;
+  background-color: rgb(235, 235, 235);
+  position: absolute;
+  left: 208px;
+  top: 3972px;
+  width: 1225px;
+  height: 30px;
+  z-index: 42;
+}
+.Rectangle_26 {
+  border-width: 1px;
+  border-style: dashed;
+  background-color: rgb(235, 235, 235);
+  position: absolute;
+  left: 205px;
+  top: 3891px;
+  width: 1227px;
+  height: 35px;
+  z-index: 41;
+}
+.Rectangle_25 {
+  border-width: 1px;
+  border-style: dashed;
+  background-color: rgb(235, 235, 235);
+  position: absolute;
+  left: 206px;
+  top: 3812px;
+  width: 1224px;
+  height: 36px;
+  z-index: 40;
+}
+.Rectangle_24 {
+  border-width: 1px;
+  border-style: dashed;
+  background-color: rgb(235, 235, 235);
+  position: absolute;
+  left: 205px;
+  top: 3730px;
+  width: 1225px;
+  height: 40px;
+  z-index: 39;
+}
+.Rectangle_23 {
+  border-width: 1px;
+  border-style: dashed;
+  background-color: rgb(235, 235, 235);
+  position: absolute;
+  left: 207px;
+  top: 3659px;
+  width: 1223px;
+  height: 31px;
+  z-index: 38;
+}
+.Rectangle_22 {
+  border-width: 1px;
+  border-style: dashed;
+  background-color: rgb(235, 235, 235);
+  position: absolute;
+  left: 206px;
+  top: 3585px;
+  width: 1224px;
+  height: 33px;
+  z-index: 37;
+}
+.Rectangle_21 {
+  border-width: 1px;
+  border-style: dashed;
+  background-color: rgb(235, 235, 235);
+  position: absolute;
+  left: 206px;
+  top: 3515px;
+  width: 1224px;
+  height: 33px;
+  z-index: 36;
+}
+.Rectangle_20 {
+  border-width: 1px;
+  border-style: dashed;
+  background-color: rgb(235, 235, 235);
+  position: absolute;
+  left: 208px;
+  top: 3444px;
+  width: 1221px;
+  height: 34px;
+  z-index: 35;
+}
+.Rectangle_19 {
+  border-width: 1px;
+  border-style: dashed;
+  background-color: rgb(235, 235, 235);
+  position: absolute;
+  left: 208px;
+  top: 3368px;
+  width: 1223px;
+  height: 36px;
+  z-index: 34;
+}
+.Rectangle_18 {
+  border-width: 1px;
+  border-style: dashed;
+  background-color: rgb(235, 235, 235);
+  position: absolute;
+  left: 208px;
+  top: 3291px;
+  width: 1219px;
+  height: 35px;
+  z-index: 33;
+}
+.Rectangle_17 {
+  border-width: 1px;
+  border-style: dashed;
+  background-color: rgb(235, 235, 235);
+  position: absolute;
+  left: 208px;
+  top: 3224px;
+  width: 1223px;
+  height: 30px;
+  z-index: 32;
+}
+.Rectangle_16 {
+  border-width: 1px;
+  border-style: dashed;
+  background-color: rgb(235, 235, 235);
+  position: absolute;
+  left: 208px;
+  top: 3156px;
+  width: 1224px;
+  height: 30px;
+  z-index: 31;
+}
+.Rectangle_15 {
+  border-width: 1px;
+  border-style: dashed;
+  background-color: rgb(235, 235, 235);
+  position: absolute;
+  left: 208px;
+  top: 3081px;
+  width: 1223px;
+  height: 35px;
+  z-index: 30;
+}
+.Rectangle_14 {
+  border-width: 1px;
+  border-style: dashed;
+  background-color: rgb(235, 235, 235);
+  position: absolute;
+  left: 208px;
+  top: 3003px;
+  width: 1224px;
+  height: 39px;
+  z-index: 29;
+}
+.Layer_24 {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 0px;
+  height: 0px;
+  z-index: 28;
+}
+.List_Continues____ {
+  font-size: 24px;
+  font-family: "Acumin Pro";
+  color: rgb(102, 102, 102);
+  line-height: 1.25;
+  position: absolute;
+  left: 279.937px;
+  top: 2969px;
+  z-index: 27;
+}
+
+.Rectangle_13 {
+  border-width: 1px;
+  border-style: dashed;
+  background-color: rgb(235, 235, 235);
+  position: absolute;
+  left: 208px;
+  top: 2925px;
+  width: 1224px;
+  height: 39px;
+  z-index: 24;
+}
+
+.Base {
+  background-color: rgb(255, 255, 255);
+  position: absolute;
+  left: 128px;
+  top: 2652px;
+  width: 1400px;
+  height: 1600px;
+  z-index: 21;
+}
+._5 {
+  position: absolute;
+  left: -128px;
+  top: -252px;
+  width: 1608px;
+  height: 5068px;
+  z-index: 19;
+}
+.Header {
+  font-size: 28px;
+  font-family: "Bodoni 72";
+  color: rgb(51, 51, 51);
+  font-style: italic;
+  line-height: 1.2;
+  text-align: left;
+  position: absolute;
+  left: 329px;
+  top: 4302.442px;
+  z-index: 18;
+}
+.Base {
+  background-color: rgb(0, 255, 156);
+  position: absolute;
+  left: 128px;
+  top: 4252px;
+  width: 1400px;
+  height: 140px;
+  z-index: 17;
+}
+.Layer_1 {
+  position: absolute;
+  left: -128px;
+  top: -252px;
+  width: 0px;
+  height: 0px;
+  z-index: 15;
+}
+._6 {
+  position: absolute;
+  left: -128px;
+  top: -252px;
+  width: 1608px;
+  height: 5068px;
+  z-index: 14;
+}
