@@ -3,9 +3,10 @@ package edu.uga.cs.rentaride.logic.impl;
 import java.util.List;
 import java.util.LinkedList;
 
-import edu.uga.uga.cs.RARException;
-import edu.uga.uga.cs.entity.RentalLocation;
-import edu.uga.uga.cs.object.ObjectLayer;
+import edu.uga.cs.rentaride.RARException;
+import edu.uga.cs.rentaride.entity.RentalLocation;
+import edu.uga.cs.rentaride.entity.Vehicle;
+import edu.uga.cs.rentaride.object.ObjectLayer;
 
 
 
@@ -18,7 +19,7 @@ public class FindAllVehiclesCtrl {
         this.objectLayer = objectModel;
     }
 
-    public List<RentalLocation> findAllVehicless()
+    public List<Vehicle> findAllVehicles() 		//changed return type here, might be wrong
             throws RARException
     {
         List<Vehicle> 	    vehicles  = null;

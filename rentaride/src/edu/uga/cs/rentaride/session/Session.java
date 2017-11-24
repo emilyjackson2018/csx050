@@ -8,7 +8,7 @@ import org.apache.log4j.Logger;
 
 import edu.uga.cs.rentaride.RARException;
 import edu.uga.cs.rentaride.entity.User;
-import edu.uga.cs.rentaride.LogicLayer;
+import edu.uga.cs.rentaride.logic.LogicLayer;
 import edu.uga.cs.rentaride.logic.impl.LogicLayerImpl;
 import edu.uga.cs.rentaride.object.ObjectLayer;
 import edu.uga.cs.rentaride.object.impl.ObjectLayerImpl;

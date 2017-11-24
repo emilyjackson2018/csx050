@@ -23,7 +23,7 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 
-public class FindAllCustomers
+public class FindAllReservations
     extends HttpServlet 
 {
     private static final long serialVersionUID = 1L;
@@ -124,7 +124,7 @@ public class FindAllCustomers
                 reservation.add( r.getPickupTime() );
                 reservation.add( r.getLength() );
                 reservation.add( r.getVehicleType() );
-                reservation.add( r.getRentalLocation) );
+                reservation.add( r.getRentalLocation() );
                 reservation.add( r.getCustomer() );		
                 reservations.add( reservation );
             }

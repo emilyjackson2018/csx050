@@ -24,7 +24,7 @@ public class CreateVehicleTypeCtrl {
 
         // check if a Vehicle Type with this name already exists (name is unique)
         modelVehicleType = objectLayer.createVehicleType();
-        modelVehicleType.setType(type);
+        modelVehicleType.setName(type);
         vehicleTypes = objectLayer.findVehicleType(modelVehicleType);
         if(vehicleTypes.size() > 0)
             vehicleType = vehicleTypes.get(0);

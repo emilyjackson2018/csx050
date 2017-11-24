@@ -2,10 +2,14 @@ package edu.uga.cs.rentaride.logic;
 
 
 import java.util.List;
+import java.util.Date;
 
 import edu.uga.cs.rentaride.RARException;
 import edu.uga.cs.rentaride.entity.RentalLocation;
 import edu.uga.cs.rentaride.entity.User;
+import edu.uga.cs.rentaride.entity.UserStatus;
+import edu.uga.cs.rentaride.entity.Customer;
+import edu.uga.cs.rentaride.entity.Vehicle;
 import edu.uga.cs.rentaride.session.Session;
 
 public interface LogicLayer

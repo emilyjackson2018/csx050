@@ -6,6 +6,10 @@ import java.util.List;
 import edu.uga.cs.rentaride.RARException;
 import edu.uga.cs.rentaride.entity.Vehicle;
 import edu.uga.cs.rentaride.entity.VehicleType;
+import edu.uga.cs.rentaride.entity.RentalLocation;
+import edu.uga.cs.rentaride.entity.UserStatus;
+import edu.uga.cs.rentaride.entity.VehicleCondition;
+import edu.uga.cs.rentaride.entity.VehicleStatus;
 import edu.uga.cs.rentaride.entity.User;
 import edu.uga.cs.rentaride.object.ObjectLayer;
 
@@ -27,13 +31,13 @@ public class CreateVehicleCtrl {
         Vehicle            modelVehicle = null;
         List<Vehicle>  vehicles = null;
         RentalLocation  rentalLocation  = null;
-        Status          status          = null;
+        VehicleStatus          status          = null;
         VehicleType     vehicleType     = null;
         VehicleCondition vehicleCondition = null;
 
         // check if a vehicle with this name already exists (name is unique)
         modelVehicle = objectLayer.createVehicle();
-        modelVehicle.setName(registrationTag);
+        modelVehicle.setMake(registrationTag);
         vehicles = objectLayer.findVehicle(modelVehicle);
         if(vehicles.size() > 0)
 		vehicle = vehicles.get(0);
@@ -42,13 +46,13 @@ public class CreateVehicleCtrl {
             throw new RARException("A vehicle with this registration tag already exists: " + registrationTag);
 
         // create the vehicle
-        rentalLocation = objectLayer.createRentalLocation("rl_str");
-        status = objectLayer.createStatus("status_str");
+        rentalLocation = objectLayer.createRentalLocation("rl_str"); 		//REQUIRES NAME, ADDRESS, AND CAPACITY (String, String, Int), THIS IS ONLY STRING; DO WE NEED TO PARSE "rl_str"?
+        status = objectLayer.createStatus("status_str");					//MISSING IN ObjectLayer.java
         vehicleType = objectLayer.createVehicleType("vehicleType_str");
-        vehicleCondition = objectLayer.createVehicleContion("vehicleCondition_str");
+        vehicleCondition = objectLayer.createVehicleCondition("vehicleCondition_str"); 	//ALSO MISSING IN ^^.java
         
-        vehicle = objectLayer.createVehicle(registrationTag, lastService, make, mileage, model, rentalLocation, status, vehicleType,
-                                              vehicleYear, vehicleCondition);
+        vehicle = objectLayer.createVehicle(make, model, vehicleYear, registrationTag, mileage, lastService, 
+			vehicleType, rentalLocation, vehicleCondition, status);  		//NOT SURE WHERE TO ATTAIN VehicleStatus ATTRIBUTE
         objectLayer.storeVehicle(vehicle);
 
         return vehicle.getId();

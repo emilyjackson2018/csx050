@@ -1,4 +1,4 @@
-package edu.uga.clubs.presentation;
+package edu.uga.cs.rentaride.presentation;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -12,9 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import edu.uga.clubs.entity.Person;
-import edu.uga.clubs.session.Session;
-import edu.uga.clubs.session.SessionManager;
+import edu.uga.cs.rentaride.entity.User;
+import edu.uga.cs.rentaride.session.Session;
+import edu.uga.cs.rentaride.session.SessionManager;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -87,12 +87,12 @@ public class ShowMainWindow
             return;
         }
         
-        Person person = session.getUser();
-        if( person == null ) {
+        User user = session.getUser();
+        if( user == null ) {
             ClubsError.error( cfg, toClient, "Session expired or illegal; please log in" );
             return;   
         }
-        username = person.getUserName();
+        username = user.getUserName();
         
         // Get the parameters
         //

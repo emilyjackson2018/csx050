@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.text.SimpleDateFormat;
 import java.text.DateFormat;
+import java.text.ParseException;
 
 import edu.uga.cs.rentaride.RARException;
 import edu.uga.cs.rentaride.entity.Reservation;
@@ -12,6 +13,7 @@ import edu.uga.cs.rentaride.entity.Rental;
 import edu.uga.cs.rentaride.entity.RentalLocation;
 import edu.uga.cs.rentaride.entity.VehicleType;
 import edu.uga.cs.rentaride.entity.User;
+import edu.uga.cs.rentaride.entity.Customer;
 import edu.uga.cs.rentaride.object.ObjectLayer;
 
 
@@ -45,7 +47,7 @@ public class CreateReservationCtrl {
         modelCustomer.setId(customerId);
         customers = objectLayer.findCustomer(modelCustomer);
         while(customers.size() > 0) {
-            customer = persons.get();
+            customer = customers.get();							//LOGIC NEEDS TO BE CHANGED HERE//		
         }
 
         // check if the person actually exists
@@ -57,7 +59,7 @@ public class CreateReservationCtrl {
         modelRentalLocation.setName(rentalLocationStr);
         rentalLocations = objectLayer.findRentalLocation(modelRentalLocation);
         while(rentalLocations.size() > 0) {
-            rentalLocation = persons.get();
+            rentalLocation = rentalLocations.get();					//AND HERE//
         }
 
         // check if the rental location actually exists
@@ -66,10 +68,10 @@ public class CreateReservationCtrl {
             
         // retrieve the founder person
         modelVehicleType = objectLayer.createVehicleType();
-        modelVehicleType.setType(vehicleTypeStr);
+        modelVehicleType.setName(vehicleTypeStr);
         vehicleTypes = objectLayer.findVehicleType(modelVehicleType);
         while(vehicleTypes.size() > 0) {
-            vehicleType = vehicleTypes.get();
+            vehicleType = vehicleTypes.get();						//HERE TOO//
         }
 
         // check if the vehicle type actually exists
@@ -84,10 +86,10 @@ public class CreateReservationCtrl {
         DateFormat format = new SimpleDateFormat("dd-MM-yyyy");
         try {
           reservationTime = format.parse(pickupTime);
-        } catch (parseException e1){
+        } catch (ParseException e1){
           e1.printStackTrace();
         }
-        reservation = objectLayer.createReservation(vehicleType, rentalLocation, customer, reservationTime, rentalDuration);
+        reservation = objectLayer.createReservation(reservationTime, rentalDuration, vehicleType, rentalLocation, customer);
         objectLayer.storeReservation(reservation);
 
         return reservation.getId();

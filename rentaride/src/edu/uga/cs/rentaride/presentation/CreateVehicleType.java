@@ -21,7 +21,7 @@ import freemarker.template.Template;
 import freemarker.template.TemplateException;
 
 
-public class VehicleType
+public class CreateVehicleType
     extends HttpServlet 
 {
     private static final long serialVersionUID = 1L;
@@ -101,7 +101,7 @@ public class VehicleType
 
         // Get the form parameters
         //
-		 name = req.getParameter("name");
+        name = req.getParameter("name");
    
 
         if( name == null) {
@@ -152,7 +152,7 @@ public class VehicleType
         }
 
         toClient.close();
-
+        }
   }
 }
 

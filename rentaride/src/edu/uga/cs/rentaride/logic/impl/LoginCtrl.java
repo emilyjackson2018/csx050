@@ -2,13 +2,13 @@ package edu.uga.rentaride.logic.impl;
 
 import java.util.List;
 
-import edu.uga.rentaride.RARException;
-import edu.uga.rentaride.entity.User;
-import edu.uga.rentaride.entity.Customer;
-import edu.uga.rentaride.entity.Administrator;
-import edu.uga.rentaride.object.ObjectLayer;
-import edu.uga.rentaride.session.Session;
-import edu.uga.rentaride.session.SessionManager;
+import edu.uga.cs.rentaride.RARException;
+import edu.uga.cs.rentaride.entity.User;
+import edu.uga.cs.rentaride.entity.Customer;
+import edu.uga.cs.rentaride.entity.Administrator;
+import edu.uga.cs.rentaride.object.ObjectLayer;
+import edu.uga.cs.rentaride.session.Session;
+import edu.uga.cs.rentaride.session.SessionManager;
 
 public class LoginCtrl
 { 
@@ -33,7 +33,7 @@ public class LoginCtrl
             session.setUser(customer);
             ssid = SessionManager.storeSession(session);
         }
-        else
+        else {
             Administrator modelAdministrator = objectLayer.createAdministrator();
             modelAdministrator.setUserName(userName);
             modelAdministrator.setPassword(password);

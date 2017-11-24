@@ -10,7 +10,7 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
-import edu.uga.cs.rentaride.ClubsException;
+import edu.uga.cs.rentaride.RARException;
 import edu.uga.cs.rentaride.entity.User;
 import edu.uga.cs.rentaride.persistence.impl.DbUtils;
 

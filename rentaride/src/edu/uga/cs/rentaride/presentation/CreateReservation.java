@@ -51,7 +51,7 @@ public class CreateReservation
 		String pickup;
 	    int length;
 	    String vehicleType;
-	    String rentalLocation,
+	    String rentalLocation;
 	    long CustomerId;
 		long ReservationId = 0;
 		
@@ -115,7 +115,7 @@ public class CreateReservation
 		String pickup;
 	    int length;
 	    String vehicleType;
-	    String rentalLocation,
+	    String rentalLocation;
 	    long CustomerId;
 
         if( pickup == null) {
