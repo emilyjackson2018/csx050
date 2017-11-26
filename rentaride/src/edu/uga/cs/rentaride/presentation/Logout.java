@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 
 import edu.uga.cs.rentaride.RARException;
 import edu.uga.cs.rentaride.logic.LogicLayer;
+import edu.uga.cs.rentaride.logic.impl.LogicLayerImpl;
 import edu.uga.cs.rentaride.session.Session;
 import edu.uga.cs.rentaride.session.SessionManager;
 import freemarker.template.Configuration;
@@ -68,7 +69,7 @@ public class Logout
                 System.out.println( "Already have ssid: " + ssid );
                 Session session = SessionManager.getSessionById( ssid );
                 if( session == null ) {
-                    ClubsError.error( cfg, toClient, "Session expired or illegal; please log in" );
+                    RARError.error( cfg, toClient, "Session expired or illegal; please log in" );
                     return; 
                 }
                 LogicLayer logicLayer = session.getLogicLayer();
@@ -78,7 +79,7 @@ public class Logout
                     httpSession.invalidate();
                     System.out.println( "Invalidated http session" );
                 }
-                catch( ClubsException e ) {
+                catch( RARException e ) {
                     e.printStackTrace();
                 }
             }

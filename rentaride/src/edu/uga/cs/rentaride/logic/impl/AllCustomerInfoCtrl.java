@@ -1,4 +1,4 @@
-package edu.uga.cs.rentaride.logic.impl;
+  package edu.uga.cs.rentaride.logic.impl;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ public class AllCustomerInfoCtrl {
         this.objectLayer = objectModel;
     }
 
-    public List<Customer> ViewCustomerInfo()  //DELETED STRING PARAMETER, MIGHT BE PROBLEMATIC IN FUNCTION
+    public List<Customer> ViewCustomerInfo(String username)
             throws RARException
     {
         List<Customer> 	    customers  = null;

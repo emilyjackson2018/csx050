@@ -101,9 +101,9 @@ public class RentARideTester
 			 v4 = objectLayer.createVehicle("Ford", "Mustang", 2012, "8884321", 25000, new Date(), type2, location2, VehicleCondition.NEEDSMAINTENANCE, VehicleStatus.INRENTAL);
 			 //persistence.storeVehicle(v4);
 			 //customers
-			 customer1 = objectLayer.createCustomer("Ross", "Geller", "rossg", "pass123", "rossg@gmail.com", "123 Broad Street", new Date(), new Date(), "NY", "12345", "12345", new Date(), UserStatus.ACTIVE);
+			 customer1 = objectLayer.createCustomer("Ross", "Geller", "rossg", "pass123", "rossg@gmail.com", "123 Broad Street", new Date(), new Date(), "NY", "12345", "12345", new Date());
 			 //persistence.storeCustomer(customer1);
-			 customer2 = objectLayer.createCustomer("Monica", "Geller", "monicag", "pass456", "monicag@yahoo.com", "123 Broad Street", new Date(), new Date(), "NY", "67890", "67890", new Date(), UserStatus.ACTIVE);
+			 customer2 = objectLayer.createCustomer("Monica", "Geller", "monicag", "pass456", "monicag@yahoo.com", "123 Broad Street", new Date(), new Date(), "NY", "67890", "67890", new Date());
 			 //persistence.storeCustomer(customer2);
 			 //reservations
 			 //Date pickupTime, int length, Customer customer, VehicleType vehicleType, RentalLocation rentalLocation, Rental rental

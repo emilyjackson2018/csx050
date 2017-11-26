@@ -80,25 +80,25 @@ public class FindAllCustomers
 
         httpSession = req.getSession();
         if( httpSession == null ) {       // not logged in!
-            ClubsError.error( cfg, toClient, "Session expired or illegal; please log in" );
+            RARError.error( cfg, toClient, "Session expired or illegal; please log in" );
             return;
         }
 
         ssid = (String) httpSession.getAttribute( "ssid" );
         if( ssid == null ) {       // not logged in!
-            ClubsError.error( cfg, toClient, "Session expired or illegal; please log in" );
+            RARError.error( cfg, toClient, "Session expired or illegal; please log in" );
             return;
         }
 
         session = SessionManager.getSessionById( ssid );
         if( session == null ) {
-            ClubsError.error( cfg, toClient, "Session expired or illegal; please log in" );
+            RARError.error( cfg, toClient, "Session expired or illegal; please log in" );
             return; 
         }
 
         logicLayer = session.getLogicLayer();
         if( logicLayer == null ) {
-            ClubsError.error( cfg, toClient, "Session expired or illegal; please log in" );
+            RARError.error( cfg, toClient, "Session expired or illegal; please log in" );
             return; 
         }
 
@@ -110,8 +110,8 @@ public class FindAllCustomers
         //
         Map<String,Object> root = new HashMap<String,Object>();
 
-        try {
-            rv = logicLayer.findAllCustomers();
+        /*try {
+            //rv = logicLayer.findAllCustomers();
 
             // Build the data-model
             //
@@ -136,9 +136,9 @@ public class FindAllCustomers
             }
         } 
         catch( Exception e) {
-            ClubsError.error( cfg, toClient, e );
+            RARError.error( cfg, toClient, e );
             return;
-        }
+        }*/
 
         // Merge the data-model and the template
         //

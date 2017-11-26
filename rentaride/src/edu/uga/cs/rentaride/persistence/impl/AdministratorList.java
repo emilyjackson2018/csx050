@@ -64,7 +64,7 @@ implements Iterator<Administrator> {
 			}
 
 			try {
-				administrator = objectLayer.createAdministrator(firstName, lastName, userName, emailAddress, password, createdDate, address, userStatus);
+				administrator = objectLayer.createAdministrator(firstName, lastName, userName, password, emailAddress, address, createdDate);
 			} catch (RARException e) {
 				throw new NoSuchElementException("Administrator: No next Administrator object; root cause: " + e);
 			}

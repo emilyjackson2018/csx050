@@ -101,13 +101,13 @@ public class CreateVehicleType
 
         // Get the form parameters
         //
-        name = req.getParameter("name");
+		 name = req.getParameter("name");
    
 
         if( name == null) {
             RARError.error( cfg, toClient, "Unspecified name" );
             return;
-      
+        }
 
 		/*
 		if( id <= 0 ) {
@@ -125,7 +125,7 @@ public class CreateVehicleType
         }
 		*/
 
-        try {
+        /*try {
             logicLayer.CreateVehicleType(name);
         } 
         catch ( Exception e ) {
@@ -150,9 +150,9 @@ public class CreateVehicleType
         catch (TemplateException e) {
             throw new ServletException( "Error while processing FreeMarker template", e);
         }
-
+    */
         toClient.close();
-        }
+  
   }
 }
 

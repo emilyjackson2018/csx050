@@ -81,7 +81,7 @@ public class VehicleList
             
             
             try {
-				vehicleType = objectLayer.createVehicleType(VT, priceList, vehicleList, resList);
+				vehicleType = objectLayer.createVehicleType(VT);
 			} catch (RARException e) {
 				throw new NoSuchElementException("Vehicle: No VehicleType object; root cause: " + e);
 			} 
@@ -93,7 +93,7 @@ public class VehicleList
             vehicleCondition = VehicleCondition.valueOf(VC);
             vehicleStatus = VehicleStatus.valueOf(VS);
             try {
-                vehicle = objectLayer.createVehicle(make, model, year, registrationTag, mileage, lastServiced, vehicleStatus, vehicleCondition, vehicleType, rentalLocation, rentalList); 
+                vehicle = objectLayer.createVehicle(make, model, year, registrationTag, mileage, lastServiced, vehicleType, rentalLocation, vehicleCondition, vehicleStatus); 
                 ((Persistable) vehicle).setId(id);
             }
             catch(RARException ce) {

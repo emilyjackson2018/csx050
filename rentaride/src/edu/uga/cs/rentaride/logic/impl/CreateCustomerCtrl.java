@@ -6,7 +6,6 @@ import java.util.Date;
 import edu.uga.cs.rentaride.RARException;
 import edu.uga.cs.rentaride.entity.Customer;
 import edu.uga.cs.rentaride.entity.User;
-//import edu.uga.cs.rentaride.entity.RentalLocation;
 import edu.uga.cs.rentaride.object.ObjectLayer;
 
 public class CreateCustomerCtrl {
@@ -18,8 +17,7 @@ public class CreateCustomerCtrl {
         this.objectLayer = objectModel;
     }
     
-    public long createCustomer( String firstName, String lastName, String userName, String emailAddress, String password, String licenseState, String licenseNumber, 
-		String residenceAddress, String cardNumber, Date cardExpiration  )
+    public long createCustomer( String firstName, String lastName, String userName, String emailAddress, String password, String licenseState, String licenseNumber, String residenceAddress, String cardNumber, Date cardExpiration  )
             throws RARException
     { 
         Customer 	            customer  = null;
@@ -38,8 +36,8 @@ public class CreateCustomerCtrl {
         Date createDate = new Date("12-08-2015");
         Date membershipExpiration = new Date("06-08-2016");
         
-        customer = objectLayer.createCustomer( firstName, lastName, userName, password, emailAddress, residenceAddress, createDate, membershipExpiration,
-		licenseState, licenseNumber, cardNumber, cardExpiration ); //createCustomer in this file and in ObjectLayer.java do not match, this should be fine
+        customer = objectLayer.createCustomer( firstName, lastName, userName, password, emailAddress, residenceAddress, createDate, membershipExpiration, licenseState, 
+            licenseNumber, cardNumber, cardExpiration );
         objectLayer.storeCustomer( customer );
 
         return customer.getId();

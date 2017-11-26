@@ -54,7 +54,7 @@ public class VehicleTypeList
                 throw new NoSuchElementException("VehicleType: No next VehicleType object; root cause: " + e);
             }
             try {
-				vehicleType = objectLayer.createVehicleType(type, priceList, vehicleList, resList);
+				vehicleType = objectLayer.createVehicleType(type);
 			} catch (RARException e) {
 				 throw new NoSuchElementException("VehicleType: No VehicleType object; root cause: " + e);
 			} 

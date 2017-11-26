@@ -32,8 +32,9 @@ implements ObjectLayer
 		System.out.println("ObjectLayerImpl.setPersistence(persistence): initialized");
 	}
 
-	public Administrator createAdministrator(String firstName, String lastName, String userName, String emailAddress, String password, Date createdDate, String address, UserStatus userStatus) {
-		return new AdministratorImpl(firstName, lastName, userName, emailAddress, password, createdDate, address, userStatus);
+	public Administrator createAdministrator(String firstName, String lastName, String userName, 
+                                              String password, String email, String address, Date createDate) {
+		return new AdministratorImpl(firstName, lastName, userName, password, email, address, createDate, null);
 	}
 
 		public Administrator createAdministrator()
@@ -53,15 +54,17 @@ implements ObjectLayer
 			persistence.deleteAdministrator(administrator);
 		}
 
-		public Customer createCustomer(Date membershipExpiration, String licenseState, String licenseNumber, String cardNumber, Date cardExpiration, List<Reservation> reservationList, List<Comment> commentList, List<Rental> rentalList) {
-			CustomerImpl customer = new CustomerImpl(membershipExpiration, licenseState, licenseNumber, cardNumber, cardExpiration, reservationList, commentList, rentalList);
+		public Customer createCustomer(String firstName, String lastName, String userName, String password,
+            String email, String address, Date createDate, Date membershipExpiration, String licenseState, 
+            String licenseNumber, String cardNumber, Date cardExpiration) {
+			CustomerImpl customer = new CustomerImpl(firstName, lastName, userName, password, email, address, createDate, membershipExpiration, licenseState, licenseNumber, cardNumber, cardExpiration, null);
 			
-			return new CustomerImpl(membershipExpiration, licenseState, licenseNumber, cardNumber, cardExpiration, reservationList, commentList, rentalList);
+			return customer;
 		}
 		
 
 		public Customer createCustomer() {
-			return new CustomerImpl(null, null, null, null, null, null, null, null);
+			return new CustomerImpl();
 		}
 
 			public List<Customer> findCust(Customer customerID) throws RARException {
@@ -96,13 +99,14 @@ implements ObjectLayer
 				persistence.deleteRentalLocation(rentalLocation);
 			}
 
-			public Reservation createReservation(Date pickupTime, int length, Customer customer, VehicleType vehicleType, RentalLocation rentalLocation, Rental rental) throws RARException {
-				return new ReservationImpl(pickupTime, length, customer, vehicleType, rentalLocation, rental);
+			public Reservation createReservation(Date pickupTime, int rentalLength, VehicleType vehicleType, 
+                                          RentalLocation rentalLocation, Customer customer) throws RARException {
+				return new ReservationImpl(pickupTime, rentalLength, vehicleType, rentalLocation, customer);
 			}
 
 			
 			public Reservation createReservation()  {
-				return new ReservationImpl(null, '\0', null, null, null, null); 
+				return new ReservationImpl(); 
 			}
 
 			public List<Reservation> findReservation(Reservation modelReservation) throws RARException {
@@ -117,12 +121,12 @@ implements ObjectLayer
 				persistence.deleteReservation(reservation);
 			}
 
-			public Rental createRental(Date pickupTime, Date returnTime, boolean late, int charges, Reservation reservation, Vehicle vehicle, Customer customer, CommentImpl comment) throws RARException {
-				return new RentalImpl(pickupTime, returnTime, late, charges, reservation, vehicle, customer, comment);
+			public Rental createRental(Date pickupTime, Reservation reservation, Vehicle vehicle) throws RARException {
+				return new RentalImpl(pickupTime, reservation, vehicle);
 			}
 
 			public Rental createRental() {
-				return new RentalImpl(null, null, false, '\0', null, null, null, null);
+				return new RentalImpl();
 			}
 
 			public List<Rental> findRental(Rental modelRental) throws RARException {
@@ -137,12 +141,12 @@ implements ObjectLayer
 				persistence.deleteRental(rental);
 			}
 
-			public VehicleType createVehicleType(String name, List<HourlyPrice> priceList, List<Vehicle> vehicleList, List<Reservation> reservationList) {
-				return new VehicleTypeImpl(name, priceList, vehicleList, reservationList);
+			public VehicleType createVehicleType(String name) {
+				return new VehicleTypeImpl(name);
 			}
 
 			public VehicleType createVehicleType() {
-				return new VehicleTypeImpl(null, null, null, null);
+				return new VehicleTypeImpl();
 			}
 
 			public List<VehicleType> findVehicleType(VehicleType modelVehicleType) throws RARException {
@@ -157,14 +161,15 @@ implements ObjectLayer
 				persistence.deleteVehicleType(vehicleType);
 			}
 
-			public Vehicle createVehicle(String make, String model, int year, String tag, int mileage, Date lastServiced, VehicleStatus status, VehicleCondition condition,
-					VehicleType vehicleType, RentalLocation location, List<Rental> rentalList) throws RARException {
-				return new VehicleImpl(make, model, year, tag, mileage, lastServiced, status, condition,
-						vehicleType, location, rentalList);
+			public Vehicle createVehicle(String make, String model, int year, String registrationTag, int mileage, Date lastServiced,
+                                  VehicleType vehicleType, RentalLocation rentalLocation, VehicleCondition vehicleCondition, 
+                                  VehicleStatus vehicleStatus) throws RARException {
+				return new VehicleImpl(make, model, year, registrationTag, mileage, lastServiced, vehicleType, rentalLocation, 
+            vehicleCondition, vehicleStatus);
 			}
 
 			public Vehicle createVehicle() {
-				return new VehicleImpl(null, null, '\0', null, '\0', null, null, null, null, null, null);
+				return new VehicleImpl(  );
 			}
 
 			public List<Vehicle> findVehicle(Vehicle modelVehicle) throws RARException {
@@ -179,12 +184,12 @@ implements ObjectLayer
 				persistence.deleteVehicle(vehicle);
 			}
 
-			public CommentImpl createComment(String text, Date date, Rental rental, Customer customer) throws RARException {
-				return new CommentImpl(text, date, rental, customer);
+			public CommentImpl createComment(String text, Date date, Rental rental) throws RARException {
+				return new CommentImpl(text, date, rental);
 			}
 
 			public Comment createComment() {
-				return new CommentImpl(null, null, null, null);
+				return new CommentImpl();
 			}
 
 			public List<Comment> findComment(Comment modelComment) throws RARException
@@ -205,7 +210,7 @@ implements ObjectLayer
 			}
 
 			public HourlyPrice createHourlyPrice() {
-				return new HourlyPriceImpl('\0', '\0', null);
+				return new HourlyPriceImpl();
 			}
 
 			public List<HourlyPrice> findHourlyPrice(HourlyPrice modelHourlyPrice) throws RARException {
@@ -220,13 +225,13 @@ implements ObjectLayer
 				persistence.deleteHourlyPrice(hourlyPrice);
 			}
 
-			public RentARideParams findRentARideParam() throws RARException {
-				return persistence.restoreRentARideParams(); 
+			public RentARideParams findRentARideParams() throws RARException {
+				return persistence.restoreRentARideConfig(); 
 
 			}
 
-			public void storeRentARideParam(RentARideParams rentARideParam) throws RARException {
-				persistence.storeRentARideParams(rentARideParam);
+			public void storeRentARideParams(RentARideParams rentARideParam) throws RARException {
+				persistence.storeRentARideConfig(rentARideParam);
 			}
 
 			public void createCustomerReservation(Customer customer, Reservation reservation) throws RARException {
@@ -237,7 +242,7 @@ implements ObjectLayer
 				return persistence.restoreCustomerReservation(reservation);
 			}
 
-			public Iterator<Reservation> restoreCustomerReservation(Customer customer) throws RARException {
+			public List<Reservation> restoreCustomerReservation(Customer customer) throws RARException {
 				return persistence.restoreCustomerReservation(customer);
 			}
 
@@ -253,7 +258,7 @@ implements ObjectLayer
 				return persistence.restoreReservationRentalLocation(reservation);
 			}
 
-			public Iterator<Reservation> restoreReservationRentalLocation(RentalLocation rentalLocation) throws RARException {
+			public List<Reservation> restoreReservationRentalLocation(RentalLocation rentalLocation) throws RARException {
 				return persistence.restoreReservationRentalLocation(rentalLocation);
 			}
 
@@ -269,8 +274,8 @@ implements ObjectLayer
 				return persistence.restoreVehicleRentalLocation(vehicle);
 			}
 
-			public List<Vehicle> restoreRentalLocationVehicles(RentalLocation rentalLocation) throws RARException {
-				return persistence.restoreRentalLocationVehicles(rentalLocation);
+			public List<Vehicle> restoreVehicleRentalLocation(RentalLocation rentalLocation) throws RARException {
+				return persistence.restoreVehicleRentalLocation(rentalLocation);
 			}
 
 			public void deleteVehicleRentalLocation(Vehicle vehicle, RentalLocation rentalLocation) throws RARException {
@@ -285,7 +290,7 @@ implements ObjectLayer
 				return persistence.restoreVehicleVehicleType(vehicle);
 			}
 
-			public Iterator<Vehicle> restoreVehicleVehicleType(VehicleType vehicleType) throws RARException {
+			public List<Vehicle> restoreVehicleVehicleType(VehicleType vehicleType) throws RARException {
 				return persistence.restoreVehicleVehicleType(vehicleType);
 			}
 
@@ -301,7 +306,7 @@ implements ObjectLayer
 				return persistence.restoreReservationVehicleType(reservation);
 			}
 
-			public Iterator<Reservation> restoreReservationVehicleType(VehicleType vehicleType) throws RARException {
+			public List<Reservation> restoreReservationVehicleType(VehicleType vehicleType) throws RARException {
 				return persistence.restoreReservationVehicleType(vehicleType);
 			}
 
@@ -317,7 +322,7 @@ implements ObjectLayer
 				return persistence.restoreVehicleTypeHourlyPrice(priceSetting);
 			}
 
-			public Iterator<HourlyPrice> restoreVehicleTypeHourlyPrice(VehicleType vehicleType) throws RARException {
+			public List<HourlyPrice> restoreVehicleTypeHourlyPrice(VehicleType vehicleType) throws RARException {
 				return persistence.restoreVehicleTypeHourlyPrice(vehicleType);
 			}
 
@@ -341,21 +346,21 @@ implements ObjectLayer
 				persistence.deleteRentalComment(rental, comment);
 			}
 
-			public Customer restoreCustomerComment(Comment comment) throws RARException {
-				return persistence.restoreCustomerComment(comment);
+			/*public void storeComment(Comment comment) throws RARException {
+				persistence.storeComment(comment);
 			}
 
-			public List<Comment> restoreCustomerComment(Customer customer) throws RARException {
-				return persistence.restoreCustomerComment(customer);
+			public List<Comment> restoreComment(Comment customer) throws RARException {
+				return persistence.restoreComment(customer);
 			}
 
-			public Customer restoreRentalCustomer(Rental rental) throws RARException {
+			public Customer restoreRentalReservation(Rental rental) throws RARException {        GIBBERISH? CAN'T CONNECT TO ANY PERSISTENCELAYER FUNCTIONS
 				return persistence.restoreRentalCustomer(rental);
 			}
 
-			public Iterator<Rental> restoreRentalCustomer(Customer customer) throws RARException {
+			public void restoreRentalCustomer(Customer customer) throws RARException {
 				return persistence.restoreRentalCustomer(customer);
-			}
+			}*/
 
 			/*@Override
 				public RentARideParams findRentARideParams() {
@@ -367,12 +372,12 @@ implements ObjectLayer
 				return new RentARideParamsImpl();
 			}
 
-			@Override
+			/*@Override
 			public void storeRentARideParams(RentARideParams rentARideParams)
 					throws RARException {
 				persistence.storeRentARideParams(rentARideParams);
 				
-			}
+			}*/
 
 			@Override
 			public List<Customer> findCustomer(Customer modelCustomer)
@@ -381,14 +386,14 @@ implements ObjectLayer
 				return null;
 			}
 
-			@Override
+			/*@Override
 			public Rental createRental(Date pickupTime, Date returnTime,
 					boolean late, int charges, Reservation reservation,
 					Vehicle vehicle, Customer customer, Comment comment1)
 					throws RARException {
 				// TODO Auto-generated method stub
 				return null;
-			}
+			}*/
 
 			/*@Override
 				public List<Vehicle> restoreRentalLocationVehicles(RentalLocation rentalLocation) throws RARException {

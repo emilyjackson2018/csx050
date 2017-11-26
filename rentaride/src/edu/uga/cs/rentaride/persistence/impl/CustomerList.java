@@ -41,6 +41,13 @@ implements Iterator<Customer>
 	public Customer next()
 	{
 		long id;
+    String fName;
+    String lName;
+    String uName;
+    String password;
+    String email;
+    String address;
+    Date createDate;
 		Date memberUntil;
 		String licState;
 		String licNumber;
@@ -56,6 +63,13 @@ implements Iterator<Customer>
 
 			try {
 				id = rs.getLong("id");
+        fName = rs.getString("firstName");
+        lName = rs.getString("lastName");
+        uName = rs.getString("userName");
+        password = rs.getString("password");
+        email = rs.getString("email");
+        address = rs.getString("address");
+        createDate = rs.getDate("createDate");
 				memberUntil = rs.getDate("memberUntil");
 				licState = rs.getString("licState");
 				licNumber = rs.getString("licNumber");
@@ -70,8 +84,7 @@ implements Iterator<Customer>
 			}
 
 			try {
-				customer = objectLayer.createCustomer(memberUntil, licState, licNumber, ccNumber, ccExpiration, reservationList,
-						commentList, rentalList);
+				customer = objectLayer.createCustomer(fName, lName, uName, password, email, address, createDate, memberUntil, licState, licNumber, ccNumber, ccExpiration);
 			} catch (RARException e) {
 				//throw new RARException("Customer: Cannot create a; root cause: " + e);
 			}

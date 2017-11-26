@@ -60,7 +60,7 @@ public class CreateCustomer
 		String licNumber;
 		String ccNumber;
 		String ccExpiration;
-		UserStatus status;
+		String status;
 		long CustomerId = 0;
 		
         LogicLayer     logicLayer = null;
@@ -186,7 +186,7 @@ public class CreateCustomer
 		*/
 
         try {
-            CustomerId = logicLayer.CreateCustomer(firstName,
+            /*CustomerId = logicLayer.createCustomer(firstName,
 						 lastName,
 						 userName,
 						 password,
@@ -198,7 +198,7 @@ public class CreateCustomer
 						 licNumber,
 						 ccNumber,
 						 ccExpiration,
-						 status);
+						 status);*/
         } 
         catch ( Exception e ) {
             RARError.error( cfg, toClient, e );

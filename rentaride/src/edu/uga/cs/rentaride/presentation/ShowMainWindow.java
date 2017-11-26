@@ -1,4 +1,4 @@
-package edu.uga.cs.rentaride.presentation;
+package edu.uga.clubs.presentation;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -13,6 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import edu.uga.cs.rentaride.entity.User;
+
+import edu.uga.cs.rentaride.presentation.RARError;
+import edu.uga.cs.rentaride.RARException;
 import edu.uga.cs.rentaride.session.Session;
 import edu.uga.cs.rentaride.session.SessionManager;
 import freemarker.template.Configuration;
@@ -71,28 +74,28 @@ public class ShowMainWindow
         
         httpSession = req.getSession();
         if( httpSession == null ) {       // not logged in!
-            ClubsError.error( cfg, toClient, "Session expired or illegal; please log in" );
+            RARError.error( cfg, toClient, "Session expired or illegal; please log in" );
             return;
         }
         
         ssid = (String) httpSession.getAttribute( "ssid" );
         if( ssid == null ) {       // assume not logged in!
-            ClubsError.error( cfg, toClient, "Session expired or illegal; please log in" );
+            RARError.error( cfg, toClient, "Session expired or illegal; please log in" );
             return;
         }
 
         session = SessionManager.getSessionById( ssid );
         if( session == null ){
-            ClubsError.error( cfg, toClient, "Session expired or illegal; please log in" );
+            RARError.error( cfg, toClient, "Session expired or illegal; please log in" );
             return;
         }
         
-        User user = session.getUser();
-        if( user == null ) {
-            ClubsError.error( cfg, toClient, "Session expired or illegal; please log in" );
+        User person = session.getUser();
+        if( person == null ) {
+            RARError.error( cfg, toClient, "Session expired or illegal; please log in" );
             return;   
         }
-        username = user.getUserName();
+        username = person.getUserName();
         
         // Get the parameters
         //

@@ -1,4 +1,4 @@
-package edu.uga.rentaride.logic.impl;
+package edu.uga.cs.rentaride.logic.impl;
 
 import java.util.List;
 

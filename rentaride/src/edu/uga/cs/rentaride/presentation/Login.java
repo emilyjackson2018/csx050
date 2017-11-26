@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import edu.uga.cs.rentaride.logic.LogicLayer;
+import edu.uga.cs.rentaride.logic.impl.LogicLayerImpl;
 import edu.uga.cs.rentaride.session.Session;
 import edu.uga.cs.rentaride.session.SessionManager;
 import freemarker.template.Configuration;
@@ -86,7 +87,7 @@ public class Login
                 session = SessionManager.createSession();
             }
             catch ( Exception e ) {
-                ClubsError.error( cfg, toClient, e );
+                RARError.error( cfg, toClient, e );
                 return;
             }
         }
@@ -99,7 +100,7 @@ public class Login
         password = req.getParameter( "password" );
 
         if( username == null || password == null ) {
-            ClubsError.error( cfg, toClient, "Missing user name or password" );
+            RARError.error( cfg, toClient, "Missing user name or password" );
             return;
         }
 
@@ -110,7 +111,7 @@ public class Login
             System.out.println( "Connection: " + session.getConnection() );
         } 
         catch ( Exception e ) {
-            ClubsError.error( cfg, toClient, e );
+            RARError.error( cfg, toClient, e );
             return;
         }
 

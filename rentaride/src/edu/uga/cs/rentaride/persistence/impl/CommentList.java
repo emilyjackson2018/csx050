@@ -71,7 +71,7 @@ public class CommentList
 		}
             
             try {
-                comment = objectLayer.createComment(commentText,commentDate,rental,customer);
+                comment = objectLayer.createComment(commentText,commentDate,rental);
                 
             }
             catch(RARException re) {

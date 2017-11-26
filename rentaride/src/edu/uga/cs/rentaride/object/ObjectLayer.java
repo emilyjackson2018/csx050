@@ -18,6 +18,9 @@ import edu.uga.cs.rentaride.entity.VehicleCondition;
 import edu.uga.cs.rentaride.entity.VehicleStatus;
 import edu.uga.cs.rentaride.entity.VehicleType;
 
+import edu.uga.cs.rentaride.persistence.PersistenceLayer;
+import edu.uga.cs.rentaride.persistence.impl.PersistenceLayerImpl;
+
 
 
 
@@ -373,7 +376,7 @@ public interface ObjectLayer
      * @return the new Comment object instance with the given attribute values
      * @throws RARException in case either the rental is null
      */
-    public Comment createComment( String text, Date date, Rental rental ) throws RARException;
+    public Comment createComment( String text, Date date, Rental rental) throws RARException;
 
     /**
      * Create a new Comment object with undefined attribute values.
@@ -452,7 +455,7 @@ public interface ObjectLayer
      * so only one object will exist.
      * @return the RentARideConfig object
      */
-    public RentARideParams findRentARideParams();
+    public RentARideParams findRentARideParams() throws RARException;
     
     /**
      * Store a given RentARideConfig object in persistent data store.
@@ -460,5 +463,8 @@ public interface ObjectLayer
      * @throws RARException in case there was an error while persisting the object
      */
     public void storeRentARideParams( RentARideParams rentARideParams ) throws RARException;
+    
+    public void setPersistence(PersistenceLayer persistence);
+	
 
 }

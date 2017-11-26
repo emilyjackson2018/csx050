@@ -113,12 +113,15 @@ public class CreateVehicle
         //
 		 make = req.getParameter("make");
 		 model = req.getParameter("model");
-		 year = req.getParameter("year");
+		 String hmm = req.getParameter("year");
+     year = Integer.parseInt(hmm);
 		 tag = req.getParameter("tag");
-		 mileage = req.getParameter("mileage");
+		 String aight = req.getParameter("mileage");
+      mileage = Integer.parseInt(aight);
 		 lastServiced = req.getParameter("lastServiced");
 		 vehicleType = req.getParameter("vehicleType");
-		 rentalLocationId = req.getParameter("rentalLocationId");
+		 String another = req.getParameter("rentalLocationId");
+     rentalLocationId = Long.parseLong(another);
 		 vehicleCondition = req.getParameter("vehicleCondition");
 		 vehicleStatus = req.getParameter("vehicleStatus");
 		 
@@ -181,8 +184,8 @@ public class CreateVehicle
         }
 		*/
 
-        try {
-            vehicleId = logicLayer.CreateVehicle( make,
+        /*try {
+            vehicleId = logicLayer.createVehicle( make,
 	     model,
 	     year,
 	     tag,
@@ -196,7 +199,7 @@ public class CreateVehicle
         catch ( Exception e ) {
             RARError.error( cfg, toClient, e );
             return;
-        }
+        }*/
 
         // Setup the data-model
         //

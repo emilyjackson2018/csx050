@@ -106,8 +106,8 @@ public class CreateComment
         //
 		 text = req.getParameter("text");
 		 date = req.getParameter("date");
-		 rentalId = req.getParameter("rentalId");
-		  
+		 String hmm = req.getParameter("rentalId");
+		 rentalId = Long.parseLong(hmm); 
 
         if( text == null) {
             RARError.error( cfg, toClient, "Unspecified text" );
@@ -134,7 +134,7 @@ public class CreateComment
 		*/
 
         try {
-            commentId = logicLayer.CreateComment(text, date, rentalId);
+            //commentId = logicLayer.CreateComment(text, date, rentalId);
         } 
         catch ( Exception e ) {
             RARError.error( cfg, toClient, e );

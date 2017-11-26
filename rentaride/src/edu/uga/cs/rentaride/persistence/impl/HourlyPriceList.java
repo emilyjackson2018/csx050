@@ -52,7 +52,7 @@ public class HourlyPriceList
                 //vehicleType = rs.getVehicleType("vehicleType");
                 name = rs.getString("name");
                 
-                vehicleType = objectLayer.createVehicleType(name, priceList, vehicleList, reservationList); 
+                vehicleType = objectLayer.createVehicleType(name); 
                 more = rs.next();
             }
             catch(Exception e) {

@@ -54,6 +54,7 @@ public class CreateReservation
 	    String rentalLocation;
 	    long CustomerId;
 		long ReservationId = 0;
+     long rentalLocationId = 0;
 		
         LogicLayer     logicLayer = null;
         HttpSession    httpSession;
@@ -107,16 +108,15 @@ public class CreateReservation
         // Get the form parameters
         //
 		 pickup = req.getParameter("pickup");
-		 length = req.getParameter("length");
+		 String hmm = req.getParameter("length");
+     length = Integer.parseInt(hmm);
 		 vehicleType = req.getParameter("vehicleType");
 		 rentalLocation = req.getParameter("rentalLocation");
-		 CustomerId = req.getParameter("CustomerId");
-		 
-		String pickup;
-	    int length;
-	    String vehicleType;
-	    String rentalLocation;
-	    long CustomerId;
+		 String aight = req.getParameter("CustomerId");
+		 CustomerId = Long.parseLong(aight);
+      String another = req.getParameter("rentalLocationID");
+		 rentalLocationId = Long.parseLong(another);
+      
 
         if( pickup == null) {
             RARError.error( cfg, toClient, "Unspecified pickup" );
@@ -156,7 +156,7 @@ public class CreateReservation
 		*/
 
         try {
-            ReservationId = logicLayer.CreateReservation(pickup, length, vehicleType, rentalLocation, CustomerId);
+            //ReservationId = logicLayer.CreateReservation(pickup, length, vehicleType, rentalLocation, CustomerId);
         } 
         catch ( Exception e ) {
             RARError.error( cfg, toClient, e );

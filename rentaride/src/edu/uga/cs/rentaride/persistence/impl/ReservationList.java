@@ -70,7 +70,7 @@ public class ReservationList
             }
             
             try {
-				vehicleType = objectLayer.createVehicleType(vt, priceList, vehicleList, reservationList);
+				vehicleType = objectLayer.createVehicleType(vt);
 			} catch (RARException e1) {
 				throw new NoSuchElementException("Reservation: No next Reservation object; root cause: " + e1);
 			}
@@ -82,7 +82,7 @@ public class ReservationList
 			} 
             customer = objectLayer.createCustomer();
             try {
-                reservation = objectLayer.createReservation(pickupTime,  rentalDuration,  customer, vehicleType, rentalLocation, rental);
+                reservation = objectLayer.createReservation(pickupTime,  rentalDuration,  vehicleType, rentalLocation, customer);
                 reservation.setId(id);
             }
             catch(RARException ce) {

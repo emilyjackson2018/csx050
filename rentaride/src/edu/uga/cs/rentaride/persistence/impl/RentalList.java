@@ -48,6 +48,13 @@ public class RentalList
         long rvecid;
         Customer customer = null;
         long custID;
+        String fName;
+    String lName;
+    String uName;
+    String password;
+    String email;
+    String address;
+    Date createDate;
         Date cMembershipExpiration;
         String cLicenseState;
         String cLicenseNumber;
@@ -79,6 +86,13 @@ public class RentalList
                 rresid = rs.getLong("reservationID");
                 rvecid = rs.getLong("vehicleID");
                 custID = rs.getLong("id");
+                fName = rs.getString("firstName");
+        lName = rs.getString("lastName");
+        uName = rs.getString("userName");
+        password = rs.getString("password");
+        email = rs.getString("email");
+        address = rs.getString("address");
+        createDate = rs.getDate("createDate");
                 cMembershipExpiration = null;
                 cLicenseState = null;
                 cLicenseNumber = null;
@@ -104,11 +118,11 @@ public class RentalList
             }
             try {
             	vLocation = objectLayer.createRentalLocation(null, null, 0);
-            	customer = objectLayer.createCustomer(cMembershipExpiration, cLicenseState, cLicenseNumber, cCardNumber, cCardExpiration, (List<Reservation>) reservation, (List<Comment>) comment, (List<Rental>) rental);
+            	customer = objectLayer.createCustomer(fName, lName, uName, password, email, address, createDate, cMembershipExpiration, cLicenseState, cLicenseNumber, cCardNumber, cCardExpiration);
             	customer.setId(custID);
-            	vehicle = objectLayer.createVehicle(vMake, vModel, year, vTag, vMileage, vLastServiced, vStatus, vCondition, resVehicleType, location, (List<Rental>) rental);
+            	vehicle = objectLayer.createVehicle(vMake, vModel, year, vTag, vMileage, vLastServiced, resVehicleType, location, vCondition,  vStatus);
             	vehicle.setId(rvecid);
-				reservation = objectLayer.createReservation(pickupTime, resRentalDuration, resCustomer, resVehicleType, location, rental);
+				reservation = objectLayer.createReservation(pickupTime, resRentalDuration, resVehicleType, location, resCustomer);
 				reservation.setId(rresid);
             } catch (RARException e) {
 				e.printStackTrace();
@@ -116,7 +130,7 @@ public class RentalList
          
             
             try {
-                rental = objectLayer.createRental(pickupTime, returnTime, late, charge, reservation, vehicle, customer, comment);
+                rental = objectLayer.createRental(pickupTime, reservation, vehicle);
                 rental.setId(rentalNo);
             }
             catch(RARException ce) {

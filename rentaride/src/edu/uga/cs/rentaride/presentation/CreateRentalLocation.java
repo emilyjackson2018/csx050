@@ -106,8 +106,8 @@ public class CreateRentalLocation
         //
 		 name = req.getParameter("name");
 		 address = req.getParameter("address");
-		 capacity = req.getParameter("capacity");
-   
+		 String hmm = req.getParameter("capacity");
+     capacity = Integer.parseInt(hmm);
 
         if( name == null) {
             RARError.error( cfg, toClient, "Unspecified name" );
@@ -132,7 +132,7 @@ public class CreateRentalLocation
 		*/
 
         try {
-            rentalLocationId = logicLayer.CreateRentalLocation(name, address, capacity);
+            //rentalLocationId = logicLayer.CreateRentalLocation(name, address, capacity);
         } 
         catch ( Exception e ) {
             RARError.error( cfg, toClient, e );

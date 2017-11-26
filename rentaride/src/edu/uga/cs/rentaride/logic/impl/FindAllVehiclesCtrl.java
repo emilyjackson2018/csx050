@@ -19,7 +19,7 @@ public class FindAllVehiclesCtrl {
         this.objectLayer = objectModel;
     }
 
-    public List<Vehicle> findAllVehicles() 		//changed return type here, might be wrong
+    public List<Vehicle> findAllVehicless()
             throws RARException
     {
         List<Vehicle> 	    vehicles  = null;
