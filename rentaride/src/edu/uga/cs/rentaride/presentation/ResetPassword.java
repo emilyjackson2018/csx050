@@ -30,7 +30,7 @@ private static final long serialVersionUID = 1L;
     
     static  String  templateDir = "WEB-INF/templates";
     //static  
-    String  resultTemplateName = "resetPassword-result.ftl";
+    String  resultTemplateName = "ResetPassword-result.ftl";
 
     private Configuration cfg; 
 
