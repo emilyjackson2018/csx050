@@ -21,12 +21,12 @@ import freemarker.template.Template;
 import freemarker.template.TemplateException;
 
 
-public class CreateReservation
+public class ReturnVehicle
     extends HttpServlet 
 {
     private static final long serialVersionUID = 1L;
     static  String         templateDir = "WEB-INF/templates";
-    static  String         resultTemplateName = "CreateCustomer-Result.ftl";
+    static  String         resultTemplateName = "ReturnVehicle-Result.ftl";
 
     private Configuration  cfg; 
 
@@ -48,12 +48,14 @@ public class CreateReservation
         Template       resultTemplate = null;
         BufferedWriter toClient = null;
         
-		String pickup;
-	    int length;
+		
+	    int mileage;
+	    String lastServiced;
 	    String vehicleType;
-	    String rentalLocation,
-	    long CustomerId;
-		long ReservationId = 0;
+	    long rentalLocationId;
+	    String vehicleCondition;
+	    String vehicleStatus;
+		long vehicleId = 0;
 		
         LogicLayer     logicLayer = null;
         HttpSession    httpSession;
@@ -106,33 +108,41 @@ public class CreateReservation
 
         // Get the form parameters
         //
-		 pickup = req.getParameter("pickup");
-		 length = req.getParameter("length");
-		 vehicleType = req.getParameter("vehicleType");
-		 rentalLocation = req.getParameter("rentalLocation");
-		 CustomerId = req.getParameter("CustomerId");
 		 
-
-        if( pickup == null) {
-            RARError.error( cfg, toClient, "Unspecified pickup" );
+		 mileage = req.getParameter("mileage");
+		 lastServiced = req.getParameter("lastServiced");
+		 vehicleType = req.getParameter("vehicleType");
+		 rentalLocationId = req.getParameter("rentalLocationId");
+		 vehicleCondition = req.getParameter("vehicleCondition");
+		 vehicleStatus = req.getParameter("vehicleStatus");
+		 
+        
+		if( mileage <= 0 ) {
+            RARError.error( cfg, toClient, "Mileage is less than 0" );
             return;
         }
-		if( length == 0 ) {
-            RARError.error( cfg, toClient, "Reservation length is 0" );
+		if( lastServiced == null ) {
+            RARError.error( cfg, toClient, "Unspecified last serviced state" );
             return;
         }
 		if( vehicleType == null ) {
             RARError.error( cfg, toClient, "Unspecified vehicle type" );
             return;
         }
-		if( rentalLocation == null ) {
-            RARError.error( cfg, toClient, "Unspecified rental location" );
+		if( rentalLocationId <= 0 ) {
+            RARError.error( cfg, toClient, "Rental Location ID is invalid" );
             return;
         }
-		if( CustomerId <= 0 ) {
-            RARError.error( cfg, toClient, "Unspecified customer id" );
+		if( vehicleCondition == null ) {
+            RARError.error( cfg, toClient, "Unspecified vehicle condition" );
             return;
         }
+		if( vehicleStatus == null ) {
+            RARError.error( cfg, toClient, "Unspecified vehicle status" );
+            return;
+        }
+		
+		
 
 		/*
 		if( id <= 0 ) {
@@ -151,7 +161,13 @@ public class CreateReservation
 		*/
 
         try {
-            ReservationId = logicLayer.CreateReservation(pickup, length, vehicleType, rentalLocation, CustomerId);
+            vehicleId = logicLayer.ReturnVehicle( 
+	     mileage,
+	     lastServiced,
+	     vehicleType,
+	     rentalLocationId,
+	     vehicleCondition,
+	     vehicleStatus);
         } 
         catch ( Exception e ) {
             RARError.error( cfg, toClient, e );
@@ -164,11 +180,13 @@ public class CreateReservation
 
         // Build the data-model
         //
-        root.put( "pickup", pickup );
-		root.put( "length", length );
+        root.put( "mileage", mileage );
 		root.put( "vehicleType", vehicleType );
-		root.put( "rentalLocation", rentalLocation );
-        root.put( "rentalLocationId", new Long( rentalLocationId ) );
+        root.put( "vehicleId", new Long( vehicleId ) );
+		root.put( "rentalLocationId", new Long (rentalLocationId) );
+		root.put( "vehicleStatus", vehicleStatus );
+		root.put( "vehicleCondition", vehicleCondition );
+
 
         // Merge the data-model and the template
         //

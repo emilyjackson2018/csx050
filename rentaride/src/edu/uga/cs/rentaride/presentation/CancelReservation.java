@@ -21,12 +21,12 @@ import freemarker.template.Template;
 import freemarker.template.TemplateException;
 
 
-public class CreateReservation
+public class CancelReservation
     extends HttpServlet 
 {
     private static final long serialVersionUID = 1L;
     static  String         templateDir = "WEB-INF/templates";
-    static  String         resultTemplateName = "CreateCustomer-Result.ftl";
+    static  String         resultTemplateName = "CancelReservation-Result.ftl";
 
     private Configuration  cfg; 
 
@@ -106,7 +106,7 @@ public class CreateReservation
 
         // Get the form parameters
         //
-		 pickup = req.getParameter("pickup");
+		pickup = req.getParameter("pickup");
 		 length = req.getParameter("length");
 		 vehicleType = req.getParameter("vehicleType");
 		 rentalLocation = req.getParameter("rentalLocation");
@@ -133,13 +133,7 @@ public class CreateReservation
             RARError.error( cfg, toClient, "Unspecified customer id" );
             return;
         }
-
-		/*
-		if( id <= 0 ) {
-            RARError.error( cfg, toClient, "ID is a negative number " );
-            return;
-        }
-		*/
+	
 /*
         try {
             founder_id = Long.parseLong( person_id_str );
@@ -151,7 +145,7 @@ public class CreateReservation
 		*/
 
         try {
-            ReservationId = logicLayer.CreateReservation(pickup, length, vehicleType, rentalLocation, CustomerId);
+            ReservationId = logicLayer.CancelReservation(pickup, length, vehicleType, rentalLocation, CustomerId);
         } 
         catch ( Exception e ) {
             RARError.error( cfg, toClient, e );
@@ -164,7 +158,7 @@ public class CreateReservation
 
         // Build the data-model
         //
-        root.put( "pickup", pickup );
+		root.put( "pickup", pickup );
 		root.put( "length", length );
 		root.put( "vehicleType", vehicleType );
 		root.put( "rentalLocation", rentalLocation );

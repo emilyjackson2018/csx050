@@ -21,12 +21,12 @@ import freemarker.template.Template;
 import freemarker.template.TemplateException;
 
 
-public class CreateReservation
+public class ChargeHour
     extends HttpServlet 
 {
     private static final long serialVersionUID = 1L;
     static  String         templateDir = "WEB-INF/templates";
-    static  String         resultTemplateName = "CreateCustomer-Result.ftl";
+    static  String         resultTemplateName = "ChargeHour-Result.ftl";
 
     private Configuration  cfg; 
 
@@ -48,12 +48,10 @@ public class CreateReservation
         Template       resultTemplate = null;
         BufferedWriter toClient = null;
         
-		String pickup;
-	    int length;
-	    String vehicleType;
-	    String rentalLocation,
-	    long CustomerId;
-		long ReservationId = 0;
+		long chargeId = 0;
+		long CustomerId = 0;
+		int fee = 0;
+		VehicleType vehicleType;
 		
         LogicLayer     logicLayer = null;
         HttpSession    httpSession;
@@ -106,40 +104,25 @@ public class CreateReservation
 
         // Get the form parameters
         //
-		 pickup = req.getParameter("pickup");
-		 length = req.getParameter("length");
-		 vehicleType = req.getParameter("vehicleType");
-		 rentalLocation = req.getParameter("rentalLocation");
 		 CustomerId = req.getParameter("CustomerId");
-		 
+		 fee = req.getParameter("fee");
+		 vehicleType = req.getParameter("vehicleType");
+   
 
-        if( pickup == null) {
-            RARError.error( cfg, toClient, "Unspecified pickup" );
+        
+		if( CustomerId == null ) {
+            RARError.error( cfg, toClient, "Unspecified customer ID" );
             return;
         }
-		if( length == 0 ) {
-            RARError.error( cfg, toClient, "Reservation length is 0" );
+		if( fee == null ) {
+            RARError.error( cfg, toClient, "Unspecified fee" );
             return;
         }
-		if( vehicleType == null ) {
-            RARError.error( cfg, toClient, "Unspecified vehicle type" );
+	    if( vehicleType == null ) {
+            RARError.error( cfg, toClient, "Unspecified vehicleType" );
             return;
         }
-		if( rentalLocation == null ) {
-            RARError.error( cfg, toClient, "Unspecified rental location" );
-            return;
-        }
-		if( CustomerId <= 0 ) {
-            RARError.error( cfg, toClient, "Unspecified customer id" );
-            return;
-        }
-
-		/*
-		if( id <= 0 ) {
-            RARError.error( cfg, toClient, "ID is a negative number " );
-            return;
-        }
-		*/
+	
 /*
         try {
             founder_id = Long.parseLong( person_id_str );
@@ -150,8 +133,9 @@ public class CreateReservation
         }
 		*/
 
+		//need this method to be created
         try {
-            ReservationId = logicLayer.CreateReservation(pickup, length, vehicleType, rentalLocation, CustomerId);
+            chargeId = logicLayer.ChargeHour(CustomerId, fee, vehicleType);
         } 
         catch ( Exception e ) {
             RARError.error( cfg, toClient, e );
@@ -164,11 +148,9 @@ public class CreateReservation
 
         // Build the data-model
         //
-        root.put( "pickup", pickup );
-		root.put( "length", length );
-		root.put( "vehicleType", vehicleType );
-		root.put( "rentalLocation", rentalLocation );
-        root.put( "rentalLocationId", new Long( rentalLocationId ) );
+        root.put( "CustomerId", new Long( CustomerId ) );
+		root.put( "fee", fee );
+        root.put( "vehicleType", vehicleType );
 
         // Merge the data-model and the template
         //

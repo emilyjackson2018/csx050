@@ -21,12 +21,12 @@ import freemarker.template.Template;
 import freemarker.template.TemplateException;
 
 
-public class CreateReservation
+public class SetLateFee
     extends HttpServlet 
 {
     private static final long serialVersionUID = 1L;
     static  String         templateDir = "WEB-INF/templates";
-    static  String         resultTemplateName = "CreateCustomer-Result.ftl";
+    static  String         resultTemplateName = "SetLateFee-Result.ftl";
 
     private Configuration  cfg; 
 
@@ -48,12 +48,9 @@ public class CreateReservation
         Template       resultTemplate = null;
         BufferedWriter toClient = null;
         
-		String pickup;
-	    int length;
-	    String vehicleType;
-	    String rentalLocation,
-	    long CustomerId;
-		long ReservationId = 0;
+		int fee = 0;
+		VehicleType vehicleType;
+		long feeid = 0;
 		
         LogicLayer     logicLayer = null;
         HttpSession    httpSession;
@@ -106,40 +103,19 @@ public class CreateReservation
 
         // Get the form parameters
         //
-		 pickup = req.getParameter("pickup");
-		 length = req.getParameter("length");
-		 vehicleType = req.getParameter("vehicleType");
-		 rentalLocation = req.getParameter("rentalLocation");
-		 CustomerId = req.getParameter("CustomerId");
-		 
+		fee = req.getParameter("fee");
+		vehicleType req.getParameter("vehicleType");
 
-        if( pickup == null) {
-            RARError.error( cfg, toClient, "Unspecified pickup" );
-            return;
-        }
-		if( length == 0 ) {
-            RARError.error( cfg, toClient, "Reservation length is 0" );
+        
+	    if( fee == null ) {
+            RARError.error( cfg, toClient, "Unspecified late fee" );
             return;
         }
 		if( vehicleType == null ) {
-            RARError.error( cfg, toClient, "Unspecified vehicle type" );
+            RARError.error( cfg, toClient, "Unspecified vehicleType" );
             return;
         }
-		if( rentalLocation == null ) {
-            RARError.error( cfg, toClient, "Unspecified rental location" );
-            return;
-        }
-		if( CustomerId <= 0 ) {
-            RARError.error( cfg, toClient, "Unspecified customer id" );
-            return;
-        }
-
-		/*
-		if( id <= 0 ) {
-            RARError.error( cfg, toClient, "ID is a negative number " );
-            return;
-        }
-		*/
+	
 /*
         try {
             founder_id = Long.parseLong( person_id_str );
@@ -149,9 +125,10 @@ public class CreateReservation
             return;
         }
 		*/
-
+		
+//this method needs to exist
         try {
-            ReservationId = logicLayer.CreateReservation(pickup, length, vehicleType, rentalLocation, CustomerId);
+            feeid = logicLayer.SetLateFee(fee, vehicleType);
         } 
         catch ( Exception e ) {
             RARError.error( cfg, toClient, e );
@@ -164,11 +141,8 @@ public class CreateReservation
 
         // Build the data-model
         //
-        root.put( "pickup", pickup );
-		root.put( "length", length );
+        root.put( "fee", fee );
 		root.put( "vehicleType", vehicleType );
-		root.put( "rentalLocation", rentalLocation );
-        root.put( "rentalLocationId", new Long( rentalLocationId ) );
 
         // Merge the data-model and the template
         //
