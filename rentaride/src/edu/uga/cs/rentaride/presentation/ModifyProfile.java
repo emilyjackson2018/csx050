@@ -1,10 +1,16 @@
+package edu.uga.cs.rentaride.presentation;
+
 import java.io.BufferedWriter;
  import java.io.IOException;
  import java.io.OutputStreamWriter;
  import java.util.HashMap;
+ import java.util.LinkedList;
  import java.util.Map;
  import java.util.Date;
  import java.util.Iterator;
+ import java.util.Enumeration;
+ 
+ import java.text.SimpleDateFormat; 
  
  import javax.servlet.ServletException;
  import javax.servlet.annotation.WebServlet;
@@ -59,16 +65,18 @@ import java.io.BufferedWriter;
 		 String 		address = null;
 		 
 		 // Customer specific parameters
-		 List<Customer> userNameCheck;
+		 List<Customer> userNameCheck = null;
 		 String			userName = null;
 		 String			licenseNumber = null;
 		 String 		licenseState = null;
 		 String			creditCardNumber = null;
-		 Date			cardExpiration = null;
-		 String			newStatus = null;
-		 UserStatus		status = null;
-		 String			renew;
+		 String			cardExpiration = null;
+		 String			status = null;
+		 String			renew = null;
+		 String			date = null;
 		 Date 			newMemberUntil = null;
+		 Date			cardExpire = null;
+		 UserStatus		convStatus = null;
 		 
          LogicLayer	   logicLayer = null;
          BufferedWriter toClient = null;
@@ -81,8 +89,9 @@ import java.io.BufferedWriter;
              resultTemplate = cfg.getTemplate( resultTemplateName );
          } 
          catch (IOException e) {
-             throw new ServletException( 
-                     "Can't load template in: "  templateDir  ": "  e.toString());
+			 String thrower = "Can't load template in: " +  templateDir +  ": " + e.toString();
+             throw new ServletException( thrower );
+                     
          }
  
          // Prepare the HTTP response:
@@ -93,7 +102,7 @@ import java.io.BufferedWriter;
                  new OutputStreamWriter( res.getOutputStream(), resultTemplate.getEncoding() )
                  );
  
-         res.setContentType("text/html; charset="  resultTemplate.getEncoding());
+         res.setContentType("text/html; charset=" + resultTemplate.getEncoding());
  
          httpSession = req.getSession();
          if( httpSession == null ) {       // assume not logged in!
@@ -139,10 +148,10 @@ import java.io.BufferedWriter;
 		 renew = req.getParameter("renew");
 		}
 		 
-		 if( !newPassword && !firstName && !lastName && !email && !address ) {
-			 if (((!userName && !licenseNumber && !licenseState && !creditCardNumber && !cardExpiration) 
+		 if( newPassword == "" && firstName == "" && lastName == "" && email == "" && address == "" ) {
+			 if (((userName == "" && licenseNumber == "" && licenseState == "" && creditCardNumber == "" && cardExpiration == "") 
 					&& session.getUser().getClass().getName() == "edu.uga.cs.rentaride.entity.impl.CustomerImpl") || 
-					session.getUser().getClass().getName() == "edu.uga.cs.rentaride.entity.impl.AdministratorImpl")	//wrote this pre-realization of lack of parameter ending up as null
+					session.getUser().getClass().getName() == "edu.uga.cs.rentaride.entity.impl.AdministratorImpl")
              RARError.error( cfg, toClient, "No input given for profile modification" );
              return;
          }
@@ -194,13 +203,16 @@ import java.io.BufferedWriter;
 				customer.setCreditCardNumber(creditCardNumber);
 			}
 			if( cardExpiration != "" ) {
-				customer.setCreditCardExpiration(cardExpiration);
+				cardExpire = new SimpleDateFormat("dd/MM/yyyy").parse(cardExpiration);;
+				customer.setCreditCardExpiration(cardExpire);
 			}
 			if( status != "") {
-				customer.setUserStatus(status);
+				convStatus = UserStatus.valueOf(status);
+				customer.setUserStatus(convStatus);
 			}
-			if( renew ) {
-				newMemberUntil = Date();
+			if( Boolean.valueOf(renew) ) {
+				
+				newMemberUntil = new Date();
 				customer.setMemberUntil(newMemberUntil);
 			}
          	try {
