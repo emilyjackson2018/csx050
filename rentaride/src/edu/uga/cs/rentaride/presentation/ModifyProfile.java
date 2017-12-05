@@ -4,6 +4,8 @@ import java.io.BufferedWriter;
  import java.io.IOException;
  import java.io.OutputStreamWriter;
  import java.util.HashMap;
+ import java.util.List;
+ import java.util.ArrayList;
  import java.util.LinkedList;
  import java.util.Map;
  import java.util.Date;
@@ -65,7 +67,7 @@ import java.io.BufferedWriter;
 		 String 		address = null;
 		 
 		 // Customer specific parameters
-		 List<Customer> userNameCheck = null;
+		 List<Customer> userNameCheck = new ArrayList<Customer>();
 		 String			userName = null;
 		 String			licenseNumber = null;
 		 String 		licenseState = null;
@@ -185,7 +187,7 @@ import java.io.BufferedWriter;
 			userNameCheck = logicLayer.AllCustomerInfo();
 			Iterator itr = userNameCheck.iterator();
 			while (itr.hasNext()) {
-				Customer current = itr.next();
+				Customer current = (Customer) itr.next();
 				if (current.getUserName() == userName) RARError.error( cfg, toClient, "Username input not unique (another customer has this username)" );
 			}
 			
